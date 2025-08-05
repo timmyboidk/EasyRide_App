@@ -89,6 +89,16 @@ struct OrderTrackingView: View {
                     }
                     
                     Spacer()
+                    
+                    Button(action: {
+                        // Logic to add driver to favorites
+                    }) {
+                        Image(systemName: "heart.fill")
+                            .foregroundColor(.pink)
+                            .padding(10)
+                            .background(Color.gray.opacity(0.2))
+                            .clipShape(Circle())
+                    }
                 }
                 .padding()
                 .background(

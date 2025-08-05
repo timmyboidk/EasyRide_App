@@ -24,6 +24,9 @@ struct OrderDetailView: View {
                 // Order Status Header
                 orderStatusHeader
                 
+                // Real-time map
+                RealTimeMapView()
+                
                 // Chat Messages
                 chatMessagesView
                 
@@ -82,6 +85,14 @@ struct OrderDetailView: View {
                             .padding(10)
                             .background(Color.green)
                             .clipShape(Circle())
+                    }
+                    
+                    Button(action: openWeChat) {
+                        Image(systemName: "message.fill")
+                           .foregroundColor(.white)
+                           .padding(10)
+                           .background(Color.green)
+                           .clipShape(Circle())
                     }
                 }
             }
@@ -154,7 +165,16 @@ struct OrderDetailView: View {
     }
     
     private func callDriver() {
-        // Placeholder for call logic
+        if let phoneNumber = order.driver?.phoneNumber, let url = URL(string: "tel://\(phoneNumber)") {
+            UIApplication.shared.open(url)
+        }
+    }
+
+    private func openWeChat() {
+        // This would typically open WeChat with a specific user context if the API allows
+        if let url = URL(string: "weixin://") {
+            UIApplication.shared.open(url)
+        }
     }
 }
 
@@ -181,6 +201,30 @@ struct MessageBubbleView: View {
         }
     }
 }
+
+// MARK: - RealTimeMapView
+
+struct RealTimeMapView: View {
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    )
+
+    var body: some View {
+        Map(coordinateRegion: $region, annotationItems: [
+            AnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194))
+        ]) { item in
+            MapMarker(coordinate: item.coordinate, tint: .blue)
+        }
+        .frame(height: 250)
+    }
+}
+
+struct AnnotationItem: Identifiable {
+    let id = UUID()
+    var coordinate: CLLocationCoordinate2D
+}
+
 
 #Preview {
     NavigationView {

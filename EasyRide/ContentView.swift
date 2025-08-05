@@ -171,6 +171,10 @@ import SwiftUI
               NavigationLink(destination: OrdersView()) {
                   Label("订单历史", systemImage: "clock.fill")
               }
+                
+                NavigationLink(destination: FavoriteDriversView()) {
+                    Label("已收藏的司机", systemImage: "heart.fill")
+                }
 
               NavigationLink(destination: Text("设置", bundle: nil)) {
                   Label("设置", systemImage: "gearshape.fill")

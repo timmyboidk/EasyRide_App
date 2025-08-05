@@ -29,6 +29,9 @@ struct ValueAddedServicesView: View {
                     // Value Added Services
                     valueAddedServicesSection
                     
+                    // prioritizeFavoritesSection
+                    prioritizeFavoritesSection
+                    
                     // Cost Preview
                     costPreviewSection
                     
@@ -278,14 +281,29 @@ struct ValueAddedServicesView: View {
     // MARK: - Payment Button
     private var paymentButton: some View {
         Button(action: processPayment) {
-            Text("立即支付")
+            Text("确认并支付 $\(viewModel.totalAmount, specifier: "%.0f")")
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.white)
-                .foregroundColor(.black)
+                .background(Color.blue)
+                .foregroundColor(.white)
                 .cornerRadius(10)
         }
+    }
+    
+    private var prioritizeFavoritesSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Toggle(isOn: .constant(true)) { // Bind this to a @State property
+                Text("优先匹配收藏司机")
+                    .font(.headline)
+                    .foregroundColor(.white)
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+        )
     }
     
     private func processPayment() {

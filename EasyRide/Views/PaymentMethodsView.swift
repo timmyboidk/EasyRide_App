@@ -38,18 +38,12 @@ struct PaymentMethodsView: View {
                         
                         // Payment Methods Section
                         Section(header: Text("支付方式").foregroundColor(.gray).fontWeight(.bold)) {
-                            ForEach(paymentMethods) { paymentMethod in
-                                PaymentMethodRowView(paymentMethod: paymentMethod)
-                            }
-                            .onDelete(perform: deletePaymentMethods)
-                            .listRowBackground(Color.gray.opacity(0.2))
-                            
-                            // Add Payment Method Options
-                            Button(action: { showingAddPaymentMethod = true }) {
-                                Label("添加信用卡/借记卡", systemImage: "creditcard.fill")
-                            }
-                            .foregroundColor(.white)
-                            .listRowBackground(Color.gray.opacity(0.2))
+                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
+                                .listRowBackground(Color.gray.opacity(0.2))
+                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .creditCard, displayName: "Card"))
+                                .listRowBackground(Color.gray.opacity(0.2))
+                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .paypal, displayName: "Stripe"))
+                                .listRowBackground(Color.gray.opacity(0.2))
                         }
                     }
                     .listStyle(.insetGrouped)

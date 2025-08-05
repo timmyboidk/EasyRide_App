@@ -132,6 +132,22 @@ struct LoginView: View {
                     )
             }
             .disabled(loginMode == .password ? !authViewModel.isLoginFormValid : !authViewModel.isOTPFormValid)
+
+            // Add this button for WeChat Login
+            Button(action: {
+                // Logic for WeChat login
+            }) {
+                HStack {
+                    Image(systemName: "message.fill")
+                    Text("微信登录")
+                }
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.green)
+                .foregroundColor(.white)
+                .cornerRadius(10)
+            }
         }
     }
     
