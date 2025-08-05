@@ -1,0 +1,114 @@
+/* 
+  Localizable.strings
+  EasyRide
+
+  English Localization
+*/
+
+// General
+"app_name" = "EasyRide";
+"tagline" = "Your reliable ride companion";
+"ok" = "OK";
+"cancel" = "Cancel";
+"error" = "Error";
+"loading" = "Loading...";
+
+// Tab Bar
+"tab_home" = "Home";
+"tab_orders" = "Orders";
+"tab_profile" = "Profile";
+
+// Authentication
+"welcome_back" = "Welcome Back";
+"login_method" = "Login Method";
+"password" = "Password";
+"otp" = "OTP";
+"phone_number" = "Phone Number";
+"enter_phone_number" = "Enter your phone number";
+"enter_password" = "Enter your password";
+"sign_in" = "Sign In";
+"send_otp" = "Send OTP";
+"enter_otp" = "Enter OTP";
+"otp_digits" = "6-digit code";
+"resend_otp" = "Resend OTP";
+"resend_in" = "Resend in %@";
+"verify_otp" = "Verify OTP";
+"or" = "OR";
+"create_account" = "Create New Account";
+
+// Registration
+"registration" = "Registration";
+"create_account_title" = "Create Account";
+"full_name" = "Full Name";
+"enter_full_name" = "Enter your full name";
+"email" = "Email";
+"enter_email" = "Enter your email";
+"confirm_password" = "Confirm Password";
+"enter_confirm_password" = "Confirm your password";
+"terms_conditions" = "I agree to the Terms & Conditions";
+"register" = "Register";
+"already_have_account" = "Already have an account?";
+
+// Home
+"no_orders" = "No orders yet";
+"orders_will_appear" = "Your ride history will appear here";
+
+// Profile
+"sign_out" = "Sign Out";
+
+// Service Selection
+"select_service" = "Select Service";
+"airport_transfer" = "Airport Transfer";
+"long_distance" = "Long Distance";
+"charter" = "Charter Service";
+"carpooling" = "Carpooling";
+"continue" = "Continue";
+
+// Trip Configuration
+"trip_configuration" = "Trip Configuration";
+"free_route" = "Free Route";
+"custom_route" = "Custom Route";
+"pickup_location" = "Pickup Location";
+"destination" = "Destination";
+"scheduled_time" = "Scheduled Time";
+"passengers" = "Passengers";
+"notes" = "Notes";
+"add_note" = "Add a note";
+"add_stop" = "Add Stop";
+
+// Value Added Services
+"value_added_services" = "Value Added Services";
+"summary" = "Summary";
+"price_breakdown" = "Price Breakdown";
+"base_fare" = "Base Fare";
+"service_fee" = "Service Fee";
+"total" = "Total";
+"apply_coupon" = "Apply Coupon";
+"pay_with" = "Pay with";
+"apple_pay" = "Apple Pay";
+"wechat_pay" = "WeChat Pay";
+
+// Order Tracking
+"finding_driver" = "Finding your driver...";
+"driver_found" = "Driver Found!";
+"driver_en_route" = "Driver is on the way";
+"driver_arrived" = "Driver has arrived";
+"trip_in_progress" = "Trip in progress";
+"trip_completed" = "Trip completed";
+"call_driver" = "Call Driver";
+"message_driver" = "Message";
+"share_location" = "Share Location";
+
+// Order Details
+"order_details" = "Order Details";
+"order_id" = "Order ID";
+"order_status" = "Status";
+"order_date" = "Date";
+"modify_trip" = "Modify Trip";
+"cancel_trip" = "Cancel Trip";
+
+// Accessibility
+"login_method_selection" = "Login method selection";
+"login_method_hint" = "Choose between password or one-time passcode login";
+"phone_number_label" = "Phone number";
+"phone_number_hint" = "Enter your phone number for login";

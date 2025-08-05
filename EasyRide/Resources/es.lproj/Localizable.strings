@@ -1,0 +1,114 @@
+/* 
+  Localizable.strings
+  EasyRide
+
+  Spanish Localization
+*/
+
+// General
+"app_name" = "EasyRide";
+"tagline" = "Tu compañero de viaje confiable";
+"ok" = "Aceptar";
+"cancel" = "Cancelar";
+"error" = "Error";
+"loading" = "Cargando...";
+
+// Tab Bar
+"tab_home" = "Inicio";
+"tab_orders" = "Pedidos";
+"tab_profile" = "Perfil";
+
+// Authentication
+"welcome_back" = "Bienvenido de nuevo";
+"login_method" = "Método de inicio de sesión";
+"password" = "Contraseña";
+"otp" = "Código OTP";
+"phone_number" = "Número de teléfono";
+"enter_phone_number" = "Ingresa tu número de teléfono";
+"enter_password" = "Ingresa tu contraseña";
+"sign_in" = "Iniciar sesión";
+"send_otp" = "Enviar código";
+"enter_otp" = "Ingresa el código";
+"otp_digits" = "Código de 6 dígitos";
+"resend_otp" = "Reenviar código";
+"resend_in" = "Reenviar en %@";
+"verify_otp" = "Verificar código";
+"or" = "O";
+"create_account" = "Crear nueva cuenta";
+
+// Registration
+"registration" = "Registro";
+"create_account_title" = "Crear cuenta";
+"full_name" = "Nombre completo";
+"enter_full_name" = "Ingresa tu nombre completo";
+"email" = "Correo electrónico";
+"enter_email" = "Ingresa tu correo electrónico";
+"confirm_password" = "Confirmar contraseña";
+"enter_confirm_password" = "Confirma tu contraseña";
+"terms_conditions" = "Acepto los Términos y Condiciones";
+"register" = "Registrarse";
+"already_have_account" = "¿Ya tienes una cuenta?";
+
+// Home
+"no_orders" = "No hay pedidos aún";
+"orders_will_appear" = "Tu historial de viajes aparecerá aquí";
+
+// Profile
+"sign_out" = "Cerrar sesión";
+
+// Service Selection
+"select_service" = "Seleccionar servicio";
+"airport_transfer" = "Traslado al aeropuerto";
+"long_distance" = "Larga distancia";
+"charter" = "Servicio de chárter";
+"carpooling" = "Viaje compartido";
+"continue" = "Continuar";
+
+// Trip Configuration
+"trip_configuration" = "Configuración del viaje";
+"free_route" = "Ruta libre";
+"custom_route" = "Ruta personalizada";
+"pickup_location" = "Lugar de recogida";
+"destination" = "Destino";
+"scheduled_time" = "Hora programada";
+"passengers" = "Pasajeros";
+"notes" = "Notas";
+"add_note" = "Añadir una nota";
+"add_stop" = "Añadir parada";
+
+// Value Added Services
+"value_added_services" = "Servicios adicionales";
+"summary" = "Resumen";
+"price_breakdown" = "Desglose de precio";
+"base_fare" = "Tarifa base";
+"service_fee" = "Cargo por servicio";
+"total" = "Total";
+"apply_coupon" = "Aplicar cupón";
+"pay_with" = "Pagar con";
+"apple_pay" = "Apple Pay";
+"wechat_pay" = "WeChat Pay";
+
+// Order Tracking
+"finding_driver" = "Buscando tu conductor...";
+"driver_found" = "¡Conductor encontrado!";
+"driver_en_route" = "El conductor está en camino";
+"driver_arrived" = "El conductor ha llegado";
+"trip_in_progress" = "Viaje en progreso";
+"trip_completed" = "Viaje completado";
+"call_driver" = "Llamar al conductor";
+"message_driver" = "Mensaje";
+"share_location" = "Compartir ubicación";
+
+// Order Details
+"order_details" = "Detalles del pedido";
+"order_id" = "ID del pedido";
+"order_status" = "Estado";
+"order_date" = "Fecha";
+"modify_trip" = "Modificar viaje";
+"cancel_trip" = "Cancelar viaje";
+
+// Accessibility
+"login_method_selection" = "Selección de método de inicio de sesión";
+"login_method_hint" = "Elige entre contraseña o código de un solo uso";
+"phone_number_label" = "Número de teléfono";
+"phone_number_hint" = "Ingresa tu número de teléfono para iniciar sesión";
