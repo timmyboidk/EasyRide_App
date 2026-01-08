@@ -2,6 +2,7 @@ import XCTest
 import Foundation
 @testable import EasyRide
 
+@MainActor
 class OrderTrackingViewModelTests: XCTestCase {
     
     // MARK: - Test Setup
@@ -18,6 +19,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         let (viewModel, mockAPIService) = createTestViewModel()
         
         // Setup mock response
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let mockOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -28,11 +38,9 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
                 estimatedArrival: Date().addingTimeInterval(300)
             )
         )
@@ -162,6 +170,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         await viewModel.startTracking(orderId: "test-order-123")
         
         // Setup updated order with different status
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let updatedOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -172,11 +189,9 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
                 estimatedArrival: Date().addingTimeInterval(300)
             )
         )
@@ -225,6 +240,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         let (viewModel, mockAPIService) = createTestViewModel()
         
         // Setup initial order with driver
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let initialOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -235,12 +259,10 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
-                estimatedArrival: Date().addingTimeInterval(600) // 10 minutes
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
+                estimatedArrival: Date().addingTimeInterval(600)
             )
         )
         mockAPIService.setMockResponse(initialOrder, for: .getOrder(orderId: "test-order-123"))
@@ -256,10 +278,8 @@ class OrderTrackingViewModelTests: XCTestCase {
         )
         mockAPIService.setMockResponse(locationUpdate, for: .getDriverLocation(orderId: "test-order-123"))
         
-        // Use reflection to access private method
-        let updateDriverLocationMethod = viewModel.perform(
-            NSSelectorFromString("updateDriverLocation")
-        )
+        // Call internal method directly
+        await viewModel.updateDriverLocation()
         
         // Verify results
         XCTAssertEqual(viewModel.driverLocation?.latitude, 37.7759)
@@ -272,6 +292,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         let (viewModel, mockAPIService) = createTestViewModel()
         
         // Setup initial order with driver
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let initialOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -282,11 +311,9 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
                 estimatedArrival: Date().addingTimeInterval(300)
             )
         )
@@ -303,10 +330,8 @@ class OrderTrackingViewModelTests: XCTestCase {
         )
         mockAPIService.setMockResponse(locationUpdate, for: .getDriverLocation(orderId: "test-order-123"))
         
-        // Use reflection to access private method
-        let updateDriverLocationMethod = viewModel.perform(
-            NSSelectorFromString("updateDriverLocation")
-        )
+        // Call internal method directly
+        await viewModel.updateDriverLocation()
         
         // Verify results
         XCTAssertEqual(viewModel.currentOrder?.status, .arrived)
@@ -333,6 +358,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.isMatching)
         
         // Setup updated order with matched status
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let updatedOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -343,11 +377,9 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
                 estimatedArrival: Date().addingTimeInterval(300)
             )
         )
@@ -366,6 +398,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         let (viewModel, mockAPIService) = createTestViewModel()
         
         // Setup initial order
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let initialOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -376,11 +417,10 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123"
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
+                estimatedArrival: Date().addingTimeInterval(300)
             )
         )
         mockAPIService.setMockResponse(initialOrder, for: .getOrder(orderId: "test-order-123"))
@@ -417,6 +457,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.isDriverAssigned)
         
         // Setup order with driver
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let orderWithDriver = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -427,11 +476,10 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123"
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
+                estimatedArrival: Date().addingTimeInterval(300)
             )
         )
         mockAPIService.setMockResponse(orderWithDriver, for: .getOrder(orderId: "test-order-123"))
@@ -521,6 +569,15 @@ class OrderTrackingViewModelTests: XCTestCase {
         XCTAssertNil(viewModel.estimatedArrivalText)
         
         // Test with driver but no ETA
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         viewModel.currentOrder = Order(
             id: "test-order-123",
             serviceType: .airport,
@@ -531,11 +588,9 @@ class OrderTrackingViewModelTests: XCTestCase {
                 id: "driver-123",
                 name: "John Driver",
                 phoneNumber: "+1234567890",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123"
+                rating: 4.8,
+                vehicleInfo: vehicleInfo
             )
         )
         XCTAssertNil(viewModel.estimatedArrivalText)

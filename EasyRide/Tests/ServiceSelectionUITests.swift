@@ -242,15 +242,3 @@ final class ServiceSelectionUITests: XCTestCase {
         }
     }
 }
-
-// MARK: - XCUIElement Extensions
-
-extension XCUIElement {
-    var isButton: Bool {
-        return (value(forKey: "traits") as? Int ?? 0) & 2 != 0
-    }
-    
-    var isSelected: Bool {
-        return (value(forKey: "selected") as? Bool) ?? false
-    }
-}

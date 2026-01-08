@@ -147,7 +147,7 @@ class OrderTrackingViewModel {
     }
     
     @MainActor
-    private func updateDriverLocation() async {
+    func updateDriverLocation() async {
         guard let orderId = currentOrder?.id else { return }
         
         do {

@@ -8,7 +8,7 @@ struct TripModeSettingsView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -28,11 +28,11 @@ struct TripModeSettingsView: View {
                 .padding()
             }
         }
-        .navigationTitle("出行模式设置")
+        .navigationTitle(LocalizationUtils.localized("Trip_Mode_Settings"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingDatePicker) {
             DatePicker(
-                "出发时间",
+                LocalizationUtils.localized("Departure_Time"),
                 selection: $viewModel.scheduledTime,
                 in: Date()...,
                 displayedComponents: [.date, .hourAndMinute]
@@ -46,10 +46,10 @@ struct TripModeSettingsView: View {
     // MARK: - Mode Selection Section
     private var modeSelectionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("出行模式")
+            Text(LocalizationUtils.localized("Trip_Mode"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             HStack(spacing: 16) {
                 ForEach(TripMode.allCases) { mode in
@@ -71,64 +71,72 @@ struct TripModeSettingsView: View {
         VStack(spacing: 20) {
             // Departure Location
             InputField(
-                title: "出发地点",
+                title: LocalizationUtils.localized("Departure_Address"),
                 text: $viewModel.pickupAddress,
-                placeholder: "请输入出发地点"
+                placeholder: LocalizationUtils.localized("Enter_Departure_Address")
             )
             
             // Departure Time
             Button(action: { showingDatePicker = true }) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("出发时间")
+                        Text(LocalizationUtils.localized("Departure_Time"))
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                         
                         Text(viewModel.scheduledTime.formatted(date: .abbreviated, time: .shortened))
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                     
                     Spacer()
                     
                     Image(systemName: "calendar")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                 )
             }
             
             // Passenger and Luggage
-            HStack(spacing: 16) {
+            VStack(spacing: 16) {
                 CounterField(
-                    title: "乘客人数",
+                    title: LocalizationUtils.localized("Passengers"),
                     value: $viewModel.passengerCount,
                     range: 1...8
                 )
                 
-                CounterField(
-                    title: "行李件数",
-                    value: .constant(0), // Placeholder
-                    range: 0...10
-                )
+                HStack(spacing: 16) {
+                    CounterField(
+                        title: LocalizationUtils.localized("Large_Luggage"),
+                        value: $viewModel.largeLuggageCount,
+                        range: 0...5
+                    )
+                    
+                    CounterField(
+                        title: LocalizationUtils.localized("Small_Luggage"),
+                        value: $viewModel.smallLuggageCount,
+                        range: 0...5
+                    )
+                }
             }
             
             // Trip Notes
             InputField(
-                title: "行程备注",
+                title: LocalizationUtils.localized("Trip_Notes"),
                 text: $viewModel.notes,
-                placeholder: "例如：市区游览+晚上机场接送",
+                placeholder: LocalizationUtils.localized("Trip_Notes_Placeholder"),
                 isMultiline: true
             )
             
             // Special Instructions
             InputField(
-                title: "特殊要求",
+                title: LocalizationUtils.localized("Special_Requests"),
                 text: .constant(""), // Placeholder
-                placeholder: "可包含语言要求、陪同、搬运等",
+                placeholder: LocalizationUtils.localized("Special_Requests_Placeholder"),
                 isMultiline: true
             )
         }
@@ -139,27 +147,27 @@ struct TripModeSettingsView: View {
         VStack(spacing: 20) {
             // Departure Location
             InputField(
-                title: "出发地点",
+                title: LocalizationUtils.localized("Departure_Address"),
                 text: $viewModel.pickupAddress,
-                placeholder: "请输入出发地点"
+                placeholder: LocalizationUtils.localized("Enter_Departure_Address")
             )
             
             // Custom Stops
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text("自定义路线")
+                    Text(LocalizationUtils.localized("Custom_Route"))
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                     
                     Spacer()
                     
                     Button(action: viewModel.addNewStop) {
                         HStack(spacing: 4) {
                             Image(systemName: "plus.circle.fill")
-                            Text("添加停靠点")
+                            Text(LocalizationUtils.localized("Add_Stop"))
                         }
                         .font(.caption)
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
                     }
                 }
                 
@@ -173,21 +181,21 @@ struct TripModeSettingsView: View {
             
             // Trip Preview Map Placeholder
             VStack {
-                Text("行程预览地图")
+                Text(LocalizationUtils.localized("Trip_Preview_Map"))
                     .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                 
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Color.secondary.opacity(0.1))
                     .frame(height: 200)
                     .overlay(
                         VStack {
                             Image(systemName: "map.fill")
                                 .font(.largeTitle)
-                                .foregroundColor(.gray)
-                            Text("地图预览")
+                                .foregroundColor(.secondary)
+                            Text(LocalizationUtils.localized("Map_Preview"))
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                         }
                     )
             }
@@ -197,12 +205,12 @@ struct TripModeSettingsView: View {
     // MARK: - Next Button
     private var nextButton: some View {
         Button(action: proceedToNext) {
-            Text("下一步")
+            Text(LocalizationUtils.localized("Next_Step"))
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(viewModel.isValidConfiguration ? Color.white : Color.gray.opacity(0.3))
-                .foregroundColor(viewModel.isValidConfiguration ? .black : .gray)
+                .background(viewModel.isValidConfiguration ? Color.white : Color.secondary.opacity(0.3))
+                .foregroundColor(viewModel.isValidConfiguration ? .black : .secondary)
                 .cornerRadius(10)
         }
         .disabled(!viewModel.isValidConfiguration)
@@ -224,24 +232,24 @@ struct ModeSelectionButton: View {
         Button(action: onTap) {
             HStack(spacing: 8) {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isSelected ? .white : .gray)
+                    .foregroundColor(isSelected ? .white : .secondary)
                 
                 Image(systemName: mode.icon)
                     .font(.caption)
-                    .foregroundColor(.white)
+                    .foregroundColor(isSelected ? .white : .primary)
                 
                 Text(mode.displayName)
                     .font(.subheadline)
-                    .foregroundColor(.white)
+                    .foregroundColor(isSelected ? .white : .primary)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .background(
                 RoundedRectangle(cornerRadius: 20)
-                    .fill(isSelected ? Color.white.opacity(0.1) : Color.clear)
+                    .fill(isSelected ? Color.blue : Color.clear)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
-                            .stroke(isSelected ? Color.white : Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(isSelected ? Color.blue : Color.secondary.opacity(0.3), lineWidth: 1)
                     )
             )
         }
@@ -259,7 +267,7 @@ struct InputField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
             
             if isMultiline {
                 TextField(placeholder, text: $text, axis: .vertical)
@@ -268,18 +276,18 @@ struct InputField: View {
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                     )
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             } else {
                 TextField(placeholder, text: $text)
                     .textFieldStyle(.plain)
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                            .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                     )
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
         }
     }
@@ -295,12 +303,12 @@ struct CounterField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
             
             HStack {
                 Button(action: { if value > range.lowerBound { value -= 1 } }) {
                     Image(systemName: "minus.circle.fill")
-                        .foregroundColor(value > range.lowerBound ? .white : .gray)
+                        .foregroundColor(value > range.lowerBound ? .primary : .secondary)
                 }
                 .disabled(value <= range.lowerBound)
                 
@@ -309,20 +317,20 @@ struct CounterField: View {
                 Text("\(value)")
                     .font(.body)
                     .fontWeight(.medium)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Spacer()
                 
                 Button(action: { if value < range.upperBound { value += 1 } }) {
                     Image(systemName: "plus.circle.fill")
-                        .foregroundColor(value < range.upperBound ? .white : .gray)
+                        .foregroundColor(value < range.upperBound ? .primary : .secondary)
                 }
                 .disabled(value >= range.upperBound)
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
             )
         }
     }
@@ -336,9 +344,9 @@ struct CustomStopRow: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                TextField("停靠地点", text: $stop.location.address)
+                TextField(LocalizationUtils.localized("Stop_Location"), text: $stop.location.address)
                     .textFieldStyle(.plain)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Button(action: onDelete) {
                     Image(systemName: "trash.circle.fill")
@@ -347,15 +355,15 @@ struct CustomStopRow: View {
             }
             
             HStack {
-                Text("停留时长")
+                Text(LocalizationUtils.localized("Stop_Duration"))
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                 
                 Spacer()
                 
-                Text("\(Int(stop.duration))分钟")
+                Text("\(Int(stop.duration)) \(LocalizationUtils.localized("Minutes"))")
                     .font(.caption)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Stepper("", value: $stop.duration, in: 15...180, step: 15)
                     .labelsHidden()
@@ -364,7 +372,7 @@ struct CustomStopRow: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
         )
     }
 }

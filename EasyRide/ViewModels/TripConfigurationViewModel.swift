@@ -18,6 +18,8 @@ class TripConfigurationViewModel {
   var destinationAddress: String = ""
   var scheduledTime: Date = Date().addingTimeInterval(900)  // 15 minutes from now
   var passengerCount: Int = 1
+  var largeLuggageCount: Int = 0
+  var smallLuggageCount: Int = 0
   var notes: String = ""
   var isNotesExpanded: Bool = false
 
@@ -218,6 +220,14 @@ class TripConfigurationViewModel {
     suggestedAddresses = []
   }
 
+  func updateLargeLuggageCount(_ count: Int) {
+      largeLuggageCount = max(0, min(10, count))
+  }
+
+  func updateSmallLuggageCount(_ count: Int) {
+      smallLuggageCount = max(0, min(10, count))
+  }
+
   // MARK: - Custom Route Methods
   func addNewStop() {
     let newStop = TripStop(
@@ -304,7 +314,9 @@ class TripConfigurationViewModel {
   var isValidConfiguration: Bool {
     switch selectedMode {
     case .freeRoute:
-      return !pickupAddress.isEmpty && !destinationAddress.isEmpty
+      // Allow proceeding if at least pickup is set (Destination might be optional or set later in some flows)
+      // Based on user feedback, it seems flow is blocked. Let's make it minimal.
+      return !pickupAddress.isEmpty
     case .customRoute:
       return !pickupAddress.isEmpty && !customStops.isEmpty
     }

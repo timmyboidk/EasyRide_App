@@ -10,8 +10,8 @@ final class OrientationLayoutTests: XCTestCase {
         let isPortrait = ResponsiveLayoutUtils.isPortrait()
         let isLandscape = ResponsiveLayoutUtils.isLandscape()
         
-        XCTAssertTrue(isPortrait is Bool)
-        XCTAssertTrue(isLandscape is Bool)
+        // XCTAssertTrue(isPortrait is Bool) // Removed warning
+        // XCTAssertTrue(isLandscape is Bool) // Removed warning
         XCTAssertEqual(isPortrait, !isLandscape, "isPortrait and isLandscape should be opposites")
     }
     
@@ -211,9 +211,11 @@ final class OrientationLayoutIntegrationTests: XCTestCase {
     
     func testOrientationObserverCreation() {
         // Test that OrientationObserver can be created
-        let observer = OrientationObserver(action: { _ in })
-        
+        let observer = OrientationObserver()
         XCTAssertNotNil(observer)
+        
+        // Test property exists
+        XCTAssertFalse(observer.isLandscape) // Default is false usually in tests unless simulator is landscape
     }
     
     func testOrientationResponsiveCardCreation() {
@@ -233,8 +235,7 @@ final class OrientationLayoutUITests: XCTestCase {
         app.launch()
         
         // Test that orientation responsive demo can be displayed
-        // This would be integrated into the main app navigation for testing
-        XCTAssertTrue(app.isDisplayed)
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
     }
     
     func testLayoutAdaptsToOrientationChange() throws {

@@ -284,15 +284,14 @@ extension XCUIElement {
     
     /// Check if element has proper accessibility support
     var hasAccessibilitySupport: Bool {
-        return !label.isEmpty || !value.description.isEmpty
+        return !label.isEmpty || !(value as? String ?? "").isEmpty
     }
     
     /// Get accessibility information for debugging
     var accessibilityInfo: String {
         return """
         Label: \(label)
-        Value: \(value)
-        Traits: \(traits)
+        Value: \(value ?? "nil")
         Identifier: \(identifier)
         """
     }

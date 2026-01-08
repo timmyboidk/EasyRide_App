@@ -155,7 +155,7 @@ struct BookingFlowView: View {
     
     private func createSampleOrder() async {
         // Setup sample booking data
-        appState.selectedService = .halfDay
+        appState.selectedService = .airport
         appState.tripConfiguration = TripConfiguration(
             mode: .freeRoute,
             pickupLocation: Location(

@@ -36,7 +36,7 @@ struct OrderDetailView: View {
                 }
             }
         }
-        .navigationTitle("行程详情")
+        .navigationTitle(LocalizationUtils.localized("Trip_Details"))
         .navigationBarTitleDisplayMode(.inline)
         // toolbarColorScheme deprecated in iOS 16/17 depending on usage, but standard is .toolbarColorScheme(.dark, ...)
         // We generally want it to adapt. If we force dark, nav bar is dark.
@@ -45,10 +45,10 @@ struct OrderDetailView: View {
         // .toolbarColorScheme(.dark, for: .navigationBar) 
         .sheet(isPresented: $viewModel.showingTripModification) {
             // Placeholder for TripModificationView
-            Text("行程修改视图")
+            Text(LocalizationUtils.localized("Trip_Modification_View"))
         }
-        .alert("错误", isPresented: .constant(viewModel.errorMessage != nil)) {
-            Button("确定") {
+        .alert(LocalizationUtils.localized("Error"), isPresented: .constant(viewModel.errorMessage != nil)) {
+            Button(LocalizationUtils.localized("OK")) {
                 viewModel.errorMessage = nil
             }
         } message: {
@@ -130,7 +130,7 @@ struct OrderDetailView: View {
     
     private var messageInputArea: some View {
         HStack(spacing: 12) {
-            TextField("输入消息...", text: $viewModel.messageText, axis: .vertical)
+            TextField(LocalizationUtils.localized("Enter_Message"), text: $viewModel.messageText, axis: .vertical)
                 .padding(10)
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(20)
@@ -237,7 +237,7 @@ struct AnnotationItem: Identifiable {
     NavigationView {
         OrderDetailView(
             order: Order(
-                serviceType: .halfDay,
+                serviceType: .airport,
                 pickupLocation: Location(latitude: 37.7749, longitude: -122.4194, address: "旧金山, 加州"),
                 estimatedPrice: 45.0,
                 driver: Driver(

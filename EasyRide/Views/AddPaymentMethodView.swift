@@ -21,58 +21,57 @@ struct AddPaymentMethodView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 Form {
-                    Section(header: Text("卡信息").foregroundColor(.gray)) {
-                        TextField("卡号", text: $cardNumber)
+                    Section(header: Text(LocalizationUtils.localized("Card_Info")).foregroundColor(.secondary)) {
+                        TextField(LocalizationUtils.localized("Card_Number"), text: $cardNumber)
                             .keyboardType(.numberPad)
                         
-                        TextField("月/年", text: $expiryDate)
+                        TextField("MM/YY", text: $expiryDate)
                             .keyboardType(.numberPad)
 
                         TextField("CVV", text: $cvv)
                             .keyboardType(.numberPad)
 
-                        TextField("持卡人姓名", text: $cardholderName)
+                        TextField(LocalizationUtils.localized("Name_On_Card"), text: $cardholderName)
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
-                    .foregroundColor(.white)
+                    .listRowBackground(Color(.systemBackground))
+                    .foregroundColor(.primary)
                     
                     Section {
-                        Toggle("设为默认付款方式", isOn: $isDefault)
-                            .foregroundColor(.white)
+                        Toggle(LocalizationUtils.localized("Set_As_Default"), isOn: $isDefault)
+                            .foregroundColor(.primary)
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                    .listRowBackground(Color(.systemBackground))
                     
                     Section {
-                        Button("添加卡") {
+                        Button(LocalizationUtils.localized("Add_Card")) {
                             addPaymentMethod()
                         }
                         .disabled(!isFormValid || isLoading)
                         .frame(maxWidth: .infinity, alignment: .center)
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                    .listRowBackground(Color(.systemBackground))
                 }
-                .background(Color.black)
+                .background(Color(.systemBackground))
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("添加卡")
+            .navigationTitle(LocalizationUtils.localized("Add_Card"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("取消") {
+                    Button(LocalizationUtils.localized("Cancel")) {
                         dismiss()
                     }
                 }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "添加付款方式失败")
+            Text(errorMessage ?? LocalizationUtils.localized("Error_Adding_Card"))
         }
     }
     

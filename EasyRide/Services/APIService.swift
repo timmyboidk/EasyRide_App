@@ -1,6 +1,6 @@
 import Foundation
 
-protocol APIService {
+public protocol APIService {
     func request<T: Codable>(_ endpoint: APIEndpoint) async throws -> T
     func requestWithoutResponse(_ endpoint: APIEndpoint) async throws
     func uploadImage(_ endpoint: APIEndpoint, imageData: Data) async throws -> String

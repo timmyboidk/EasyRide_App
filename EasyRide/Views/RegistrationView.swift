@@ -30,7 +30,7 @@ struct RegistrationView: View {
         }
 
         .background(Color(.systemBackground).ignoresSafeArea())
-        .navigationTitle("创建新账户")
+        .navigationTitle(LocalizationUtils.localized("Create_Account"))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarTintColor(Color.primary) // Sets back button color
         .alert("错误", isPresented: $authViewModel.showingError) {
@@ -49,7 +49,7 @@ struct RegistrationView: View {
                 .font(.system(size: 80))
                 .foregroundStyle(.primary)
             
-            Text("加入EasyRide")
+            Text(LocalizationUtils.localized("Join_EasyRide"))
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -59,20 +59,20 @@ struct RegistrationView: View {
     // MARK: - Registration Form
     private var registrationForm: some View {
         VStack(spacing: 16) {
-            TextField("请输入手机号码", text: $authViewModel.phoneNumber)
+            TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
+                .background(Color(.systemBackground))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
                 .focused($focusedField, equals: .phoneNumber)
             
             // OTP Section
             HStack(spacing: 12) {
-                TextField("6位数验证码", text: $authViewModel.otp)
+                TextField(LocalizationUtils.localized("Enter_OTP"), text: $authViewModel.otp)
                     .padding()
-                    .background(Color(.secondarySystemBackground))
-                    .cornerRadius(10)
+                    .background(Color(.systemBackground))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
                     .keyboardType(.numberPad)
                     .textContentType(.oneTimeCode)
                     .focused($focusedField, equals: .otp)
@@ -82,7 +82,7 @@ struct RegistrationView: View {
                         await authViewModel.sendOTP()
                     }
                 }) {
-                    Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : "获取验证码")
+                    Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                         .font(.subheadline)
                         .fontWeight(.medium)
                         .foregroundColor(.white)
@@ -93,17 +93,17 @@ struct RegistrationView: View {
                 .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
             }
 
-            TextField("昵称", text: $authViewModel.nickname)
+            TextField(LocalizationUtils.localized("Nickname"), text: $authViewModel.nickname)
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
+                .background(Color(.systemBackground))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
                 .textContentType(.nickname)
                 .focused($focusedField, equals: .nickname)
             
-            TextField("电子邮件 (可选)", text: $authViewModel.email)
+            TextField(LocalizationUtils.localized("Email_Optional"), text: $authViewModel.email)
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
+                .background(Color(.systemBackground))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .focused($focusedField, equals: .email)
@@ -125,7 +125,7 @@ struct RegistrationView: View {
                     .background(Color.blue)
                     .cornerRadius(10)
             } else {
-                Text("注册")
+                Text(LocalizationUtils.localized("Register"))
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -139,7 +139,7 @@ struct RegistrationView: View {
     
     // MARK: - Terms and Conditions Text
     private var termsText: some View {
-        Text("注册即表示您同意我们的服务条款和隐私政策。")
+        Text(LocalizationUtils.localized("Terms_Consnet"))
             .font(.caption)
             .foregroundColor(.secondary)
             .multilineTextAlignment(.center)

@@ -60,7 +60,7 @@ class AppState {
             id: "debug-user-id",
             name: "Debug User",
             email: "debug@easyride.com",
-            phoneNumber: "13800000000",
+            phoneNumber: "99999999999",
             profileImage: nil,
             preferredLanguage: "zh-Hans",
             isVerified: true

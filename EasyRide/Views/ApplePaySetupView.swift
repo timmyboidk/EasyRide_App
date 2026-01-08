@@ -14,24 +14,24 @@ struct ApplePaySetupView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 VStack(spacing: 24) {
                     Spacer()
                     
                     Image(systemName: "apple.logo")
                         .font(.system(size: 80))
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                     VStack(spacing: 12) {
-                        Text("设置Apple Pay")
+                        Text(LocalizationUtils.localized("Setup_Apple_Pay"))
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         
-                        Text("使用您日常使用的设备安全私密地付款。")
+                        Text(LocalizationUtils.localized("Apple_Pay_Description"))
                             .font(.body)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                     }
@@ -39,25 +39,25 @@ struct ApplePaySetupView: View {
                     Spacer()
                     
                     VStack(spacing: 16) {
-                        FeatureRow(icon: "checkmark.shield.fill", text: "安全私密")
-                        FeatureRow(icon: "creditcard.fill", text: "不共享卡详细信息")
-                        FeatureRow(icon: "bolt.fill", text: "快捷支付")
+                        FeatureRow(icon: "checkmark.shield.fill", text: LocalizationUtils.localized("Secure_Private"))
+                        FeatureRow(icon: "creditcard.fill", text: LocalizationUtils.localized("No_Card_Sharing"))
+                        FeatureRow(icon: "bolt.fill", text: LocalizationUtils.localized("Fast_Payment"))
                     }
                     
                     Spacer()
                     
                     if isLoading {
                         ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .progressViewStyle(CircularProgressViewStyle(tint: .primary))
                             .padding(.bottom)
                     } else {
                         Button(action: enableApplePay) {
-                            Text("启用Apple Pay")
+                            Text(LocalizationUtils.localized("Enable_Apple_Pay"))
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.white)
-                                .foregroundColor(.black)
+                                .background(Color.primary)
+                                .foregroundColor(Color(.systemBackground))
                                 .cornerRadius(10)
                         }
                     }
@@ -67,17 +67,16 @@ struct ApplePaySetupView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("取消") {
+                    Button(LocalizationUtils.localized("Cancel")) {
                         dismiss()
                     }
-                    .foregroundColor(.white)
                 }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "设置Apple Pay失败")
+            Text(errorMessage ?? LocalizationUtils.localized("Apple_Pay_Setup_Failed"))
         }
     }
     
@@ -102,7 +101,7 @@ struct FeatureRow: View {
             Image(systemName: icon)
                 .foregroundColor(.green)
             Text(text)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             Spacer()
         }
     }

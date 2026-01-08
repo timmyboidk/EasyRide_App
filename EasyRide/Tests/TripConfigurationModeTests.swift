@@ -280,9 +280,3 @@ final class TripConfigurationModeTests: XCTestCase {
 }
 
 // MARK: - XCUIElement Extensions
-
-extension XCUIElement {
-    var isSelected: Bool {
-        return (value(forKey: "selected") as? Bool) ?? false
-    }
-}

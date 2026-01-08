@@ -27,7 +27,8 @@ struct ServiceSelectionView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            // System background for sheet support
+            Color(.systemBackground).ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Charter Type Cards
@@ -61,10 +62,10 @@ struct ServiceSelectionView: View {
                 }
             }
         }
-        .navigationTitle(Text("选择包车类型", bundle: nil))
+        .navigationTitle(LocalizationUtils.localized("Select_Charter_Type"))
         .navigationBarTitleDisplayMode(.inline)
-        .alert("价格估算错误", isPresented: .constant(viewModel.priceEstimationError != nil)) {
-            Button("确定") {
+        .alert(LocalizationUtils.localized("Price_Estimation_Error"), isPresented: .constant(viewModel.priceEstimationError != nil)) {
+            Button(LocalizationUtils.localized("OK")) {
                 viewModel.priceEstimationError = nil
             }
         } message: {
@@ -75,12 +76,12 @@ struct ServiceSelectionView: View {
     // MARK: - Floating Action Button
     private var floatingActionButton: some View {
         Button(action: proceedToNextStep) {
-            Text("继续", bundle: nil)
+            Text(LocalizationUtils.localized("Continue"))
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.white)
-                .foregroundColor(.black)
+                .background(Color.primary)
+                .foregroundColor(Color(.systemBackground))
                 .cornerRadius(10)
         }
     }
@@ -118,17 +119,17 @@ struct CharterTypeCardView: View {
                 HStack {
                     Image(systemName: serviceType.icon)
                         .font(.title2)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary) // Adaptive color
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(serviceType.displayName)
                             .font(.headline)
                             .fontWeight(.semibold)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         
                         Text(serviceType.description)
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     
                     Spacer()
@@ -136,12 +137,11 @@ struct CharterTypeCardView: View {
                     // Selection indicator
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title3)
-                        .foregroundColor(isSelected ? .white : .gray)
+                        .foregroundColor(isSelected ? .blue : .gray)
                 }
                 .padding()
                 
                 Divider()
-                    .background(Color.gray.opacity(0.3))
                 
                 // Details section
                 HStack {
@@ -149,36 +149,36 @@ struct CharterTypeCardView: View {
                         HStack {
                             Image(systemName: "person.2.fill")
                                 .font(.caption)
-                                .foregroundColor(.gray)
-                            Text("乘客人数", bundle: nil)
+                                .foregroundColor(.secondary)
+                            Text(LocalizationUtils.localized("Passenger_Count"))
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                             Spacer()
                             Text(serviceType.passengerCount)
                                 .font(.caption)
                                 .fontWeight(.medium)
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                         }
                         
                         HStack {
                             Image(systemName: "yensign.circle.fill")
                                 .font(.caption)
-                                .foregroundColor(.gray)
-                            Text("预估价格", bundle: nil)
+                                .foregroundColor(.secondary)
+                            Text(LocalizationUtils.localized("Estimated_Price"))
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                             Spacer()
                             Text(estimatedPrice)
                                 .font(.caption)
                                 .fontWeight(.medium)
-                                .foregroundColor(.white)
+                                .foregroundColor(.primary)
                         }
                         
                         // Scenarios
                         HStack {
                             Image(systemName: "tag.fill")
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                             
                             HStack(spacing: 8) {
                                 ForEach(serviceType.scenarios, id: \.self) { scenario in
@@ -186,8 +186,8 @@ struct CharterTypeCardView: View {
                                         .font(.caption2)
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 4)
-                                        .background(Color.gray.opacity(0.2))
-                                        .foregroundColor(.white)
+                                        .background(Color.primary.opacity(0.05))
+                                        .foregroundColor(.primary)
                                         .cornerRadius(8)
                                 }
                             }
@@ -200,10 +200,11 @@ struct CharterTypeCardView: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.black)
+                    .fill(Color(.systemBackground)) // Strict white/black
+                    .shadow(color: Color.primary.opacity(0.1), radius: 4, x: 0, y: 2)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(isSelected ? Color.white : Color.gray.opacity(0.3), lineWidth: isSelected ? 2 : 1)
+                            .stroke(isSelected ? Color.blue : Color.primary.opacity(0.1), lineWidth: isSelected ? 2 : 1)
                     )
             )
         }

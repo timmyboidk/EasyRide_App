@@ -2,113 +2,150 @@
   Localizable.strings
   EasyRide
 
-  English Localization
+  Created by EasyRide Team.
 */
 
 // General
-"app_name" = "EasyRide";
-"tagline" = "Your reliable ride companion";
-"ok" = "OK";
-"cancel" = "Cancel";
-"error" = "Error";
-"loading" = "Loading...";
-
-// Tab Bar
-"tab_home" = "Home";
-"tab_orders" = "Orders";
-"tab_profile" = "Profile";
+"EasyRide" = "EasyRide";
+"Error" = "Error";
+"OK" = "OK";
+"Cancel" = "Cancel";
 
 // Authentication
-"welcome_back" = "Welcome Back";
-"login_method" = "Login Method";
-"password" = "Password";
-"otp" = "OTP";
-"phone_number" = "Phone Number";
-"enter_phone_number" = "Enter your phone number";
-"enter_password" = "Enter your password";
-"sign_in" = "Sign In";
-"send_otp" = "Send OTP";
-"enter_otp" = "Enter OTP";
-"otp_digits" = "6-digit code";
-"resend_otp" = "Resend OTP";
-"resend_in" = "Resend in %@";
-"verify_otp" = "Verify OTP";
-"or" = "OR";
-"create_account" = "Create New Account";
+"Login" = "Login";
+"Login_WeChat" = "WeChat Login";
+"Get_OTP" = "Get OTP";
+"Phone_Number" = "Phone Number";
+"OTP_Code" = "6-digit Code";
+"Create_Account" = "Create Account";
+"Debug_Login" = "Debug Login (Bypass)";
 
-// Registration
-"registration" = "Registration";
-"create_account_title" = "Create Account";
-"full_name" = "Full Name";
-"enter_full_name" = "Enter your full name";
-"email" = "Email";
-"enter_email" = "Enter your email";
-"confirm_password" = "Confirm Password";
-"enter_confirm_password" = "Confirm your password";
-"terms_conditions" = "I agree to the Terms & Conditions";
-"register" = "Register";
-"already_have_account" = "Already have an account?";
+// Tab Bar
+"Home" = "Home";
+"Orders" = "Orders";
+"Profile" = "Profile";
 
-// Home
-"no_orders" = "No orders yet";
-"orders_will_appear" = "Your ride history will appear here";
+// Orders
+"No_Orders" = "No Orders";
+"Orders_Empty_State" = "Your trip history will appear here";
+"Order_History" = "Order History";
 
 // Profile
-"sign_out" = "Sign Out";
+"Wallet" = "Wallet";
+"Payment_Methods" = "Payment Methods";
+"Favorite_Drivers" = "Favorite Drivers";
+"Settings" = "Settings";
+"Logout" = "Logout";
+"No_Phone" = "No Phone Number";
+
+// Wallet
+"Balance" = "Balance";
+"Top_Up" = "Top Up";
+"Transaction_History" = "Transaction History";
+"No_Transactions" = "No transactions yet";
+"Wallet_Load_Error" = "Unable to load wallet.";
+"Add_Funds" = "Add Funds";
+
+// Payment Methods
+"Payment_Methods" = "Payment Methods";
+"Add_Payment_Method" = "Add Payment Method";
+"Default" = "Default";
+"Debit_Card" = "Debit Card";
+"Credit_Card" = "Credit Card";
+"Alipay" = "Alipay";
+"WeChat_Pay" = "WeChat Pay";
+"Apple_Pay" = "Apple Pay";
+
+// Registration
+"Join_EasyRide" = "Join EasyRide";
+"Enter_Phone" = "Enter Mobile Number";
+"Enter_OTP" = "6-digit Code";
+"Get_OTP" = "Get Code";
+"Nickname" = "Nickname";
+"Email_Optional" = "Email (Optional)";
+"Register" = "Register";
+"Terms_Consnet" = "By registering, you agree to our Terms of Service and Privacy Policy.";
 
 // Service Selection
-"select_service" = "Select Service";
-"airport_transfer" = "Airport Transfer";
-"long_distance" = "Long Distance";
-"charter" = "Charter Service";
-"carpooling" = "Carpooling";
-"continue" = "Continue";
+"Select_Charter_Type" = "Select Ride Type";
+"Passenger_Count" = "Passengers";
+"Estimated_Price" = "Est. Price";
+"Continue" = "Continue";
+"Price_Estimation_Error" = "Price Estimation Error";
 
-// Trip Configuration
-"trip_configuration" = "Trip Configuration";
-"free_route" = "Free Route";
-"custom_route" = "Custom Route";
-"pickup_location" = "Pickup Location";
-"destination" = "Destination";
-"scheduled_time" = "Scheduled Time";
-"passengers" = "Passengers";
-"notes" = "Notes";
-"add_note" = "Add a note";
-"add_stop" = "Add Stop";
+"No_Phone" = "No phone number";
+"OTP_Code" = "6-digit Code";
+"Login_WeChat" = "WeChat Login";
+"Error" = "Error";
+"OK" = "OK";
+"EasyRide" = "EasyRide";
+
+"Language" = "Language";
+"App_Language" = "App Language";
+"General" = "General";
+"Version" = "Version";
+
+// Payment & Funds
+"Card_Info" = "Card Info";
+"Add_Card" = "Add Card";
+"Current_Balance" = "Current Balance";
+"Select_Amount" = "Select Amount";
 
 // Value Added Services
-"value_added_services" = "Value Added Services";
-"summary" = "Summary";
-"price_breakdown" = "Price Breakdown";
-"base_fare" = "Base Fare";
-"service_fee" = "Service Fee";
-"total" = "Total";
-"apply_coupon" = "Apply Coupon";
-"pay_with" = "Pay with";
-"apple_pay" = "Apple Pay";
-"wechat_pay" = "WeChat Pay";
+"Confirm_Vehicle" = "Confirm Vehicle";
+"Business_Van" = "Business Van";
+"Full_Day_Charter" = "Full Day Charter • 1-6 people";
+"Estimated_Duration" = "Est. 8 hours • From ¥500";
+"Value_Added_Services" = "Value Added Services";
+"Cost_Preview" = "Cost Preview";
+"Coupon_Point_Deduction" = "Coupon / Point Deduction";
+"Available_Coupons" = "Available Coupons";
+"Two_Coupons" = "2 Coupons";
+"Available_Points" = "Available Points";
+"Confirm_Pay" = "Confirm and Pay";
+"Priority_Match" = "Priority Match Favorite Driver";
 
-// Order Tracking
-"finding_driver" = "Finding your driver...";
-"driver_found" = "Driver Found!";
-"driver_en_route" = "Driver is on the way";
-"driver_arrived" = "Driver has arrived";
-"trip_in_progress" = "Trip in progress";
-"trip_completed" = "Trip completed";
-"call_driver" = "Call Driver";
-"message_driver" = "Message";
-"share_location" = "Share Location";
+// Order Tracking & Matching
+"Driver_Info" = "Driver Info";
+"Rating" = "Rating";
+"Vehicle_Model" = "Model";
+"License_Plate" = "License Plate";
+"Realtime_Location" = "Real-time Location";
+"Vehicle_Location" = "Vehicle Location";
+"Driver_Distance" = "Driver is 2.3 km away";
+"Est_Arrival_Time" = "Est. 5 mins arrival";
+"Contact_Info" = "Contact Info";
+"Phone" = "Phone";
+"WeChat" = "WeChat";
+"Chat_Entrance" = "Chat";
+"Trip_Modification_Request" = "Modify Trip Request";
+"Cancel_Order" = "Cancel Order";
+"Common_Phrases" = "Common Phrases";
+"Current_Order" = "Current Order";
+"Chat_Interface" = "Chat Interface";
+"Modify_Trip" = "Modify Trip";
+"Order_Submitted_Success" = "Order Submitted Successfully";
 
-// Order Details
-"order_details" = "Order Details";
-"order_id" = "Order ID";
-"order_status" = "Status";
-"order_date" = "Date";
-"modify_trip" = "Modify Trip";
-"cancel_trip" = "Cancel Trip";
+// Trip Mode & Config
+"Trip_Mode" = "Trip Mode";
+"Departure_Time" = "Departure Time";
+"Custom_Route" = "Custom Route";
+"Add_Stop" = "Add Stop";
+"Trip_Preview_Map" = "Trip Preview Map";
+"Map_Preview" = "Map Preview";
+"Next_Step" = "Next Step";
+"Stop_Duration" = "Stop Duration";
+"Trip_Mode_Settings" = "Trip Mode Settings";
+"Trip_Config" = "Trip Configuration";
+"Large_Luggage" = "Large Luggage";
+"Small_Luggage" = "Small Luggage";
+"Luggage_Count" = "Luggage Count";
 
-// Accessibility
-"login_method_selection" = "Login method selection";
-"login_method_hint" = "Choose between password or one-time passcode login";
-"phone_number_label" = "Phone number";
-"phone_number_hint" = "Enter your phone number for login";
+// Setup
+"Setup_Apple_Pay" = "Set up Apple Pay";
+"Apple_Pay_Desc" = "Pay securely using your everyday device.";
+"Enable_Apple_Pay" = "Enable Apple Pay";
+"Bind_WeChat_Pay" = "Link WeChat Pay";
+"WeChat_Pay_Desc" = "Link your account for quick payment.";
+"Trip_Mod_View" = "Trip Modification View";
+"Trip_Details" = "Trip Details";

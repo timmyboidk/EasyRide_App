@@ -13,7 +13,7 @@ struct OrderSuccessDriverMatchingView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             VStack(spacing: 32) {
                 // Success Icon and Title
@@ -36,7 +36,7 @@ struct OrderSuccessDriverMatchingView: View {
             }
             .padding()
         }
-        .navigationTitle("订单提交成功")
+        .navigationTitle(LocalizationUtils.localized("Order_Submitted"))
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .onReceive(timer) { _ in
@@ -54,10 +54,10 @@ struct OrderSuccessDriverMatchingView: View {
                 .font(.system(size: 80))
                 .foregroundColor(.green)
             
-            Text("订单提交成功")
+            Text(LocalizationUtils.localized("Order_Submitted"))
                 .font(.title)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
         }
     }
     
@@ -68,37 +68,37 @@ struct OrderSuccessDriverMatchingView: View {
             VStack(spacing: 16) {
                 ZStack {
                     Circle()
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+                        .stroke(Color.secondary.opacity(0.3), lineWidth: 4)
                         .frame(width: 120, height: 120)
                     
                     Circle()
                         .trim(from: 0, to: matchingProgress)
-                        .stroke(Color.white, style: StrokeStyle(lineWidth: 4, lineCap: .round))
+                        .stroke(Color.blue, style: StrokeStyle(lineWidth: 4, lineCap: .round))
                         .frame(width: 120, height: 120)
                         .rotationEffect(.degrees(-90))
                         .animation(.linear(duration: 1), value: matchingProgress)
                     
                     Image(systemName: "car.fill")
                         .font(.largeTitle)
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
                 }
                 
-                Text("正在为您匹配司机")
+                Text(LocalizationUtils.localized("Matching_Driver"))
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
             
             // Estimated Wait Time
             VStack(spacing: 8) {
-                Text("预计等待时间")
+                Text(LocalizationUtils.localized("Est_Wait_Time"))
                     .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                 
                 Text(formatTime(estimatedWaitTime))
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
             
             // SaveDriver Priority Notification
@@ -106,16 +106,16 @@ struct OrderSuccessDriverMatchingView: View {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
                 
-                Text("SaveDriver优先匹配通知")
+                Text(LocalizationUtils.localized("Priority_Match_Notice"))
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
                 
                 Spacer()
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.1))
+                    .fill(Color(.systemGray6))
             )
         }
     }
@@ -127,14 +127,14 @@ struct OrderSuccessDriverMatchingView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.green)
             
-            Text("已找到司机！")
+            Text(LocalizationUtils.localized("Driver_Found"))
                 .font(.title2)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
-            Text("司机正在前往接您")
+            Text(LocalizationUtils.localized("Driver_On_The_Way"))
                 .font(.subheadline)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
         }
     }
     
@@ -143,12 +143,12 @@ struct OrderSuccessDriverMatchingView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 Image(systemName: "square.and.arrow.up.fill")
-                    .foregroundColor(.white)
+                    .foregroundColor(.blue)
                 
-                Text("行程分享链接已生成")
+                Text(LocalizationUtils.localized("Share_Link_Generated"))
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Spacer()
             }
@@ -157,25 +157,25 @@ struct OrderSuccessDriverMatchingView: View {
                 Button(action: copyLink) {
                     HStack {
                         Image(systemName: "doc.on.doc.fill")
-                        Text("复制链接")
+                        Text(LocalizationUtils.localized("Copy_Link"))
                     }
                     .font(.subheadline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.white, lineWidth: 1)
+                            .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                     )
                 }
                 
                 Button(action: { showingShareSheet = true }) {
                     HStack {
                         Image(systemName: "message.fill")
-                        Text("微信发送")
+                        Text(LocalizationUtils.localized("Send_WeChat"))
                     }
                     .font(.subheadline)
-                    .foregroundColor(.black)
+                    .foregroundColor(.white)
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
                     .background(Color.green)
@@ -188,19 +188,19 @@ struct OrderSuccessDriverMatchingView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
         )
     }
     
     // MARK: - Action Button
     private var actionButton: some View {
         Button(action: proceedToCurrentOrder) {
-            Text(isMatching ? "查看匹配进度" : "查看当前订单")
+            Text(isMatching ? LocalizationUtils.localized("Check_Progress") : LocalizationUtils.localized("View_Current_Order"))
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.white)
-                .foregroundColor(.black)
+                .background(Color.blue)
+                .foregroundColor(.white)
                 .cornerRadius(10)
         }
     }

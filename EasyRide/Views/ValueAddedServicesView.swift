@@ -19,7 +19,7 @@ struct ValueAddedServicesView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -44,7 +44,7 @@ struct ValueAddedServicesView: View {
                 .padding()
             }
         }
-        .navigationTitle("增值服务")
+        .navigationTitle(LocalizationUtils.localized("Value_Added_Services"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingPaymentMethods) {
             PaymentMethodsView()
@@ -54,35 +54,35 @@ struct ValueAddedServicesView: View {
     // MARK: - Itinerary & Vehicle Confirmation
     private var itineraryConfirmationSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("行程车辆确认")
+            Text(LocalizationUtils.localized("Confirm_Vehicle"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             HStack(spacing: 16) {
                 // Vehicle Image Placeholder
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.gray.opacity(0.2))
+                    .fill(Color(.systemGray6))
                     .frame(width: 80, height: 60)
                     .overlay(
                         Image(systemName: "car.fill")
                             .font(.title2)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     )
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("商务七座车")
+                    Text(LocalizationUtils.localized("Business_Van"))
                         .font(.headline)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
-                    Text("全日包车 • 1-6人")
+                    Text(LocalizationUtils.localized("Full_Day_Charter"))
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                     
-                    Text("预计8小时 • ¥500起")
+                    Text(LocalizationUtils.localized("Estimated_Duration"))
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
@@ -90,7 +90,7 @@ struct ValueAddedServicesView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
             )
         }
     }
@@ -98,38 +98,38 @@ struct ValueAddedServicesView: View {
     // MARK: - Value Added Services
     private var valueAddedServicesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("增值服务")
+            Text(LocalizationUtils.localized("Value_Added_Services"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             VStack(spacing: 12) {
                 // Airport Pickup
                 ServiceOptionRow(
                     icon: "airplane.arrival",
-                    title: "机场接机",
-                    description: "请输入举牌人姓名",
+                    title: LocalizationUtils.localized("Airport_Pickup"),
+                    description: LocalizationUtils.localized("Enter_Pickup_Name"),
                     isSelected: viewModel.airportPickupSelected,
                     onToggle: { viewModel.airportPickupSelected.toggle() }
                 ) {
                     if viewModel.airportPickupSelected {
-                        TextField("请输入举牌人姓名", text: $airportPickupName)
+                        TextField(LocalizationUtils.localized("Enter_Pickup_Name"), text: $airportPickupName)
                             .textFieldStyle(.plain)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                             )
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 
                 // Check-in Assistance
                 ServiceOptionRow(
                     icon: "building.2.fill",
-                    title: "入住协助",
-                    description: "酒店、民宿或租房",
+                    title: LocalizationUtils.localized("Checkin_Assistance"),
+                    description: LocalizationUtils.localized("Hotel_BnB"),
                     isSelected: viewModel.checkinAssistanceSelected,
                     onToggle: { viewModel.checkinAssistanceSelected.toggle() }
                 )
@@ -137,8 +137,8 @@ struct ValueAddedServicesView: View {
                 // Trip Sharing
                 ServiceOptionRow(
                     icon: "square.and.arrow.up.fill",
-                    title: "行程分享",
-                    description: "默认发送给下单人，可添加家人朋友",
+                    title: LocalizationUtils.localized("Trip_Sharing"),
+                    description: LocalizationUtils.localized("Share_With_Family"),
                     isSelected: viewModel.tripSharingSelected,
                     onToggle: { viewModel.tripSharingSelected.toggle() }
                 )
@@ -146,16 +146,16 @@ struct ValueAddedServicesView: View {
                 // Other Services
                 ServiceOptionRow(
                     icon: "ellipsis.circle.fill",
-                    title: "其他服务",
-                    description: "儿童座椅、翻译陪同、陪同老人",
+                    title: LocalizationUtils.localized("Other_Services"),
+                    description: LocalizationUtils.localized("Child_Seat_Etc"),
                     isSelected: viewModel.otherServicesSelected,
                     onToggle: { viewModel.otherServicesSelected.toggle() }
                 ) {
                     if viewModel.otherServicesSelected {
                         VStack(spacing: 8) {
-                            ServiceCheckbox(title: "儿童座椅", isSelected: $viewModel.childSeatSelected)
-                            ServiceCheckbox(title: "翻译陪同", isSelected: $viewModel.interpreterSelected)
-                            ServiceCheckbox(title: "陪同老人", isSelected: $viewModel.elderlyCompanionSelected)
+                            ServiceCheckbox(title: LocalizationUtils.localized("Child_Seat"), isSelected: $viewModel.childSeatSelected)
+                            ServiceCheckbox(title: LocalizationUtils.localized("Interpreter"), isSelected: $viewModel.interpreterSelected)
+                            ServiceCheckbox(title: LocalizationUtils.localized("Elderly_Companion"), isSelected: $viewModel.elderlyCompanionSelected)
                         }
                     }
                 }
@@ -164,53 +164,54 @@ struct ValueAddedServicesView: View {
     }
     
     // MARK: - Cost Preview Section
+    // MARK: - Cost Preview Section
     private var costPreviewSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("费用预览")
+            Text(LocalizationUtils.localized("Cost_Preview"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             VStack(spacing: 12) {
                 PriceRow(
-                    title: "基本费用",
+                    title: LocalizationUtils.localized("Base_Fare"),
                     amount: viewModel.baseFare
                 )
                 
                 if viewModel.airportPickupSelected {
-                    PriceRow(title: "机场接机", amount: 50.0)
+                    PriceRow(title: LocalizationUtils.localized("Airport_Pickup"), amount: 50.0)
                 }
                 
                 if viewModel.checkinAssistanceSelected {
-                    PriceRow(title: "入住协助", amount: 30.0)
+                    PriceRow(title: LocalizationUtils.localized("Checkin_Assistance"), amount: 30.0)
                 }
                 
                 if viewModel.tripSharingSelected {
-                    PriceRow(title: "行程分享", amount: 0.0)
+                    PriceRow(title: LocalizationUtils.localized("Trip_Sharing"), amount: 0.0)
                 }
                 
                 if viewModel.childSeatSelected {
-                    PriceRow(title: "儿童座椅", amount: 20.0)
+                    PriceRow(title: LocalizationUtils.localized("Child_Seat"), amount: 20.0)
                 }
                 
                 if viewModel.interpreterSelected {
-                    PriceRow(title: "翻译陪同", amount: 100.0)
+                    PriceRow(title: LocalizationUtils.localized("Interpreter"), amount: 100.0)
                 }
                 
                 if viewModel.elderlyCompanionSelected {
-                    PriceRow(title: "陪同老人", amount: 80.0)
+                    PriceRow(title: LocalizationUtils.localized("Elderly_Companion"), amount: 80.0)
                 }
                 
                 PriceRow(
-                    title: "服务费",
+                    title: LocalizationUtils.localized("Service_Fee"),
                     amount: viewModel.serviceFee
                 )
                 
                 Divider()
-                    .background(Color.gray.opacity(0.3))
+                    .background(Color.secondary.opacity(0.3))
                 
                 PriceRow(
-                    title: "总计",
+                    title: LocalizationUtils.localized("Total"),
                     amount: viewModel.totalAmount,
                     isTotal: true
                 )
@@ -218,7 +219,7 @@ struct ValueAddedServicesView: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
             )
         }
     }
@@ -231,47 +232,47 @@ struct ValueAddedServicesView: View {
                     Image(systemName: "ticket.fill")
                         .foregroundColor(.orange)
                     
-                    Text("优惠券/积分抵扣")
-                        .foregroundColor(.white)
+                    Text(LocalizationUtils.localized("Coupon_Point_Deduction"))
+                        .foregroundColor(.primary)
                     
                     Spacer()
                     
                     Image(systemName: showingCouponExpansion ? "chevron.up" : "chevron.down")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                 )
             }
             
             if showingCouponExpansion {
                 VStack(spacing: 8) {
                     HStack {
-                        Text("可用优惠券")
+                        Text(LocalizationUtils.localized("Available_Coupons"))
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                         Spacer()
-                        Text("2张")
+                        Text(LocalizationUtils.localized("Two_Coupons"))
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                     
                     HStack {
-                        Text("可用积分")
+                        Text(LocalizationUtils.localized("Available_Points"))
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                         Spacer()
-                        Text("1,250分")
+                        Text("1,250")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .fill(Color.gray.opacity(0.1))
+                        .fill(Color(.systemGray6))
                 )
                 .transition(.opacity.combined(with: .move(edge: .top)))
             }
@@ -281,7 +282,7 @@ struct ValueAddedServicesView: View {
     // MARK: - Payment Button
     private var paymentButton: some View {
         Button(action: processPayment) {
-            Text("确认并支付 $\(viewModel.totalAmount, specifier: "%.0f")")
+            Text("\(LocalizationUtils.localized("Confirm_Pay")) ¥\(viewModel.totalAmount, specifier: "%.0f")")
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -293,16 +294,16 @@ struct ValueAddedServicesView: View {
     
     private var prioritizeFavoritesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Toggle(isOn: .constant(true)) { // Bind this to a @State property
-                Text("优先匹配收藏司机")
+            Toggle(isOn: .constant(true)) {
+                Text(LocalizationUtils.localized("Priority_Match"))
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
         )
     }
     

@@ -11,21 +11,18 @@ struct FavoriteDriversView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             List {
                 ForEach(favoriteDrivers) { driver in
                     DriverRow(driver: driver)
-                        .listRowBackground(Color.gray.opacity(0.2))
+                        .listRowBackground(Color(.systemBackground))
                 }
                 .onDelete(perform: removeDriver)
             }
-            .listStyle(.insetGrouped)
-            .background(Color.black)
-            .scrollContentBackground(.hidden)
-            .navigationTitle("Favorite Drivers")
+            .listStyle(.plain)
+            .navigationTitle(LocalizationUtils.localized("Favorite_Drivers"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
         }
     }
 
@@ -41,21 +38,21 @@ struct DriverRow: View {
         HStack(spacing: 16) {
             Image(systemName: "person.crop.circle.fill")
                 .font(.system(size: 50))
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             VStack(alignment: .leading, spacing: 4) {
                 Text(driver.name)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 HStack {
                     Image(systemName: "star.fill").foregroundColor(.yellow)
                     Text(String(format: "%.1f", driver.rating))
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 Text(driver.vehicleInfo.fullDescription)
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
         }
         .padding(.vertical, 8)

@@ -1,6 +1,6 @@
 import Foundation
 
-enum EasyRideError: Error, LocalizedError, Equatable {
+public enum EasyRideError: Error, LocalizedError, Equatable {
     // Network errors
     case networkError(String)
     case noInternetConnection

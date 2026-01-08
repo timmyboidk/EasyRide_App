@@ -165,7 +165,8 @@ final class TripConfigurationTests: XCTestCase {
         let testAddress = Address(
             name: "Test Location",
             address: "123 Test St, San Francisco, CA",
-            location: Location(latitude: 37.7749, longitude: -122.4194, address: "123 Test St")
+            latitude: 37.7749,
+            longitude: -122.4194
         )
         
         // Test pickup selection

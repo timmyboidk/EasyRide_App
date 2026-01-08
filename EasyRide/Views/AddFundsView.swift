@@ -23,18 +23,18 @@ struct AddFundsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 Form {
-                    Section(header: Text("当前余额").foregroundColor(.gray)) {
+                    Section(header: Text(LocalizationUtils.localized("Current_Balance")).foregroundColor(.secondary)) {
                         Text(wallet.formattedBalance)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                    .listRowBackground(Color(.systemBackground))
                     
-                    Section(header: Text("选择金额").foregroundColor(.gray)) {
+                    Section(header: Text(LocalizationUtils.localized("Select_Amount")).foregroundColor(.secondary)) {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
                                 ForEach(predefinedAmounts, id: \.self) { amount in
@@ -52,46 +52,45 @@ struct AddFundsView: View {
                         }
                         .listRowInsets(EdgeInsets())
 
-                        TextField("自定义金额", text: $customAmount)
+                        TextField(LocalizationUtils.localized("Custom_Amount"), text: $customAmount)
                             .keyboardType(.decimalPad)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                             .onChange(of: customAmount) { _, newValue in
                                 if !newValue.isEmpty, let amount = Double(newValue) {
                                     selectedAmount = amount
                                 }
                             }
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                    .listRowBackground(Color(.systemBackground))
 
-                    Section(header: Text("支付方式").foregroundColor(.gray)) {
+                    Section(header: Text(LocalizationUtils.localized("Payment_Methods")).foregroundColor(.secondary)) {
                         // Assuming payment methods are loaded and displayed here
-                        Text("Apple Pay")
-                            .foregroundColor(.white)
+                        Text(LocalizationUtils.localized("Apple_Pay"))
+                            .foregroundColor(.primary)
                     }
-                    .listRowBackground(Color.gray.opacity(0.2))
+                    .listRowBackground(Color(.systemBackground))
                 }
-                .background(Color.black)
+                .background(Color(.systemBackground))
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("充值")
+            .navigationTitle(LocalizationUtils.localized("Top_Up"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("取消") { dismiss() }
+                    Button(LocalizationUtils.localized("Cancel")) { dismiss() }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("添加") {
+                    Button(LocalizationUtils.localized("Add")) {
                         addFunds()
                     }
                     .disabled(isLoading)
                 }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "发生未知错误")
+            Text(errorMessage ?? LocalizationUtils.localized("Unknown_Error"))
         }
     }
     
@@ -120,8 +119,8 @@ struct AmountButton: View {
                 .fontWeight(.bold)
                 .padding(.horizontal, 24)
                 .padding(.vertical, 12)
-                .background(isSelected ? Color.white : Color.gray.opacity(0.2))
-                .foregroundColor(isSelected ? .black : .white)
+                .background(isSelected ? Color.blue : Color(.systemGray5))
+                .foregroundColor(isSelected ? .white : .primary)
                 .cornerRadius(10)
         }
     }

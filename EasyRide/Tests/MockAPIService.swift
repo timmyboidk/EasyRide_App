@@ -130,13 +130,10 @@ class MockAPIService: APIService {
         // Authentication responses
         let mockUser = User(
             id: "mock-user-123",
-            nickname: "Test User",
-            profileImage: "https://example.com/profile.jpg",
+            name: "Test User",
+            email: "test@example.com",
             phoneNumber: "+1234567890",
-            frequentAddresses: [],
-            paymentMethods: [],
-            favoriteDrivers: [],
-            vipLevel: .standard
+            profileImage: "https://example.com/profile.jpg"
         )
         
         let mockAuthResponse = AuthResponse(
@@ -146,12 +143,22 @@ class MockAPIService: APIService {
             expiresIn: 3600
         )
         
-        setMockResponse(mockAuthResponse, for: .login(phoneNumber: "", password: ""))
+        // setMockResponse(mockAuthResponse, for: .login(phoneNumber: "", password: "")) // Removed
         setMockResponse(mockAuthResponse, for: .loginOTP(phoneNumber: "", otp: ""))
-        setMockResponse(mockAuthResponse, for: .register(RegisterRequest(phoneNumber: "", password: "", nickname: "", email: nil)))
+        // Fix RegisterRequest: otp instead of password
+        setMockResponse(mockAuthResponse, for: .register(RegisterRequest(phoneNumber: "", otp: "", nickname: "", email: nil)))
         setMockResponse(mockAuthResponse, for: .refreshToken(refreshToken: ""))
         
         // Order responses
+        let vehicleInfo = VehicleInfo(
+            make: "Tesla",
+            model: "Model Y",
+            year: 2023,
+            color: "White",
+            licensePlate: "ABC123",
+            vehicleType: .suv
+        )
+        
         let mockOrder = Order(
             id: "mock-order-123",
             serviceType: .airport,
@@ -163,11 +170,9 @@ class MockAPIService: APIService {
                 id: "mock-driver-123",
                 name: "John Driver",
                 phoneNumber: "+1987654321",
-                rating: 4.8,
                 profileImage: "https://example.com/driver.jpg",
-                carModel: "Tesla Model Y",
-                carColor: "White",
-                licensePlate: "ABC123",
+                rating: 4.8,
+                vehicleInfo: vehicleInfo,
                 estimatedArrival: Date().addingTimeInterval(300)
             ),
             createdAt: Date(),
@@ -299,16 +304,13 @@ class MockAPIService: APIService {
                 return response
             }
             
-        case .login, .loginOTP, .register, .refreshToken:
+        case .loginOTP, .register, .refreshToken:
             let mockUser = User(
                 id: "generated-user-123",
-                nickname: "Generated User",
-                profileImage: "https://example.com/profile.jpg",
+                name: "Generated User",
+                email: "generated@example.com",
                 phoneNumber: "+1234567890",
-                frequentAddresses: [],
-                paymentMethods: [],
-                favoriteDrivers: [],
-                vipLevel: .standard
+                profileImage: "https://example.com/profile.jpg"
             )
             
             let mockAuthResponse = AuthResponse(

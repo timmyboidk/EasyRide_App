@@ -89,7 +89,7 @@ struct Order: Codable, Identifiable {
     // MARK: - Computed Properties
     
     var isCharterService: Bool {
-        return [ServiceType.halfDay, ServiceType.fullDay, ServiceType.multiDay].contains(serviceType)
+        return serviceType == .charter
     }
     
     var hasValueAddedServices: Bool {
@@ -124,7 +124,7 @@ struct Order: Codable, Identifiable {
     }
     static var sample: Order {
         Order(
-            serviceType: ServiceType.fullDay,
+            serviceType: ServiceType.charter,
             pickupLocation: Location(latitude: 39.9042, longitude: 116.4074, address: "北京市中心"),
             destination: Location(latitude: 40.0799, longitude: 116.6031, address: "北京首都国际机场"),
             estimatedPrice: 500.0,

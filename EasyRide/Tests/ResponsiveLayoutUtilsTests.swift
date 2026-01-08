@@ -56,8 +56,8 @@ final class ResponsiveLayoutUtilsTests: XCTestCase {
     
     func testAdaptiveSpacingWithCustomValues() {
         // Test spacing with custom values
-        let compactSpacing = ResponsiveLayoutUtils.adaptiveSpacing(for: .compact, compactSpacing: 8, regularSpacing: 16)
-        let regularSpacing = ResponsiveLayoutUtils.adaptiveSpacing(for: .regular, compactSpacing: 8, regularSpacing: 16)
+        let compactSpacing = ResponsiveLayoutUtils.adaptiveSpacing(for: .compact, compact: 8, regular: 16)
+        let regularSpacing = ResponsiveLayoutUtils.adaptiveSpacing(for: .regular, compact: 8, regular: 16)
         
         XCTAssertEqual(compactSpacing, 8, "Should respect custom compact spacing")
         XCTAssertEqual(regularSpacing, 16, "Should respect custom regular spacing")
@@ -74,7 +74,8 @@ final class ResponsiveLayoutUtilsTests: XCTestCase {
     func testDeviceSpecificPadding() {
         // Test device-specific padding
         let padding = ResponsiveLayoutUtils.deviceSpecificPadding()
-        XCTAssertGreaterThan(padding, 0, "Device-specific padding should be positive")
+        XCTAssertGreaterThan(padding.top, 0, "Device-specific padding top should be positive")
+        XCTAssertGreaterThan(padding.bottom, 0, "Device-specific padding bottom should be positive")
     }
     
     // MARK: - Orientation Tests

@@ -15,6 +15,7 @@ struct PaymentMethodsView: View {
     @State private var showingAddFunds = false
     @State private var errorMessage: String?
     @State private var showingError = false
+    @Environment(AppState.self) private var appState
     
     var body: some View {
         NavigationView {
@@ -37,17 +38,18 @@ struct PaymentMethodsView: View {
                         }
                         
                         // Payment Methods Section
-                        Section(header: Text("支付方式").foregroundColor(.secondary).fontWeight(.bold)) {
+                        Section(header: Text(LocalizationUtils.localized("Payment_Methods")).foregroundColor(.secondary).fontWeight(.bold)) {
                             // Example list if loaded
                             if paymentMethods.isEmpty {
-                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
-                                    .listRowBackground(Color(.secondarySystemBackground))
+                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: LocalizationUtils.localized("Alipay")))
+                                    .listRowBackground(Color(.systemBackground))
                                 PaymentMethodRowView(paymentMethod: PaymentMethod(type: .creditCard, displayName: "Card"))
-                                    .listRowBackground(Color(.secondarySystemBackground))
+                                    .listRowBackground(Color(.systemBackground))
                             } else {
                                 ForEach(paymentMethods) { method in
                                     PaymentMethodRowView(paymentMethod: method)
-                                    .listRowBackground(Color(.secondarySystemBackground))
+                                PaymentMethodRowView(paymentMethod: method)
+                                    .listRowBackground(Color(.systemBackground))
                                 }
                             }
                         }
@@ -60,7 +62,7 @@ struct PaymentMethodsView: View {
                     }
                 }
             }
-            .navigationTitle("支付")
+            .navigationTitle(LocalizationUtils.localized("Payment_Methods"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -75,24 +77,38 @@ struct PaymentMethodsView: View {
         }
         .sheet(isPresented: $showingAddPaymentMethod) {
             // Placeholder for AddPaymentMethodView
-            Text("添加支付方式视图")
+            Text(LocalizationUtils.localized("Add_Payment_Method"))
         }
         .sheet(isPresented: $showingAddFunds) {
             if let wallet = wallet {
                 // Placeholder for AddFundsView
-                Text("充值视图")
+                Text(LocalizationUtils.localized("Top_Up"))
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "发生未知错误")
+            Text(errorMessage ?? LocalizationUtils.localized("Error"))
         }
     }
     
     // MARK: - Private Methods
     
     private func loadPaymentData() async {
+        // Mock Data for Debug User
+        if appState.currentUser?.phoneNumber == "99999999999" {
+            isLoading = true
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            self.paymentMethods = [
+                PaymentMethod(id: "pm1", type: .applePay, displayName: "Apple Pay", isDefault: true, lastFourDigits: nil),
+                PaymentMethod(id: "pm2", type: .wechatPay, displayName: "WeChat Pay", isDefault: false, lastFourDigits: nil),
+                PaymentMethod(id: "pm3", type: .creditCard, displayName: "Visa", isDefault: false, lastFourDigits: "4242")
+            ]
+            self.wallet = Wallet(balance: 888.88, currency: "CNY")
+            isLoading = false
+            return
+        }
+
         isLoading = true
         do {
             async let paymentMethodsTask = paymentService.getPaymentMethods()
@@ -138,7 +154,7 @@ struct PaymentMethodRowView: View {
             Spacer()
             
             if paymentMethod.isDefault {
-                Text("默认")
+                Text(LocalizationUtils.localized("Default"))
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.green)

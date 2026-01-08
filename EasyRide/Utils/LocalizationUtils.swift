@@ -8,7 +8,10 @@ enum LocalizationUtils {
     /// - Parameter key: The key to look up in the Localizable.strings file
     /// - Returns: A localized string
     static func localized(_ key: String) -> String {
-        return NSLocalizedString(key, comment: "")
+        let language = UserDefaults.standard.array(forKey: "AppleLanguages")?.first as? String ?? "en"
+        let path = Bundle.main.path(forResource: language, ofType: "lproj") ?? Bundle.main.path(forResource: "en", ofType: "lproj")
+        let bundle = Bundle(path: path ?? "") ?? Bundle.main
+        return NSLocalizedString(key, tableName: nil, bundle: bundle, value: "", comment: "")
     }
     
     /// Returns a localized string with format arguments

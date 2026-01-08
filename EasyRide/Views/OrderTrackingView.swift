@@ -15,7 +15,7 @@ struct OrderTrackingView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Driver Information Header
@@ -31,7 +31,7 @@ struct OrderTrackingView: View {
                 actionButtonsSection
             }
         }
-        .navigationTitle("当前订单")
+        .navigationTitle(LocalizationUtils.localized("Current_Order"))
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingChat) {
             ChatInterfaceView(messages: $chatMessages, newMessage: $newMessage)
@@ -47,45 +47,45 @@ struct OrderTrackingView: View {
     // MARK: - Driver Info Header
     private var driverInfoHeader: some View {
         VStack(spacing: 16) {
-            Text("司机信息")
+            Text(LocalizationUtils.localized("Driver_Info"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             if let driver = viewModel.currentOrder?.driver {
                 HStack(spacing: 16) {
                     // Driver Avatar
                     Circle()
-                        .fill(Color.gray.opacity(0.3))
+                        .fill(Color(.systemGray6))
                         .frame(width: 80, height: 80)
                         .overlay(
                             Image(systemName: "person.fill")
                                 .font(.largeTitle)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                         )
                     
                     VStack(alignment: .leading, spacing: 8) {
                         Text(driver.name)
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         
                         HStack {
                             Image(systemName: "star.fill")
                                 .font(.subheadline)
                                 .foregroundColor(.yellow)
-                            Text("评分: \(String(format: "%.1f", driver.rating))")
+                            Text("\(LocalizationUtils.localized("Rating")): \(String(format: "%.1f", driver.rating))")
                                 .font(.subheadline)
-                                .foregroundColor(.gray)
+                                .foregroundColor(.secondary)
                         }
                         
-                        Text("车型: \(driver.vehicleInfo.model)")
+                        Text("\(LocalizationUtils.localized("Vehicle_Model")): \(driver.vehicleInfo.model)")
                             .font(.subheadline)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                         
-                        Text("车牌号: \(driver.vehicleInfo.licensePlate)")
+                        Text("\(LocalizationUtils.localized("License_Plate")): \(driver.vehicleInfo.licensePlate)")
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     
                     Spacer()
@@ -96,14 +96,14 @@ struct OrderTrackingView: View {
                         Image(systemName: "heart.fill")
                             .foregroundColor(.pink)
                             .padding(10)
-                            .background(Color.gray.opacity(0.2))
+                            .background(Color.secondary.opacity(0.1))
                             .clipShape(Circle())
                     }
                 }
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                 )
             }
         }
@@ -114,21 +114,21 @@ struct OrderTrackingView: View {
     private var mapSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text("实时位置")
+                Text(LocalizationUtils.localized("Realtime_Location"))
                     .font(.headline)
                     .fontWeight(.semibold)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Spacer()
                 
-                Text("车辆位置")
+                Text(LocalizationUtils.localized("Vehicle_Location"))
                     .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
             .padding(.horizontal)
             
             Rectangle()
-                .fill(Color.gray.opacity(0.2))
+                .fill(Color.secondary.opacity(0.1))
                 .frame(height: 200)
                 .overlay(
                     VStack(spacing: 8) {
@@ -136,13 +136,13 @@ struct OrderTrackingView: View {
                             .font(.largeTitle)
                             .foregroundColor(.blue)
                         
-                        Text("司机距离您 2.3公里")
+                        Text(LocalizationUtils.localized("Driver_Distance"))
                             .font(.subheadline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         
-                        Text("预计5分钟到达")
+                        Text(LocalizationUtils.localized("Est_Arrival_Time"))
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                 )
                 .cornerRadius(12)
@@ -153,10 +153,10 @@ struct OrderTrackingView: View {
     // MARK: - Contact Section
     private var contactSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("联系方式")
+            Text(LocalizationUtils.localized("Contact_Info"))
                 .font(.headline)
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .padding(.horizontal)
             
             HStack(spacing: 20) {
@@ -170,9 +170,9 @@ struct OrderTrackingView: View {
                             .background(Color.green)
                             .clipShape(Circle())
                         
-                        Text("电话")
+                        Text(LocalizationUtils.localized("Phone"))
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 
@@ -186,9 +186,9 @@ struct OrderTrackingView: View {
                             .background(Color.green)
                             .clipShape(Circle())
                         
-                        Text("微信")
+                        Text(LocalizationUtils.localized("WeChat"))
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 
@@ -202,9 +202,9 @@ struct OrderTrackingView: View {
                             .background(Color.blue)
                             .clipShape(Circle())
                         
-                        Text("聊天入口")
+                        Text(LocalizationUtils.localized("Chat_Entrance"))
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                     }
                 }
                 
@@ -221,15 +221,15 @@ struct OrderTrackingView: View {
             Button(action: { showingTripModification = true }) {
                 HStack {
                     Image(systemName: "pencil.circle.fill")
-                        .foregroundColor(.white)
-                    Text("行程修改申请")
-                        .foregroundColor(.white)
+                        .foregroundColor(.blue)
+                    Text(LocalizationUtils.localized("Trip_Modification_Request"))
+                        .foregroundColor(.blue)
                 }
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 1)
+                        .stroke(Color.blue, lineWidth: 1)
                 )
             }
             
@@ -238,7 +238,7 @@ struct OrderTrackingView: View {
                 HStack {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.red)
-                    Text("订单取消")
+                    Text(LocalizationUtils.localized("Cancel_Order"))
                         .foregroundColor(.red)
                 }
                 .frame(maxWidth: .infinity)
@@ -327,9 +327,9 @@ struct ChatInterfaceView: View {
     // MARK: - Preset Phrases Section
     private var presetPhrasesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("常用语")
+            Text(LocalizationUtils.localized("Common_Phrases"))
                 .font(.caption)
-                .foregroundColor(.gray)
+                .foregroundColor(.secondary)
                 .padding(.horizontal)
             
             ScrollView(.horizontal, showsIndicators: false) {
@@ -340,8 +340,8 @@ struct ChatInterfaceView: View {
                                 .font(.caption)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
-                                .background(Color.gray.opacity(0.2))
-                                .foregroundColor(.white)
+                                .background(Color.secondary.opacity(0.1))
+                                .foregroundColor(.primary)
                                 .cornerRadius(16)
                         }
                     }
@@ -350,7 +350,7 @@ struct ChatInterfaceView: View {
             }
         }
         .padding(.vertical, 8)
-        .background(Color.gray.opacity(0.1))
+        .background(Color(.systemGray6))
     }
     
     // MARK: - Chat Input Section
@@ -360,30 +360,30 @@ struct ChatInterfaceView: View {
             Button(action: { showingPresetPhrases.toggle() }) {
                 Image(systemName: "text.bubble.fill")
                     .font(.title3)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
             
             // Text Input
-            TextField("输入消息...", text: $newMessage)
+            TextField(LocalizationUtils.localized("Enter_Message"), text: $newMessage)
                 .textFieldStyle(.plain)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
                 )
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             // Send Button
             Button(action: sendMessage) {
                 Image(systemName: "paperplane.fill")
                     .font(.title3)
-                    .foregroundColor(newMessage.isEmpty ? .gray : .blue)
+                    .foregroundColor(newMessage.isEmpty ? .secondary : .blue)
             }
             .disabled(newMessage.isEmpty)
         }
         .padding()
-        .background(Color.black)
+        .background(Color(.systemBackground))
     }
     
     private func sendMessage() {
@@ -426,13 +426,13 @@ struct ChatMessageRow: View {
                     Text(message.text)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
-                        .background(Color.gray.opacity(0.2))
-                        .foregroundColor(.white)
+                        .background(Color(.systemGray5))
+                        .foregroundColor(.primary)
                         .cornerRadius(16, corners: [.topRight, .bottomLeft, .bottomRight])
                     
                     Text(message.timestamp.formatted(date: .omitted, time: .shortened))
                         .font(.caption2)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
@@ -450,7 +450,7 @@ struct ChatMessageRow: View {
                     
                     Text(message.timestamp.formatted(date: .omitted, time: .shortened))
                         .font(.caption2)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
             }
         }
@@ -493,31 +493,31 @@ struct TripModificationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    Text("行程修改申请")
+                    Text(LocalizationUtils.localized("Trip_Modification_Request"))
                         .font(.title2)
                         .fontWeight(.semibold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                     VStack(spacing: 16) {
                         ModificationOption(
                             icon: "location.fill",
-                            title: "修改目的地",
-                            description: "更改行程终点"
+                            title: LocalizationUtils.localized("Change_Destination"),
+                            description: LocalizationUtils.localized("Change_Trip_End")
                         )
                         
                         ModificationOption(
                             icon: "plus.circle.fill",
-                            title: "添加停靠点",
-                            description: "在路线中增加停靠点"
+                            title: LocalizationUtils.localized("Add_Stop"),
+                            description: LocalizationUtils.localized("Add_Stop_To_Route")
                         )
                         
                         ModificationOption(
                             icon: "clock.fill",
-                            title: "修改时间",
-                            description: "调整出发或到达时间"
+                            title: LocalizationUtils.localized("Change_Time"),
+                            description: LocalizationUtils.localized("Adjust_Time")
                         )
                     }
                     
@@ -525,9 +525,9 @@ struct TripModificationView: View {
                 }
                 .padding()
             }
-            .navigationTitle("修改行程")
+            .navigationTitle(LocalizationUtils.localized("Modify_Trip"))
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("关闭") {
+            .navigationBarItems(trailing: Button(LocalizationUtils.localized("Close")) {
                 presentationMode.wrappedValue.dismiss()
             })
         }
@@ -544,28 +544,28 @@ struct ModificationOption: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .font(.title2)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                     .frame(width: 40)
                 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(title)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                     Text(description)
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
                 
                 Spacer()
                 
                 Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
             )
         }
         .buttonStyle(.plain)

@@ -9,6 +9,7 @@ struct WalletView: View {
     @State private var showingAddFunds = false
     @State private var errorMessage: String?
     @State private var showingError = false
+    @Environment(AppState.self) private var appState
     
     var body: some View {
 
@@ -30,9 +31,9 @@ struct WalletView: View {
                         .listRowInsets(EdgeInsets())
 
                         // Transaction History Section
-                        Section(header: Text("交易记录").foregroundColor(.secondary).fontWeight(.bold)) {
+                        Section(header: Text(LocalizationUtils.localized("Transaction_History")).foregroundColor(.secondary).fontWeight(.bold)) {
                             if transactions.isEmpty {
-                                Text("暂无交易记录")
+                                Text(LocalizationUtils.localized("No_Transactions"))
                                     .foregroundColor(.secondary)
                                     .listRowBackground(Color(.systemBackground))
                             } else {
@@ -50,11 +51,11 @@ struct WalletView: View {
                         await loadWalletData(refresh: true)
                     }
                 } else {
-                    Text("无法加载钱包。")
+                    Text(LocalizationUtils.localized("Wallet_Load_Error"))
                         .foregroundColor(.secondary)
                 }
             }
-            .navigationTitle("钱包")
+            .navigationTitle(LocalizationUtils.localized("Wallet"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -79,16 +80,30 @@ struct WalletView: View {
                 }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert("Error", isPresented: $showingError) {
+            Button("OK") { }
         } message: {
-            Text(errorMessage ?? "发生未知错误")
+            Text(errorMessage ?? "Unknown Error")
         }
     }
     
     // MARK: - Private Methods
     
     private func loadWalletData(refresh: Bool = false) async {
+        // Mock Data for Debug User
+        if appState.currentUser?.phoneNumber == "99999999999" {
+            isLoading = true
+            try? await Task.sleep(nanoseconds: 500_000_000) // Simulate network delay
+            self.wallet = Wallet(balance: 888.88, currency: "CNY")
+            self.transactions = [
+                PaymentTransaction(id: "t1", amount: -50.0, type: .payment, description: "Ride to Airport", createdAt: Date().addingTimeInterval(-3600)),
+                PaymentTransaction(id: "t2", amount: 20.0, type: .refund, description: "Refund", createdAt: Date().addingTimeInterval(-86400)),
+                PaymentTransaction(id: "t3", amount: 1000.0, type: .topUp, description: "Top Up", createdAt: Date().addingTimeInterval(-172800))
+            ]
+            isLoading = false
+            return
+        }
+
         isLoading = true
         do {
             async let walletTask = paymentService.getWallet()
@@ -114,7 +129,7 @@ struct WalletCardView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text("余额")
+                    Text(LocalizationUtils.localized("Balance"))
                         .font(.headline)
                         .foregroundColor(.secondary)
                     Text(wallet.formattedBalance)
@@ -129,18 +144,24 @@ struct WalletCardView: View {
             }
             
             Button(action: onAddFunds) {
-                Text("充值")
+                Text(LocalizationUtils.localized("Top_Up"))
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color(.secondarySystemBackground))
+                    .padding()
+                    .background(Color(.systemBackground))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.primary, lineWidth: 1)
+                    )
                     .foregroundColor(.primary)
                     .cornerRadius(10)
             }
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(Color(.systemBackground))
         .cornerRadius(12)
+        .shadow(color: Color.primary.opacity(0.1), radius: 2, x: 0, y: 1)
     }
 }
 

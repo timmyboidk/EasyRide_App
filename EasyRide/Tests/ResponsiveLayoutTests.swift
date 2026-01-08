@@ -241,7 +241,7 @@ final class ResponsiveLayoutUITests: XCTestCase {
         
         // Test that orientation test view can be displayed
         // This would be integrated into the main app navigation for testing
-        XCTAssertTrue(app.isDisplayed)
+        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
     }
     
     func testServiceSelectionResponsiveLayout() throws {

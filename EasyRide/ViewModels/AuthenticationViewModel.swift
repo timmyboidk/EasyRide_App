@@ -36,6 +36,15 @@ class AuthenticationViewModel {
     func loginWithOTP() async {
         guard validateOTPInput() else { return }
         
+        // Magic Credential Check for Debug Login
+        if phoneNumber == "99999999999" && otp == "000000" {
+            await MainActor.run {
+                appState.debugLogin()
+                clearForm()
+            }
+            return
+        }
+        
         isLoading = true
         clearError()
         

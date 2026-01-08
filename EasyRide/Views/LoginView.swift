@@ -26,8 +26,6 @@ struct LoginView: View {
                     // Registration Link
                     registrationLink
                     
-                    // Debug Section
-                    debugSection
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 32)
@@ -54,7 +52,7 @@ struct LoginView: View {
                 .font(.system(size: 80))
                 .foregroundStyle(.primary)
             
-            Text("EasyRide")
+            Text(LocalizationUtils.localized("EasyRide"))
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -75,10 +73,10 @@ struct LoginView: View {
     }
     
     private var phoneNumberField: some View {
-        TextField("请输入手机号码", text: $authViewModel.phoneNumber)
+        TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
             .padding()
-            .background(Color(.secondarySystemBackground))
-            .cornerRadius(10)
+            .background(Color(.systemBackground))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
             .keyboardType(.phonePad)
             .textContentType(.telephoneNumber)
             .focused($focusedField, equals: .phoneNumber)
@@ -86,10 +84,10 @@ struct LoginView: View {
     
     private var otpSection: some View {
         HStack(spacing: 12) {
-            TextField("6位数验证码", text: $authViewModel.otp)
+            TextField(LocalizationUtils.localized("OTP_Code"), text: $authViewModel.otp)
                 .padding()
-                .background(Color(.secondarySystemBackground))
-                .cornerRadius(10)
+                .background(Color(.systemBackground))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .focused($focusedField, equals: .otp)
@@ -99,7 +97,7 @@ struct LoginView: View {
                     await authViewModel.sendOTP()
                 }
             }) {
-                Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : "获取验证码")
+                Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .foregroundColor(.white)
@@ -128,7 +126,7 @@ struct LoginView: View {
                         .background(Color.blue)
                         .cornerRadius(10)
                 } else {
-                    Text("登录")
+                    Text(LocalizationUtils.localized("Login"))
                         .fontWeight(.semibold)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -147,7 +145,7 @@ struct LoginView: View {
             }) {
                 HStack {
                     Image(systemName: "message.fill")
-                    Text("微信登录")
+                    Text(LocalizationUtils.localized("Login_WeChat"))
                 }
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
@@ -163,23 +161,13 @@ struct LoginView: View {
     
     private var registrationLink: some View {
         NavigationLink(destination: RegistrationView(appState: appState)) {
-            Text("创建新账户")
+            Text(LocalizationUtils.localized("Create_Account"))
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
         }
     }
     
-    // MARK: - Debug Section
-    private var debugSection: some View {
-        Button(action: {
-            appState.debugLogin()
-        }) {
-            Text("Debug Login (Bypass)")
-                .font(.caption)
-                .foregroundColor(.red)
-                .padding(.top, 20)
-        }
-    }
+
 }
 
 // MARK: - Supporting Types

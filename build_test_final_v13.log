@@ -1,0 +1,331 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild test -scheme EasyRide -destination "platform=iOS Simulator,name=iPhone 17" -resultBundlePath TestResults.xcresult
+
+2026-01-08 17:17:17.972 xcodebuild[34436:220952] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+Writing result bundle at path:
+	/Users/timyu/Desktop/EasyRide_App/TestResults.xcresult
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'EasyRideUITests' in project 'EasyRide'
+        ➜ Explicit dependency on target 'EasyRide' in project 'EasyRide'
+    Target 'EasyRideTests' in project 'EasyRide'
+        ➜ Explicit dependency on target 'EasyRide' in project 'EasyRide'
+    Target 'EasyRide' in project 'EasyRide' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/timyu/Desktop/EasyRide_App/EasyRide/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: cc1962ef1bf86103c5e9f9fc346543c1
+Build description path: /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/XCBuildData/cc1962ef1bf86103c5e9f9fc346543c1.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+    cd /Users/timyu/Desktop/EasyRide_App/EasyRide.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+
+ProcessInfoPlistFile /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/EasyRide.app/Info.plist /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/empty-EasyRide.plist (in target 'EasyRide' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    builtin-infoPlistUtility /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/empty-EasyRide.plist -producttype com.apple.product-type.application -genpkginfo /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/EasyRide.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/assetcatalog_generated_info.plist -o /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/EasyRide.app/Info.plist
+
+SwiftDriver EasyRideTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'EasyRideTests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name EasyRideTests -Onone -enforce-exclusivity\=checked @/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/Objects-normal/arm64/EasyRideTests.SwiftFileList -DDEBUG -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/Objects-normal/arm64/EasyRideTests-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/Objects-normal/arm64/EasyRideTests.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/Objects-normal/arm64/EasyRideTests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/EasyRideTests-generated-files.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/EasyRideTests-own-target-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/EasyRideTests-all-target-headers.hmap -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/EasyRideTests-project-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/DerivedSources-normal/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/DerivedSources/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideTests.build/Objects-normal/arm64/EasyRideTests-Swift.h -working-directory /Users/timyu/Desktop/EasyRide_App -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver EasyRideUITests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name EasyRideUITests -Onone -enforce-exclusivity\=checked @/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests.SwiftFileList -DDEBUG -module-alias Testing\=_Testing_Unavailable -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.5-simulator -g -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests_const_extract_protocols.json -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-generated-files.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-own-target-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-all-target-headers.hmap -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-project-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources-normal/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests-Swift.h -working-directory /Users/timyu/Desktop/EasyRide_App -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver EasyRide normal arm64 com.apple.xcode.tools.swift.compiler (in target 'EasyRide' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name EasyRide -Onone -enforce-exclusivity\=checked @/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64/EasyRide.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -target arm64-apple-ios18.0-simulator -g -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -profile-coverage-mapping -profile-generate -enable-testing -index-store-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -F /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64 -c -j8 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -output-file-map /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64/EasyRide-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64/EasyRide.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64/EasyRide_const_extract_protocols.json -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/EasyRide-generated-files.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/EasyRide-own-target-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/EasyRide-all-target-headers.hmap -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/EasyRide-project-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/DerivedSources-normal/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/DerivedSources/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRide.build/Objects-normal/arm64/EasyRide-Swift.h -working-directory /Users/timyu/Desktop/EasyRide_App -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ AccessibilityTests.swift,\ AdaptiveLayoutTests.swift,\ AuthenticationViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AccessibilityTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AdaptiveLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AuthenticationViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AccessibilityTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AdaptiveLayoutTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AuthenticationViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 Compiling\ MockAPIService.swift,\ OrderTrackingCompilationTest.swift,\ OrderTrackingViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/MockAPIService.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AccessibilityTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AdaptiveLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/AuthenticationViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/BookingViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ChatInterfaceTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/LocalizationTests.swift -primary-file /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/MockAPIService.swift -primary-file /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift -primary-file /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrientationLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutUtilsTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionUITests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/TripConfigurationModeTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/TripConfigurationTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/TripModificationTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ValueAddedServicesTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITests.swift /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITestsLaunchTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_booking_integration.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_chat_interface.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_service_selection.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/VoiceOverSupportTests.swift -supplementary-output-file-map /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/supplementaryOutputs-6 -target arm64-apple-ios18.5-simulator -disable-cross-import-overlay-search -swift-module-cross-import MapKit /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk/System/Library/Frameworks/MapKit.framework/Modules/MapKit.swiftcrossimport/SwiftUI.swiftoverlay -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -I /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib -F /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk/Developer/Library/Frameworks -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -profile-generate -profile-coverage-mapping -swift-version 5 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/EasyRideUITests_const_extract_protocols.json -enable-experimental-feature DebugDescriptionMacro -module-alias Testing\=_Testing_Unavailable -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/timyu/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/timyu/Desktop/EasyRide_App -enable-anonymous-context-mangled-names -file-compilation-dir /Users/timyu/Desktop/EasyRide_App -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-generated-files.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-own-target-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-all-target-headers.hmap -Xcc -iquote -Xcc /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/EasyRideUITests-project-headers.hmap -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources-normal/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources/arm64 -Xcc -I/Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name EasyRideUITests -frontend-parseable-output -disable-clang-spi -target-sdk-version 26.2 -target-sdk-name iphonesimulator26.2 -clang-target arm64-apple-ios26.2-simulator -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/MockAPIService.o -o /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/OrderTrackingCompilationTest.o -o /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Build/Intermediates.noindex/EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/OrderTrackingViewModelTests.o -index-unit-output-path /EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/MockAPIService.o -index-unit-output-path /EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/OrderTrackingCompilationTest.o -index-unit-output-path /EasyRide.build/Debug-iphonesimulator/EasyRideUITests.build/Objects-normal/arm64/OrderTrackingViewModelTests.o -index-store-path /Users/timyu/Library/Developer/Xcode/DerivedData/EasyRide-beugqklueywnwjdnocpyhdzzhnze/Index.noindex/DataStore -index-system-modules
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/MockAPIService.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:11:26: error: cannot find 'EasyRideAPIService' in scope
+        let apiService = EasyRideAPIService.shared
+                         ^~~~~~~~~~~~~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:12:25: error: cannot find 'OrderTrackingViewModel' in scope
+        let viewModel = OrderTrackingViewModel(apiService: apiService)
+                        ^~~~~~~~~~~~~~~~~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:24:20: error: cannot find 'OrderTrackingView' in scope
+        let view = OrderTrackingView(orderId: "test-order-id")
+                   ^~~~~~~~~~~~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:29:20: error: cannot find 'DriverMatchingAnimationView' in scope
+        let view = DriverMatchingAnimationView()
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:34:26: error: cannot find 'MapAnnotationItem' in scope
+        let annotation = MapAnnotationItem(
+                         ^~~~~~~~~~~~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:37:21: error: cannot infer contextual base in reference to member 'blue'
+            color: .blue,
+                   ~^~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift:40:20: error: cannot find 'MapMarkerView' in scope
+        let view = MapMarkerView(annotation: annotation)
+                   ^~~~~~~~~~~~~
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:27:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:33:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:171:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:177:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:234:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:240:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:260:52: error: value of type 'OrderTrackingViewModel' has no member 'perform'
+        let updateDriverLocationMethod = viewModel.perform(
+                                         ~~~~~~~~~ ^~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:281:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:287:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:307:52: error: value of type 'OrderTrackingViewModel' has no member 'perform'
+        let updateDriverLocationMethod = viewModel.perform(
+                                         ~~~~~~~~~ ^~~~~~~
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:342:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:348:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:375:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:381:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:426:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:432:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:530:27: error: extra arguments at positions #6, #7, #8 in call
+            driver: Driver(
+                          ^
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+/Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift:536:42: error: missing argument for parameter 'vehicleInfo' in call
+                carModel: "Tesla Model Y",
+                                         ^
+                                         , vehicleInfo: <#VehicleInfo#>
+EasyRide.Driver.init:2:10: note: 'init(id:name:phoneNumber:profileImage:rating:totalTrips:vehicleInfo:currentLocation:isOnline:estimatedArrival:)' declared here
+internal init(id: String = UUID().uuidString, name: String, phoneNumber: String, profileImage: String? = nil, rating: Double = 5.0, totalTrips: Int = 0, vehicleInfo: EasyRide.VehicleInfo, currentLocation: EasyRide.Location? = nil, isOnline: Bool = false, estimatedArrival: Date? = nil)}
+         ^
+
+SwiftCompile normal arm64 Compiling\ ServiceSelectionTests.swift,\ ServiceSelectionUITests.swift,\ TripConfigurationModeTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionUITests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/TripConfigurationModeTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ServiceSelectionUITests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/TripConfigurationModeTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 Compiling\ EasyRideUITests.swift,\ EasyRideUITestsLaunchTests.swift,\ verify_booking_integration.swift /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITests.swift /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITestsLaunchTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_booking_integration.swift (in target 'EasyRideUITests' from project 'EasyRide')
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRideUITests/EasyRideUITestsLaunchTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_booking_integration.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ EasyRideUITests (in target 'EasyRideUITests' from project 'EasyRide')
+
+EmitSwiftModule normal arm64 (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 Compiling\ verify_chat_interface.swift,\ verify_service_selection.swift,\ VoiceOverSupportTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_chat_interface.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_service_selection.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/VoiceOverSupportTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_chat_interface.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/verify_service_selection.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/VoiceOverSupportTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 Compiling\ OrientationLayoutTests.swift,\ ResponsiveLayoutTests.swift,\ ResponsiveLayoutUtilsTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrientationLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutUtilsTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrientationLayoutTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/ResponsiveLayoutUtilsTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ EasyRideTests (in target 'EasyRideTests' from project 'EasyRide')
+
+EmitSwiftModule normal arm64 (in target 'EasyRideTests' from project 'EasyRide')
+    cd /Users/timyu/Desktop/EasyRide_App
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ EasyRide (in target 'EasyRide' from project 'EasyRide')
+
+
+Test session results, code coverage, and logs:
+	/Users/timyu/Desktop/EasyRide_App/TestResults.xcresult
+
+Testing failed:
+	Cannot find 'EasyRideAPIService' in scope
+	Cannot find 'OrderTrackingViewModel' in scope
+	Cannot find 'OrderTrackingView' in scope
+	Cannot find 'DriverMatchingAnimationView' in scope
+	Cannot find 'MapAnnotationItem' in scope
+	Cannot infer contextual base in reference to member 'blue'
+	Cannot find 'MapMarkerView' in scope
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Value of type 'OrderTrackingViewModel' has no member 'perform'
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Value of type 'OrderTrackingViewModel' has no member 'perform'
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Extra arguments at positions #6, #7, #8 in call
+	Missing argument for parameter 'vehicleInfo' in call
+	Testing cancelled because the build failed.
+
+** TEST FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 Compiling\ MockAPIService.swift,\ OrderTrackingCompilationTest.swift,\ OrderTrackingViewModelTests.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/MockAPIService.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+	SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingCompilationTest.swift (in target 'EasyRideUITests' from project 'EasyRide')
+	SwiftCompile normal arm64 /Users/timyu/Desktop/EasyRide_App/EasyRide/Tests/OrderTrackingViewModelTests.swift (in target 'EasyRideUITests' from project 'EasyRide')
+	Testing project EasyRide with scheme EasyRide
+(4 failures)

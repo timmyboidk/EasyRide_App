@@ -1,4 +1,6 @@
 import SwiftUI
+import MapKit
+import CoreLocation
 
 #if os(iOS)
   struct ContentView: View {
@@ -20,6 +22,7 @@ import SwiftUI
       .animation(.easeInOut(duration: 0.3), value: appState.isAuthenticated)
       .animation(.easeInOut(duration: 0.3), value: showingBootScreen)
       .applyLocalizedLayout()
+      .id(appState.preferredLanguage)
     }
   }
 
@@ -54,19 +57,19 @@ import SwiftUI
         HomeView()
           .tabItem {
             Image(systemName: "house.fill")
-            Text("首页", bundle: nil)
+            Text(NSLocalizedString("Home", comment: ""))
           }
 
         OrdersView()
           .tabItem {
             Image(systemName: "list.bullet")
-            Text("订单", bundle: nil)
+            Text(NSLocalizedString("Orders", comment: ""))
           }
 
         ProfileView()
           .tabItem {
             Image(systemName: "person.fill")
-            Text("个人", bundle: nil)
+            Text(NSLocalizedString("Profile", comment: ""))
           }
       }
       .accentColor(.primary)  // Sets the selected tab item color
@@ -78,26 +81,104 @@ import SwiftUI
   struct HomeView: View {
     @Environment(AppState.self) private var appState
     @State private var navigationPath = NavigationPath()
-
+    @State private var locationManager = LocationManager()
+    
+    // Map State
+    @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
+    
+    // Simulated Drivers
+    @State private var nearbyDrivers: [DriverAnnotation] = [
+        DriverAnnotation(id: "d1", coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)), // Placeholder
+        DriverAnnotation(id: "d2", coordinate: CLLocationCoordinate2D(latitude: 37.7739, longitude: -122.4184))
+    ]
+    
     var body: some View {
       NavigationStack(path: $navigationPath) {
-        ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
-          .navigationDestination(for: BookingStep.self) { step in
-            switch step {
-            case .charterTypeSelection:
-              ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
-            case .tripModeSettings:
-              TripModeSettingsView(navigationPath: $navigationPath)
-            case .valueAddedServicesPayment:
-              ValueAddedServicesView(navigationPath: $navigationPath)
-            case .orderSuccessDriverMatching:
-              OrderSuccessDriverMatchingView(navigationPath: $navigationPath)
-            case .currentOrder:
-              OrderTrackingView(orderId: "dummy-order-id")
+        ZStack {
+            // Full Screen Map
+            Map(position: $cameraPosition) {
+                UserAnnotation()
+                
+                ForEach(nearbyDrivers) { driver in
+                    Annotation("Driver", coordinate: driver.coordinate) {
+                        Image(systemName: "car.fill")
+                            .foregroundColor(.black)
+                            .padding(5)
+                            .background(Color.white)
+                            .clipShape(Circle())
+                            .shadow(radius: 2)
+                    }
+                }
             }
-          }
+
+            .mapControls {
+                MapUserLocationButton()
+                MapCompass()
+            }
+            .onAppear {
+                locationManager.requestPermission()
+                // Update simulated driver locations to be around user if available
+                if let location = locationManager.userLocation {
+                    updateSimulatedDrivers(around: location.coordinate)
+                }
+            }
+            .onChange(of: locationManager.userLocation) {
+                if let location = locationManager.userLocation {
+                    cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
+                    updateSimulatedDrivers(around: location.coordinate)
+                }
+            }
+        }
+            // Service Selection Overlay (Sheet-like, non-modal to keep TabBar accessible)
+            VStack {
+                Spacer()
+                ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
+                    .background(Color(.systemBackground))
+                    .cornerRadius(20)
+                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: -5)
+                    .padding(.bottom, 10) // Lift slightly above TabBar
+            }
+
+        .navigationDestination(for: BookingStep.self) { step in
+             switch step {
+                 case .charterTypeSelection:
+                   ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
+                 case .tripModeSettings:
+                   TripModeSettingsView(navigationPath: $navigationPath)
+                 case .valueAddedServicesPayment:
+                   ValueAddedServicesView(navigationPath: $navigationPath)
+                 case .orderSuccessDriverMatching:
+                   OrderSuccessDriverMatchingView(navigationPath: $navigationPath)
+                 case .currentOrder:
+                   OrderTrackingView(orderId: "dummy-order-id")
+             }
+        }
       }
     }
+    
+    private func updateSimulatedDrivers(around center: CLLocationCoordinate2D) {
+        // Create random drivers around the center
+        let offsets = [
+            (0.002, 0.003),
+            (-0.003, -0.001),
+            (0.001, -0.004)
+        ]
+        
+        nearbyDrivers = offsets.enumerated().map { index, offset in
+            DriverAnnotation(
+                id: "d\(index)",
+                coordinate: CLLocationCoordinate2D(
+                    latitude: center.latitude + offset.0,
+                    longitude: center.longitude + offset.1
+                )
+            )
+        }
+    }
+  }
+  
+  struct DriverAnnotation: Identifiable {
+      let id: String
+      let coordinate: CLLocationCoordinate2D
   }
 
   struct OrdersView: View {
@@ -204,7 +285,7 @@ import SwiftUI
                   .fontWeight(.semibold)
                   .foregroundColor(.primary)
 
-                Text(user.phoneNumber ?? "无电话号码")
+                Text(user.phoneNumber ?? LocalizationUtils.localized("No_Phone"))
                   .font(.subheadline)
                   .foregroundStyle(.secondary)
               }
@@ -214,29 +295,29 @@ import SwiftUI
             // Menu List
             List {
               NavigationLink(destination: WalletView()) {
-                Label("钱包", systemImage: "wallet.pass.fill")
+                Label(NSLocalizedString("Wallet", comment: ""), systemImage: "wallet.pass.fill")
               }
 
               NavigationLink(destination: PaymentMethodsView()) {
-                  Label("支付方式", systemImage: "creditcard.fill")
+                  Label(NSLocalizedString("Payment_Methods", comment: ""), systemImage: "creditcard.fill")
               }
 
               NavigationLink(destination: OrdersView()) {
-                  Label("订单历史", systemImage: "clock.fill")
+                  Label(NSLocalizedString("Order_History", comment: ""), systemImage: "clock.fill")
               }
                 
                 NavigationLink(destination: FavoriteDriversView()) {
-                    Label("已收藏的司机", systemImage: "heart.fill")
+                    Label(NSLocalizedString("Favorite_Drivers", comment: ""), systemImage: "heart.fill")
                 }
 
-              NavigationLink(destination: Text("设置", bundle: nil)) {
-                  Label("设置", systemImage: "gearshape.fill")
+              NavigationLink(destination: SettingsView()) {
+                  Label(NSLocalizedString("Settings", comment: ""), systemImage: "gearshape.fill")
               }
             }
-            .listStyle(.insetGrouped)
-            .background(Color.black)
+
+            .listStyle(.plain)
+            .background(Color(.systemBackground))
             .scrollContentBackground(.hidden)
-            .foregroundColor(.white)
 
             // Logout Button
             Button(action: {
@@ -244,11 +325,11 @@ import SwiftUI
                 await authViewModel.logout()
               }
             }) {
-              Text("退出登录", bundle: nil)
+              Text(NSLocalizedString("Logout", comment: ""))
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.gray.opacity(0.2))
+                .background(Color.gray.opacity(0.1)) // Lighter background for better contrast in light mode
                 .foregroundColor(.red)
                 .cornerRadius(10)
             }
@@ -256,9 +337,9 @@ import SwiftUI
             .padding(.bottom)
           }
         }
-        .navigationTitle(Text("个人", bundle: nil))
+        .navigationTitle(Text(NSLocalizedString("Profile", comment: "")))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        // Removed .toolbarColorScheme(.dark)
       }
       .onAppear {
         authViewModel = AuthenticationViewModel(appState: appState)
