@@ -54,6 +54,25 @@ class AppState {
         savePersistedState()
     }
     
+    func debugLogin() {
+        print("DEBUG: Bypassing login with mock user")
+        let mockUser = User(
+            id: "debug-user-id",
+            name: "Debug User",
+            email: "debug@easyride.com",
+            phoneNumber: "13800000000",
+            profileImage: nil,
+            preferredLanguage: "zh-Hans",
+            isVerified: true
+        )
+        // Set a dummy token so isAuthenticated becomes true
+        currentUser = mockUser
+        authToken = "debug-mock-token" 
+        isAuthenticated = true
+        
+        // We do NOT save to secure storage to avoid persisting debug state accidentally
+    }
+    
     func signOut() {
         currentUser = nil
         authToken = nil

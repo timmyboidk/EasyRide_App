@@ -25,6 +25,9 @@ struct LoginView: View {
                     
                     // Registration Link
                     registrationLink
+                    
+                    // Debug Section
+                    debugSection
                 }
                 .padding(.horizontal, 24)
                 .padding(.vertical, 32)
@@ -163,6 +166,18 @@ struct LoginView: View {
             Text("创建新账户")
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
+        }
+    }
+    
+    // MARK: - Debug Section
+    private var debugSection: some View {
+        Button(action: {
+            appState.debugLogin()
+        }) {
+            Text("Debug Login (Bypass)")
+                .font(.caption)
+                .foregroundColor(.red)
+                .padding(.top, 20)
         }
     }
 }
