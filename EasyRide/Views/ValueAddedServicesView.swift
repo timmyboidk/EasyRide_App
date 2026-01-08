@@ -283,12 +283,12 @@ struct ValueAddedServicesView: View {
     private var paymentButton: some View {
         Button(action: processPayment) {
             Text("\(LocalizationUtils.localized("Confirm_Pay")) ¥\(viewModel.totalAmount, specifier: "%.0f")")
-                .fontWeight(.semibold)
+                .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(12)
         }
     }
     
@@ -343,21 +343,21 @@ struct ServiceOptionRow<Content: View>: View {
                 HStack(spacing: 12) {
                     Image(systemName: isSelected ? "checkmark.square.fill" : "square")
                         .font(.title3)
-                        .foregroundColor(isSelected ? .white : .gray)
+                        .foregroundColor(isSelected ? .blue : .secondary)
                     
                     Image(systemName: icon)
                         .font(.title3)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(title)
                             .font(.body)
                             .fontWeight(.medium)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         
                         Text(description)
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     
                     Spacer()
@@ -369,8 +369,8 @@ struct ServiceOptionRow<Content: View>: View {
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
         )
     }
 }
@@ -384,11 +384,11 @@ struct ServiceCheckbox: View {
         Button(action: { isSelected.toggle() }) {
             HStack {
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
-                    .foregroundColor(isSelected ? .white : .gray)
+                    .foregroundColor(isSelected ? .blue : .secondary)
                 
                 Text(title)
                     .font(.caption)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 
                 Spacer()
             }
@@ -407,15 +407,15 @@ struct PriceRow: View {
         HStack {
             Text(title)
                 .font(isTotal ? .headline : .body)
-                .fontWeight(isTotal ? .semibold : .regular)
-                .foregroundColor(.white)
+                .fontWeight(isTotal ? .bold : .regular)
+                .foregroundColor(.primary)
             
             Spacer()
             
             Text("¥\(amount, specifier: "%.0f")")
                 .font(isTotal ? .headline : .body)
-                .fontWeight(isTotal ? .semibold : .regular)
-                .foregroundColor(.white)
+                .fontWeight(isTotal ? .bold : .regular)
+                .foregroundColor(isTotal ? .blue : .primary)
         }
     }
 }

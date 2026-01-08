@@ -51,7 +51,7 @@ struct ResponsiveTripConfigurationView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 GeometryReader { geometry in
                     ScrollView {
                         AdaptiveLayoutContainer { sizeClass in
@@ -78,7 +78,6 @@ struct ResponsiveTripConfigurationView: View {
             }
             .navigationTitle("行程配置")
             .navigationBarTitleDisplayMode(.large)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("取消") {
@@ -94,7 +93,7 @@ struct ResponsiveTripConfigurationView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("行程类型")
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             AdaptiveStack(spacing: ResponsiveLayoutUtils.adaptiveSpacing(for: horizontalSizeClass, compact: 12, regular: 16)) {
                 ForEach(ResponsiveTripMode.allCases, id: \.self) { mode in
@@ -219,7 +218,7 @@ struct ResponsiveTripConfigurationView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("出发时间")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             DatePicker(
                 "选择时间",
@@ -228,7 +227,6 @@ struct ResponsiveTripConfigurationView: View {
                 displayedComponents: [.date, .hourAndMinute]
             )
             .datePickerStyle(.compact)
-            .colorScheme(.dark)
         }
         .padding(ResponsiveLayoutUtils.adaptiveSpacing(for: horizontalSizeClass))
         .background(Color.gray.opacity(0.2))
@@ -240,12 +238,12 @@ struct ResponsiveTripConfigurationView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("乘客人数")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             HStack {
                 Text("\(passengerCount)位乘客")
                     .font(.body)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
 
                 Spacer()
 
@@ -257,7 +255,7 @@ struct ResponsiveTripConfigurationView: View {
                     }) {
                         Image(systemName: "minus.circle.fill")
                             .font(.title2)
-                            .foregroundColor(passengerCount > 1 ? .white : .gray)
+                            .foregroundColor(passengerCount > 1 ? .primary : .gray)
                     }
                     .disabled(passengerCount <= 1)
 
@@ -265,7 +263,7 @@ struct ResponsiveTripConfigurationView: View {
                         .font(.title2)
                         .fontWeight(.semibold)
                         .frame(minWidth: 30)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
 
                     Button(action: {
                         if passengerCount < 8 {
@@ -274,7 +272,7 @@ struct ResponsiveTripConfigurationView: View {
                     }) {
                         Image(systemName: "plus.circle.fill")
                             .font(.title2)
-                            .foregroundColor(passengerCount < 8 ? .white : .gray)
+                            .foregroundColor(passengerCount < 8 ? .primary : .gray)
                     }
                     .disabled(passengerCount >= 8)
                 }
@@ -291,7 +289,7 @@ struct ResponsiveTripConfigurationView: View {
             HStack {
                 Text("行程备注")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
 
                 Spacer()
 
@@ -302,7 +300,7 @@ struct ResponsiveTripConfigurationView: View {
                 }) {
                     Image(systemName: isNotesExpanded ? "chevron.up" : "chevron.down")
                         .font(.caption)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                 }
             }
 
@@ -321,7 +319,7 @@ struct ResponsiveTripConfigurationView: View {
                         .stroke(Color.gray.opacity(0.4), lineWidth: 1)
                 )
                 .transition(.opacity.combined(with: .scale(scale: 0.95)))
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             }
         }
         .padding(ResponsiveLayoutUtils.adaptiveSpacing(for: horizontalSizeClass))
@@ -335,7 +333,7 @@ struct ResponsiveTripConfigurationView: View {
             HStack {
                 Text("路线停靠点")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
 
                 Spacer()
 
@@ -348,7 +346,7 @@ struct ResponsiveTripConfigurationView: View {
                         Text("添加停靠点")
                             .font(.caption)
                     }
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 }
             }
 
@@ -390,7 +388,7 @@ struct ResponsiveTripConfigurationView: View {
         VStack(alignment: .leading, spacing: 12) {
             Text("路线预览")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color.gray.opacity(0.3))
@@ -399,11 +397,11 @@ struct ResponsiveTripConfigurationView: View {
                     VStack(spacing: 12) {
                         Image(systemName: "map.fill")
                             .font(.title)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
 
                         Text("地图预览")
                             .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
 
                         if !customStops.isEmpty {
                             VStack(spacing: 4) {
@@ -441,15 +439,15 @@ struct ResponsiveTripConfigurationView: View {
             HStack {
                 Text("继续")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.systemBackground))
 
                 Image(systemName: "arrow.right")
                     .font(.headline)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(.systemBackground))
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, ResponsiveLayoutUtils.adaptiveSpacing(for: horizontalSizeClass, compact: 16, regular: 20))
-            .background(Color.white)
+            .background(Color.primary)
             .cornerRadius(12)
         }
         .padding(.top, 8)
@@ -468,16 +466,16 @@ struct ResponsiveModeCard: View {
             VStack(spacing: 8) {
                 Image(systemName: mode == .freeRoute ? "location.north.line.fill" : "map.fill")
                     .font(.title2)
-                    .foregroundColor(isSelected ? .black : .white)
+                    .foregroundColor(isSelected ? Color(.systemBackground) : .primary)
 
                 Text(mode.displayName)
                     .font(.caption)
                     .fontWeight(.medium)
-                    .foregroundColor(isSelected ? .black : .white)
+                    .foregroundColor(isSelected ? Color(.systemBackground) : .primary)
 
                 Text(mode.description)
                     .font(.caption2)
-                    .foregroundColor(isSelected ? .black.opacity(0.8) : .gray)
+                    .foregroundColor(isSelected ? Color(.systemBackground).opacity(0.8) : .secondary)
                     .multilineTextAlignment(.center)
             }
             .frame(maxWidth: .infinity)
@@ -485,7 +483,7 @@ struct ResponsiveModeCard: View {
             .padding(.horizontal, 8)
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(isSelected ? Color.white : Color.gray.opacity(0.2))
+                    .fill(isSelected ? Color.primary : Color.gray.opacity(0.2))
             )
         }
         .buttonStyle(.plain)
@@ -505,18 +503,18 @@ struct ResponsiveAddressInputField: View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3) // Removed 'for:'
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
 
             Button(action: onTap) {
                 HStack(spacing: 12) {
                     Image(systemName: icon)
                         .font(.title3)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                         .frame(width: 24)
 
                     Text(address.isEmpty ? placeholder : address)
                         .font(.body)
-                        .foregroundColor(address.isEmpty ? .gray : .white)
+                        .foregroundColor(address.isEmpty ? .secondary : .primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     Image(systemName: "chevron.right")
@@ -549,7 +547,7 @@ struct ResponsiveCustomStopRow: View {
                     .font(.subheadline)
                     .fontWeight(.medium)
                     .lineLimit(2)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
 
                 Text("停靠点 \(index + 1) • 15 分钟")
                     .font(.caption)
@@ -562,7 +560,7 @@ struct ResponsiveCustomStopRow: View {
             Button(action: {}) {
                 Image(systemName: "pencil")
                     .font(.caption)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
             }
 
             // Delete button

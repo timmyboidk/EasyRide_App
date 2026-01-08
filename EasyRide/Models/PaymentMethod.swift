@@ -1,15 +1,15 @@
 import Foundation
 
-struct PaymentMethod: Codable, Identifiable {
-    let id: String
-    let type: PaymentType
-    let displayName: String
-    let isDefault: Bool
-    let lastFourDigits: String?
-    let expiryDate: String?
-    let isActive: Bool
+public struct PaymentMethod: Codable, Identifiable {
+    public let id: String
+    public let type: PaymentType
+    public let displayName: String
+    public let isDefault: Bool
+    public let lastFourDigits: String?
+    public let expiryDate: String?
+    public let isActive: Bool
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         type: PaymentType,
         displayName: String,
@@ -28,7 +28,7 @@ struct PaymentMethod: Codable, Identifiable {
     }
 }
 
-enum PaymentType: String, Codable, CaseIterable {
+public enum PaymentType: String, Codable, CaseIterable {
     case applePay = "apple_pay"
     case wechatPay = "wechat_pay"
     case creditCard = "credit_card"
@@ -36,7 +36,7 @@ enum PaymentType: String, Codable, CaseIterable {
     case paypal = "paypal"
     case wallet = "wallet"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .applePay: return "Apple Pay"
         case .wechatPay: return "WeChat Pay"
@@ -47,7 +47,7 @@ enum PaymentType: String, Codable, CaseIterable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .applePay: return "apple.logo"
         case .wechatPay: return "message.fill"
@@ -58,7 +58,7 @@ enum PaymentType: String, Codable, CaseIterable {
         }
     }
     
-    var requiresSetup: Bool {
+    public var requiresSetup: Bool {
         switch self {
         case .applePay, .wechatPay: return false
         case .creditCard, .debitCard, .paypal: return true

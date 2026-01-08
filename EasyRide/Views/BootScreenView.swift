@@ -11,7 +11,7 @@ struct BootScreenView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             VStack(spacing: 30) {
                 // Logo

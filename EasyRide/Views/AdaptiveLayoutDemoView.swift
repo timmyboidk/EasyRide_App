@@ -20,7 +20,7 @@ struct AdaptiveLayoutDemoView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 ScrollView {
                     VStack(spacing: 24) {
                         // Header Section

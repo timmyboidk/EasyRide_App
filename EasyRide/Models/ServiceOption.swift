@@ -1,14 +1,14 @@
 import Foundation
 
-struct ServiceOption: Codable, Identifiable {
-    let id: String
-    let name: String
-    let description: String
-    let price: Double
-    let isSelected: Bool
-    let category: ServiceOptionCategory
+public struct ServiceOption: Codable, Identifiable {
+    public let id: String
+    public let name: String
+    public let description: String
+    public let price: Double
+    public let isSelected: Bool
+    public let category: ServiceOptionCategory
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String,
         description: String,
@@ -25,13 +25,13 @@ struct ServiceOption: Codable, Identifiable {
     }
 }
 
-enum ServiceOptionCategory: String, Codable, CaseIterable {
+public enum ServiceOptionCategory: String, Codable, CaseIterable {
     case comfort = "comfort"
     case convenience = "convenience"
     case safety = "safety"
     case premium = "premium"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .comfort: return "Comfort"
         case .convenience: return "Convenience"

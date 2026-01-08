@@ -1,17 +1,17 @@
 import Foundation
 import CoreLocation
 
-struct Address: Codable, Identifiable, Equatable {
-    let id: String
-    let name: String?
-    let address: String
-    let latitude: Double
-    let longitude: Double
-    let placeId: String?
-    let type: AddressType
-    var isFavorite: Bool
+public struct Address: Codable, Identifiable, Equatable {
+    public let id: String
+    public let name: String?
+    public let address: String
+    public let latitude: Double
+    public let longitude: Double
+    public let placeId: String?
+    public let type: AddressType
+    public var isFavorite: Bool
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String? = nil,
         address: String,
@@ -31,24 +31,24 @@ struct Address: Codable, Identifiable, Equatable {
         self.isFavorite = isFavorite
     }
     
-    var coordinate: CLLocationCoordinate2D {
+    public var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
     
-    var clLocation: CLLocation {
+    public var clLocation: CLLocation {
         CLLocation(latitude: latitude, longitude: longitude)
     }
     
-    var displayName: String {
+    public var displayName: String {
         return name ?? address
     }
     
-    func distance(to other: Address) -> CLLocationDistance {
+    public func distance(to other: Address) -> CLLocationDistance {
         return clLocation.distance(from: other.clLocation)
     }
     
     // Convert to Location
-    func toLocation() -> Location {
+    public func toLocation() -> Location {
         return Location(
             id: id,
             latitude: latitude,
@@ -65,7 +65,7 @@ enum AddressPickerType {
     case destination
 }
 
-enum AddressType: String, Codable, CaseIterable {
+public enum AddressType: String, Codable, CaseIterable {
     case home = "home"
     case work = "work"
     case airport = "airport"
@@ -73,7 +73,7 @@ enum AddressType: String, Codable, CaseIterable {
     case restaurant = "restaurant"
     case general = "general"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .home: return "Home"
         case .work: return "Work"
@@ -84,7 +84,7 @@ enum AddressType: String, Codable, CaseIterable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .home: return "house.fill"
         case .work: return "building.2.fill"

@@ -206,12 +206,12 @@ struct TripModeSettingsView: View {
     private var nextButton: some View {
         Button(action: proceedToNext) {
             Text(LocalizationUtils.localized("Next_Step"))
-                .fontWeight(.semibold)
+                .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(viewModel.isValidConfiguration ? Color.white : Color.secondary.opacity(0.3))
-                .foregroundColor(viewModel.isValidConfiguration ? .black : .secondary)
-                .cornerRadius(10)
+                .background(viewModel.isValidConfiguration ? Color.primary : Color.secondary.opacity(0.3))
+                .foregroundColor(viewModel.isValidConfiguration ? Color(.systemBackground) : .secondary)
+                .cornerRadius(12)
         }
         .disabled(!viewModel.isValidConfiguration)
     }

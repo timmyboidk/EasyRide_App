@@ -32,24 +32,7 @@ import CoreLocation
     @Environment(AppState.self) private var appState
 
     init() {
-      // Customize TabView appearance
-      let appearance = UITabBarAppearance()
-      appearance.configureWithOpaqueBackground()
-      // Use system background color
-      appearance.backgroundColor = UIColor.systemBackground
-      
-      // Set item colors to adapt
-      appearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
-      appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-        .foregroundColor: UIColor.secondaryLabel
-      ]
-      appearance.stackedLayoutAppearance.selected.iconColor = UIColor.label
-      appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-        .foregroundColor: UIColor.label
-      ]
-
-      UITabBar.appearance().standardAppearance = appearance
-      UITabBar.appearance().scrollEdgeAppearance = appearance
+      // Standard adaptive appearance
     }
 
     var body: some View {
@@ -326,12 +309,12 @@ import CoreLocation
               }
             }) {
               Text(NSLocalizedString("Logout", comment: ""))
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.gray.opacity(0.1)) // Lighter background for better contrast in light mode
+                .background(Color.red.opacity(0.1))
                 .foregroundColor(.red)
-                .cornerRadius(10)
+                .cornerRadius(12)
             }
             .padding(.horizontal)
             .padding(.bottom)

@@ -45,7 +45,7 @@ public enum EasyRideError: Error, LocalizedError, Equatable {
     case decodingError(String)
     case encodingError(String)
     
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         // Network errors
         case .networkError(let message):
@@ -123,7 +123,7 @@ public enum EasyRideError: Error, LocalizedError, Equatable {
         }
     }
     
-    var failureReason: String? {
+    public var failureReason: String? {
         switch self {
         case .networkError, .noInternetConnection, .requestTimeout, .serverUnavailable:
             return "Network connectivity issue"
@@ -144,7 +144,7 @@ public enum EasyRideError: Error, LocalizedError, Equatable {
         }
     }
     
-    var recoverySuggestion: String? {
+    public var recoverySuggestion: String? {
         switch self {
         case .noInternetConnection:
             return "Check your internet connection and try again"
@@ -175,7 +175,7 @@ public enum EasyRideError: Error, LocalizedError, Equatable {
         }
     }
     
-    var isRetryable: Bool {
+    public var isRetryable: Bool {
         switch self {
         case .networkError, .noInternetConnection, .requestTimeout, .serverUnavailable, .priceEstimationFailed:
             return true
@@ -205,7 +205,7 @@ public enum EasyRideError: Error, LocalizedError, Equatable {
 
 // MARK: - HTTP Status Code Mapping
 extension EasyRideError {
-    static func from(httpStatusCode: Int, data: Data? = nil) -> EasyRideError {
+    public static func from(httpStatusCode: Int, data: Data? = nil) -> EasyRideError {
         switch httpStatusCode {
         case 400:
             return .invalidRequest("Bad request")

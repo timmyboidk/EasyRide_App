@@ -1,6 +1,6 @@
 import Foundation
 
-enum APIEndpoint {
+public enum APIEndpoint {
     // Authentication
     case loginOTP(phoneNumber: String, otp: String)
     case loginWeChat(code: String, phoneNumber: String?)
@@ -53,7 +53,7 @@ enum APIEndpoint {
     case calculateFareAdjustment(orderId: String, modification: TripModificationRequest)
     case requestTripModification(orderId: String, modification: TripModificationRequest)
     
-    var httpMethod: HTTPMethod {
+    public var httpMethod: HTTPMethod {
         switch self {
         case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken, .createOrder, .estimatePrice, .updateDriverLocation, .addPaymentMethod, .processPayment, .addFundsToWallet, .sendMessage, .sendTypingIndicator, .calculateFareAdjustment, .requestTripModification:
             return .POST
@@ -68,7 +68,7 @@ enum APIEndpoint {
         }
     }
     
-    var path: String {
+    public var path: String {
         switch self {
         // Authentication
         case .loginOTP:
@@ -158,7 +158,7 @@ enum APIEndpoint {
         }
     }
     
-    var queryItems: [URLQueryItem]? {
+    public var queryItems: [URLQueryItem]? {
         switch self {
         case .getOrderHistory(let page, let limit):
             return [
@@ -193,7 +193,7 @@ enum APIEndpoint {
         }
     }
     
-    var body: Data? {
+    public var body: Data? {
         switch self {
         case .loginOTP(let phoneNumber, let otp):
             return try? JSONEncoder().encode(OTPRequest(phoneNumber: phoneNumber, otp: otp))
@@ -243,7 +243,7 @@ enum APIEndpoint {
         }
     }
     
-    var headers: [String: String] {
+    public var headers: [String: String] {
         var headers = ["Content-Type": "application/json"]
         
         switch self {
@@ -256,7 +256,7 @@ enum APIEndpoint {
         return headers
     }
     
-    var requiresAuthentication: Bool {
+    public var requiresAuthentication: Bool {
         switch self {
         case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken:
             return false
@@ -266,7 +266,7 @@ enum APIEndpoint {
     }
 }
 
-enum HTTPMethod: String {
+public enum HTTPMethod: String {
     case GET = "GET"
     case POST = "POST"
     case PUT = "PUT"
@@ -274,7 +274,7 @@ enum HTTPMethod: String {
     case PATCH = "PATCH"
 }
 
-enum MessageType: String, Codable {
+public enum MessageType: String, Codable {
     case text = "text"
     case location = "location"
     case image = "image"
@@ -282,72 +282,130 @@ enum MessageType: String, Codable {
 }
 
 // MARK: - Request Models
-struct WeChatLoginRequest: Codable {
-    let code: String
-    let phoneNumber: String?
-}
-
-struct OTPRequest: Codable {
-    let phoneNumber: String
-    let otp: String
-}
-
-struct RegisterRequest: Codable {
-    let phoneNumber: String
-    // let password: String // REMOVED PASSWORD
-    let otp: String // Added OTP
-    let nickname: String
-    let email: String?
-}
-
-struct RefreshTokenRequest: Codable {
-    let refreshToken: String
-}
-
-struct OrderRequest: Codable {
-    let serviceType: ServiceType
-    let pickupLocation: Location
-    let destination: Location?
-    let scheduledTime: Date?
-    let passengerCount: Int
-    let notes: String?
-    let stops: [TripStop]
-    let serviceOptions: [ServiceOption]
-}
-
-struct PriceEstimateRequest: Codable {
-    let serviceType: ServiceType
-    let pickupLocation: Location
-    let destination: Location?
-    let stops: [TripStop]
-    let serviceOptions: [ServiceOption]
-    let scheduledTime: Date?
-}
-
-struct OrderStatusUpdate: Codable {
-    let status: OrderStatus
-}
-
-struct CancelOrderRequest: Codable {
-    let reason: String?
-}
-
-struct LocationUpdate: Codable {
-    let location: Location
-}
-
-struct DriverRatingRequest: Codable {
-    let rating: Int
-    let comment: String?
-}
-
-struct PaymentMethodRequest: Codable {
-    let type: PaymentType
-    let token: String
-    let isDefault: Bool
-    let metadata: [String: String]?
+public struct WeChatLoginRequest: Codable {
+    public let code: String
+    public let phoneNumber: String?
     
-    init(type: PaymentType, token: String, isDefault: Bool, metadata: [String: String]? = nil) {
+    public init(code: String, phoneNumber: String? = nil) {
+        self.code = code
+        self.phoneNumber = phoneNumber
+    }
+}
+
+public struct OTPRequest: Codable {
+    public let phoneNumber: String
+    public let otp: String
+    
+    public init(phoneNumber: String, otp: String) {
+        self.phoneNumber = phoneNumber
+        self.otp = otp
+    }
+}
+
+public struct RegisterRequest: Codable {
+    public let phoneNumber: String
+    // let password: String // REMOVED PASSWORD
+    public let otp: String // Added OTP
+    public let nickname: String
+    public let email: String?
+    
+    public init(phoneNumber: String, otp: String, nickname: String, email: String? = nil) {
+        self.phoneNumber = phoneNumber
+        self.otp = otp
+        self.nickname = nickname
+        self.email = email
+    }
+}
+
+public struct RefreshTokenRequest: Codable {
+    public let refreshToken: String
+    
+    public init(refreshToken: String) {
+        self.refreshToken = refreshToken
+    }
+}
+
+public struct OrderRequest: Codable {
+    public let serviceType: ServiceType
+    public let pickupLocation: Location
+    public let destination: Location?
+    public let scheduledTime: Date?
+    public let passengerCount: Int
+    public let notes: String?
+    public let stops: [TripStop]
+    public let serviceOptions: [ServiceOption]
+    
+    public init(serviceType: ServiceType, pickupLocation: Location, destination: Location?, scheduledTime: Date?, passengerCount: Int, notes: String?, stops: [TripStop], serviceOptions: [ServiceOption]) {
+        self.serviceType = serviceType
+        self.pickupLocation = pickupLocation
+        self.destination = destination
+        self.scheduledTime = scheduledTime
+        self.passengerCount = passengerCount
+        self.notes = notes
+        self.stops = stops
+        self.serviceOptions = serviceOptions
+    }
+}
+
+public struct PriceEstimateRequest: Codable {
+    public let serviceType: ServiceType
+    public let pickupLocation: Location
+    public let destination: Location?
+    public let stops: [TripStop]
+    public let serviceOptions: [ServiceOption]
+    public let scheduledTime: Date?
+    
+    public init(serviceType: ServiceType, pickupLocation: Location, destination: Location? = nil, stops: [TripStop] = [], serviceOptions: [ServiceOption] = [], scheduledTime: Date? = nil) {
+        self.serviceType = serviceType
+        self.pickupLocation = pickupLocation
+        self.destination = destination
+        self.stops = stops
+        self.serviceOptions = serviceOptions
+        self.scheduledTime = scheduledTime
+    }
+}
+
+public struct OrderStatusUpdate: Codable {
+    public let status: OrderStatus
+    
+    public init(status: OrderStatus) {
+        self.status = status
+    }
+}
+
+public struct CancelOrderRequest: Codable {
+    public let reason: String?
+    
+    public init(reason: String? = nil) {
+        self.reason = reason
+    }
+}
+
+public struct LocationUpdate: Codable {
+    public let location: Location
+    
+    public init(location: Location) {
+        self.location = location
+    }
+}
+
+public struct DriverRatingRequest: Codable {
+    public let rating: Int
+    public let comment: String?
+    
+    public init(rating: Int, comment: String? = nil) {
+        self.rating = rating
+        self.comment = comment
+    }
+}
+
+public struct PaymentMethodRequest: Codable {
+    public let type: PaymentType
+    public let token: String
+    public let isDefault: Bool
+    public let metadata: [String: String]?
+    
+    public init(type: PaymentType, token: String, isDefault: Bool, metadata: [String: String]? = nil) {
         self.type = type
         self.token = token
         self.isDefault = isDefault
@@ -355,37 +413,68 @@ struct PaymentMethodRequest: Codable {
     }
 }
 
-struct PaymentRequest: Codable {
-    let orderId: String
-    let paymentMethodId: String
-    let amount: Double
-}
-
-struct AddFundsRequest: Codable {
-    let amount: Double
-    let paymentMethodId: String
-}
-
-struct SendMessageRequest: Codable {
-    let message: String
-    let type: MessageType
-}
-
-struct MarkMessagesReadRequest: Codable {
-    let messageIds: [String]
-}
-
-struct TypingIndicatorRequest: Codable {
-    let isTyping: Bool
-}
-
-struct TripModificationRequest: Codable {
-    let type: ModificationType
-    let newDestination: Location?
-    let additionalStops: [TripStop]
-    let notes: String?
+public struct PaymentRequest: Codable {
+    public let orderId: String
+    public let paymentMethodId: String
+    public let amount: Double
     
-    var description: String {
+    public init(orderId: String, paymentMethodId: String, amount: Double) {
+        self.orderId = orderId
+        self.paymentMethodId = paymentMethodId
+        self.amount = amount
+    }
+}
+
+public struct AddFundsRequest: Codable {
+    public let amount: Double
+    public let paymentMethodId: String
+    
+    public init(amount: Double, paymentMethodId: String) {
+        self.amount = amount
+        self.paymentMethodId = paymentMethodId
+    }
+}
+
+public struct SendMessageRequest: Codable {
+    public let message: String
+    public let type: MessageType
+    
+    public init(message: String, type: MessageType) {
+        self.message = message
+        self.type = type
+    }
+}
+
+public struct MarkMessagesReadRequest: Codable {
+    public let messageIds: [String]
+    
+    public init(messageIds: [String]) {
+        self.messageIds = messageIds
+    }
+}
+
+public struct TypingIndicatorRequest: Codable {
+    public let isTyping: Bool
+    
+    public init(isTyping: Bool) {
+        self.isTyping = isTyping
+    }
+}
+
+public struct TripModificationRequest: Codable {
+    public let type: ModificationType
+    public let newDestination: Location?
+    public let additionalStops: [TripStop]
+    public let notes: String?
+    
+    public init(type: ModificationType, newDestination: Location? = nil, additionalStops: [TripStop] = [], notes: String? = nil) {
+        self.type = type
+        self.newDestination = newDestination
+        self.additionalStops = additionalStops
+        self.notes = notes
+    }
+    
+    public var description: String {
         switch type {
         case .changeDestination:
             return "Change destination to \(newDestination?.address ?? "new location")"
@@ -399,7 +488,7 @@ struct TripModificationRequest: Codable {
     }
 }
 
-enum ModificationType: String, Codable {
+public enum ModificationType: String, Codable {
     case changeDestination = "change_destination"
     case addStops = "add_stops"
     case changeRoute = "change_route"
@@ -407,29 +496,51 @@ enum ModificationType: String, Codable {
 }
 
 // MARK: - Response Models
-struct AuthResponse: Codable {
-    let accessToken: String
-    let refreshToken: String
-    let user: User
-    let expiresIn: Int
+public struct AuthResponse: Codable {
+    public let accessToken: String
+    public let refreshToken: String
+    public let user: User
+    public let expiresIn: Int
+    
+    public init(accessToken: String, refreshToken: String, user: User, expiresIn: Int) {
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
+        self.user = user
+        self.expiresIn = expiresIn
+    }
 }
 
-struct PriceEstimateResponse: Codable {
-    let basePrice: Double
-    let serviceFeesTotal: Double
-    let totalPrice: Double
-    let estimatedDuration: TimeInterval
-    let estimatedDistance: Double
-    let breakdown: [PriceBreakdownItem]
+public struct PriceEstimateResponse: Codable {
+    public let basePrice: Double
+    public let serviceFeesTotal: Double
+    public let totalPrice: Double
+    public let estimatedDuration: TimeInterval
+    public let estimatedDistance: Double
+    public let breakdown: [PriceBreakdownItem]
+    
+    public init(basePrice: Double, serviceFeesTotal: Double, totalPrice: Double, estimatedDuration: TimeInterval, estimatedDistance: Double, breakdown: [PriceBreakdownItem]) {
+        self.basePrice = basePrice
+        self.serviceFeesTotal = serviceFeesTotal
+        self.totalPrice = totalPrice
+        self.estimatedDuration = estimatedDuration
+        self.estimatedDistance = estimatedDistance
+        self.breakdown = breakdown
+    }
 }
 
-struct PriceBreakdownItem: Codable {
-    let name: String
-    let amount: Double
-    let type: PriceItemType
+public struct PriceBreakdownItem: Codable {
+    public let name: String
+    public let amount: Double
+    public let type: PriceItemType
+    
+    public init(name: String, amount: Double, type: PriceItemType) {
+        self.name = name
+        self.amount = amount
+        self.type = type
+    }
 }
 
-enum PriceItemType: String, Codable {
+public enum PriceItemType: String, Codable {
     case baseFare = "base_fare"
     case serviceFee = "service_fee"
     case discount = "discount"
@@ -437,39 +548,71 @@ enum PriceItemType: String, Codable {
     case tip = "tip"
 }
 
-struct LocationSearchResponse: Codable {
-    let results: [LocationSearchResult]
+public struct LocationSearchResponse: Codable {
+    public let results: [LocationSearchResult]
+    
+    public init(results: [LocationSearchResult]) {
+        self.results = results
+    }
 }
 
-struct LocationSearchResult: Codable {
-    let placeId: String
-    let name: String
-    let address: String
-    let location: Location
-    let category: AddressType
+public struct LocationSearchResult: Codable {
+    public let placeId: String
+    public let name: String
+    public let address: String
+    public let location: Location
+    public let category: AddressType
+    
+    public init(placeId: String, name: String, address: String, location: Location, category: AddressType) {
+        self.placeId = placeId
+        self.name = name
+        self.address = address
+        self.location = location
+        self.category = category
+    }
 }
 
-struct AvailableDriversResponse: Codable {
-    let drivers: [Driver]
-    let estimatedWaitTime: TimeInterval
+public struct AvailableDriversResponse: Codable {
+    public let drivers: [Driver]
+    public let estimatedWaitTime: TimeInterval
+    
+    public init(drivers: [Driver], estimatedWaitTime: TimeInterval) {
+        self.drivers = drivers
+        self.estimatedWaitTime = estimatedWaitTime
+    }
 }
 
-struct WalletResponse: Codable {
-    let balance: Double
-    let currency: String
-    let transactions: [Transaction]
+public struct WalletResponse: Codable {
+    public let balance: Double
+    public let currency: String
+    public let transactions: [Transaction]
+    
+    public init(balance: Double, currency: String, transactions: [Transaction]) {
+        self.balance = balance
+        self.currency = currency
+        self.transactions = transactions
+    }
 }
 
-struct Transaction: Codable, Identifiable {
-    let id: String
-    let amount: Double
-    let type: TransactionType
-    let description: String
-    let createdAt: Date
-    let orderId: String?
+public struct Transaction: Codable, Identifiable {
+    public let id: String
+    public let amount: Double
+    public let type: TransactionType
+    public let description: String
+    public let createdAt: Date
+    public let orderId: String?
+    
+    public init(id: String, amount: Double, type: TransactionType, description: String, createdAt: Date, orderId: String? = nil) {
+        self.id = id
+        self.amount = amount
+        self.type = type
+        self.description = description
+        self.createdAt = createdAt
+        self.orderId = orderId
+    }
 }
 
-enum TransactionType: String, Codable {
+public enum TransactionType: String, Codable {
     case payment = "payment"
     case refund = "refund"
     case topUp = "top_up"
@@ -503,21 +646,40 @@ enum TransactionType: String, Codable {
     }
 }
 
-struct MessagesResponse: Codable {
-    let messages: [Message]
-    let hasMore: Bool
-    let unreadCount: Int
+public struct MessagesResponse: Codable {
+    public let messages: [Message]
+    public let hasMore: Bool
+    public let unreadCount: Int
+    
+    public init(messages: [Message], hasMore: Bool, unreadCount: Int) {
+        self.messages = messages
+        self.hasMore = hasMore
+        self.unreadCount = unreadCount
+    }
 }
 
-struct OrderHistoryResponse: Codable {
-    let orders: [Order]
-    let hasMore: Bool
-    let totalCount: Int
-    let currentPage: Int
+public struct OrderHistoryResponse: Codable {
+    public let orders: [Order]
+    public let hasMore: Bool
+    public let totalCount: Int
+    public let currentPage: Int
+    
+    public init(orders: [Order], hasMore: Bool, totalCount: Int, currentPage: Int) {
+        self.orders = orders
+        self.hasMore = hasMore
+        self.totalCount = totalCount
+        self.currentPage = currentPage
+    }
 }
 
-struct FareAdjustmentResponse: Codable {
-    let adjustment: Double
-    let newTotalFare: Double
-    let breakdown: [PriceBreakdownItem]
+public struct FareAdjustmentResponse: Codable {
+    public let adjustment: Double
+    public let newTotalFare: Double
+    public let breakdown: [PriceBreakdownItem]
+    
+    public init(adjustment: Double, newTotalFare: Double, breakdown: [PriceBreakdownItem]) {
+        self.adjustment = adjustment
+        self.newTotalFare = newTotalFare
+        self.breakdown = breakdown
+    }
 }

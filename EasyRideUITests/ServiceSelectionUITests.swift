@@ -1,6 +1,6 @@
+#if canImport(XCTest)
 import XCTest
 import SwiftUI
-@testable import EasyRide
 
 /// UI tests for the service selection flow
 final class ServiceSelectionUITests: XCTestCase {
@@ -242,3 +242,4 @@ final class ServiceSelectionUITests: XCTestCase {
         }
     }
 }
+#endif

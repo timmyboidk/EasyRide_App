@@ -6,38 +6,38 @@ import Combine
 import UIKit
 
 // MARK: - Performance Utilities
-struct PerformanceUtils {
+public struct PerformanceUtils {
     // MARK: - List Performance
     
     /// Recommended batch size for lazy loading
-    static let recommendedBatchSize = 20
+    public static let recommendedBatchSize = 20
     
     /// Recommended prefetch distance for lazy loading
-    static let recommendedPrefetchDistance = 10
+    public static let recommendedPrefetchDistance = 10
     
     /// Recommended debounce interval for search operations
-    static let recommendedDebounceInterval: TimeInterval = 0.3
+    public static let recommendedDebounceInterval: TimeInterval = 0.3
     
     /// Recommended throttle interval for continuous updates
-    static let recommendedThrottleInterval: TimeInterval = 0.2
+    public static let recommendedThrottleInterval: TimeInterval = 0.2
     
     // MARK: - Map Performance
     
     /// Recommended map annotation clustering distance
-    static let mapClusteringDistance: Double = 50
+    public static let mapClusteringDistance: Double = 50
     
     /// Recommended map update throttle interval
-    static let mapUpdateThrottleInterval: TimeInterval = 0.5
+    public static let mapUpdateThrottleInterval: TimeInterval = 0.5
     
     #if os(iOS)
     /// Recommended map visible region padding
-    static let mapVisibleRegionPadding = UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
+    public static let mapVisibleRegionPadding = UIEdgeInsets(top: 100, left: 100, bottom: 100, right: 100)
     #endif
     
     /// Calculate optimal map zoom level based on distance between points
     /// - Parameter coordinates: Array of coordinates to display
     /// - Returns: Optimal zoom level as MKCoordinateSpan
-    static func optimalMapZoom(for coordinates: [CLLocationCoordinate2D]) -> MKCoordinateSpan {
+    public static func optimalMapZoom(for coordinates: [CLLocationCoordinate2D]) -> MKCoordinateSpan {
         guard coordinates.count > 1 else {
             return MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
         }
@@ -57,11 +57,11 @@ struct PerformanceUtils {
     // MARK: - Image Performance
     
     /// Recommended image cache size in MB
-    static let recommendedImageCacheSizeMB = 50
+    public static let recommendedImageCacheSizeMB = 50
     
     #if os(iOS)
     /// Recommended image downsampling size for list items
-    static let recommendedListImageSize = CGSize(width: 100, height: 100)
+    public static let recommendedListImageSize = CGSize(width: 100, height: 100)
     
     /// Downsample an image to improve memory usage
     /// - Parameters:
@@ -69,7 +69,7 @@ struct PerformanceUtils {
     ///   - pointSize: Target size in points
     ///   - scale: Screen scale (default: main screen scale)
     /// - Returns: Downsampled UIImage or nil if downsampling fails
-    static func downsampleImage(
+    public static func downsampleImage(
         imageData: Data,
         to pointSize: CGSize,
         scale: CGFloat = UIScreen.main.scale
@@ -98,7 +98,7 @@ struct PerformanceUtils {
     // MARK: - Animation Performance
     
     /// Check if device is low-powered and should use reduced animations
-    static var shouldUseReducedAnimations: Bool {
+    public static var shouldUseReducedAnimations: Bool {
         #if os(iOS)
         // Check for older/lower-powered devices
         let deviceModel = UIDevice.current.model
@@ -119,7 +119,7 @@ struct PerformanceUtils {
     /// Get appropriate animation duration based on device capabilities
     /// - Parameter baseDuration: Base animation duration
     /// - Returns: Adjusted animation duration
-    static func adaptiveAnimationDuration(_ baseDuration: Double) -> Double {
+    public static func adaptiveAnimationDuration(_ baseDuration: Double) -> Double {
         if shouldUseReducedAnimations {
             return min(baseDuration * 0.7, 0.2) // Cap at 200ms for low-power devices
         }
@@ -153,8 +153,8 @@ extension Publishers {
 }
 
 // MARK: - Optimized List View Modifier
-struct OptimizedListModifier: ViewModifier {
-    func body(content: Content) -> some View {
+public struct OptimizedListModifier: ViewModifier {
+    public func body(content: Content) -> some View {
         content
             .scrollDismissesKeyboard(.immediately)
             .scrollIndicators(.automatic)
@@ -163,8 +163,8 @@ struct OptimizedListModifier: ViewModifier {
 }
 
 // MARK: - Optimized Map View Modifier
-struct OptimizedMapModifier: ViewModifier {
-    func body(content: Content) -> some View {
+public struct OptimizedMapModifier: ViewModifier {
+    public func body(content: Content) -> some View {
         content
             .onDisappear {
                 // Release map resources when view disappears
@@ -208,8 +208,8 @@ extension View {
 
 #if canImport(UIKit)
 // MARK: - Image Cache
-class ImageCache {
-    static let shared = ImageCache()
+public class ImageCache {
+    public static let shared = ImageCache()
     
     private let cache = NSCache<NSString, UIImage>()
     
@@ -218,22 +218,22 @@ class ImageCache {
         cache.totalCostLimit = PerformanceUtils.recommendedImageCacheSizeMB * 1024 * 1024
     }
     
-    func set(_ image: UIImage, forKey key: String) {
+    public func set(_ image: UIImage, forKey key: String) {
         let approximateSize = Int(image.size.width * image.size.height * 4) // 4 bytes per pixel (RGBA)
         cache.setObject(image, forKey: key as NSString, cost: approximateSize)
     }
     
-    func get(forKey key: String) -> UIImage? {
+    public func get(forKey key: String) -> UIImage? {
         return cache.object(forKey: key as NSString)
     }
     
-    func clear() {
+    public func clear() {
         cache.removeAllObjects()
     }
 }
 
 // MARK: - Cached Async Image
-struct CachedAsyncImage<Content: View, Placeholder: View>: View {
+public struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     private let url: URL?
     private let scale: CGFloat
     private let transaction: SwiftUI.Transaction
@@ -243,7 +243,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
     @State private var cachedImage: UIImage?
     @State private var isLoading = false
     
-    init(
+    public init(
         url: URL?,
         scale: CGFloat = 1.0,
         transaction: SwiftUI.Transaction = SwiftUI.Transaction(),
@@ -257,7 +257,7 @@ struct CachedAsyncImage<Content: View, Placeholder: View>: View {
         self.placeholder = placeholder
     }
     
-    var body: some View {
+    public var body: some View {
         Group {
             if let cachedImage = cachedImage {
                 content(Image(uiImage: cachedImage))

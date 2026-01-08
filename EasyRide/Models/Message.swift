@@ -1,17 +1,17 @@
 import Foundation
 
-struct Message: Codable, Identifiable {
-    let id: String
-    let orderId: String
-    let senderId: String
-    let senderType: SenderType
-    let content: String
-    let type: MessageType
-    let timestamp: Date
-    var isRead: Bool
-    let location: Location?
+public struct Message: Codable, Identifiable {
+    public let id: String
+    public let orderId: String
+    public let senderId: String
+    public let senderType: SenderType
+    public let content: String
+    public let type: MessageType
+    public let timestamp: Date
+    public var isRead: Bool
+    public let location: Location?
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         orderId: String,
         senderId: String,
@@ -33,17 +33,17 @@ struct Message: Codable, Identifiable {
         self.location = location
     }
     
-    var isFromCurrentUser: Bool {
+    public var isFromCurrentUser: Bool {
         return senderType == .passenger
     }
     
-    var displayTime: String {
+    public var displayTime: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         return formatter.string(from: timestamp)
     }
     
-    var displayContent: String {
+    public var displayContent: String {
         switch type {
         case .text:
             return content
@@ -57,12 +57,12 @@ struct Message: Codable, Identifiable {
     }
 }
 
-enum SenderType: String, Codable {
+public enum SenderType: String, Codable {
     case passenger = "passenger"
     case driver = "driver"
     case system = "system"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .passenger: return "You"
         case .driver: return "Driver"
@@ -71,25 +71,25 @@ enum SenderType: String, Codable {
     }
 }
 // Preset message phrases for quick communication
-struct PresetMessage {
-    let id: String
-    let text: String
-    let category: PresetMessageCategory
+public struct PresetMessage {
+    public let id: String
+    public let text: String
+    public let category: PresetMessageCategory
     
-    init(id: String = UUID().uuidString, text: String, category: PresetMessageCategory) {
+    public init(id: String = UUID().uuidString, text: String, category: PresetMessageCategory) {
         self.id = id
         self.text = text
         self.category = category
     }
 }
 
-enum PresetMessageCategory: String, CaseIterable {
+public enum PresetMessageCategory: String, CaseIterable {
     case arrival = "arrival"
     case location = "location"
     case delay = "delay"
     case general = "general"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .arrival: return "Arrival"
         case .location: return "Location"
@@ -123,7 +123,7 @@ extension PresetMessage {
         PresetMessage(text: "On my way", category: .general)
     ]
     
-    static func messages(for category: PresetMessageCategory) -> [PresetMessage] {
+    public static func messages(for category: PresetMessageCategory) -> [PresetMessage] {
         return commonMessages.filter { $0.category == category }
     }
 }

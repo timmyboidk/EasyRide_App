@@ -2,12 +2,12 @@ import Foundation
 import SwiftUI
 
 /// Utility class for handling internationalization and localization
-enum LocalizationUtils {
+public enum LocalizationUtils {
     
     /// Returns a localized string using the key
     /// - Parameter key: The key to look up in the Localizable.strings file
     /// - Returns: A localized string
-    static func localized(_ key: String) -> String {
+    public static func localized(_ key: String) -> String {
         let language = UserDefaults.standard.array(forKey: "AppleLanguages")?.first as? String ?? "en"
         let path = Bundle.main.path(forResource: language, ofType: "lproj") ?? Bundle.main.path(forResource: "en", ofType: "lproj")
         let bundle = Bundle(path: path ?? "") ?? Bundle.main
@@ -19,7 +19,7 @@ enum LocalizationUtils {
     ///   - key: The key to look up in the Localizable.strings file
     ///   - arguments: The arguments to insert into the format string
     /// - Returns: A formatted localized string
-    static func localizedFormat(_ key: String, _ arguments: CVarArg...) -> String {
+    public static func localizedFormat(_ key: String, _ arguments: CVarArg...) -> String {
         let format = NSLocalizedString(key, comment: "")
         return String(format: format, arguments: arguments)
     }
@@ -30,7 +30,7 @@ enum LocalizationUtils {
     ///   - style: The date style to use
     ///   - timeStyle: The time style to use
     /// - Returns: A localized date string
-    static func formatDate(_ date: Date, dateStyle: DateFormatter.Style = .medium, timeStyle: DateFormatter.Style = .short) -> String {
+    public static func formatDate(_ date: Date, dateStyle: DateFormatter.Style = .medium, timeStyle: DateFormatter.Style = .short) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = dateStyle
         formatter.timeStyle = timeStyle
@@ -43,7 +43,7 @@ enum LocalizationUtils {
     ///   - price: The price to format
     ///   - currencyCode: The currency code (default: USD)
     /// - Returns: A localized price string
-    static func formatPrice(_ price: Double, currencyCode: String = "USD") -> String {
+    public static func formatPrice(_ price: Double, currencyCode: String = "USD") -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.locale = Locale.current
@@ -52,18 +52,18 @@ enum LocalizationUtils {
     }
     
     /// Returns whether the current locale uses right-to-left text direction
-    static var isRTL: Bool {
+    public static var isRTL: Bool {
         return Locale.current.language.characterDirection == .rightToLeft
     }
     
     /// Returns the current locale's language code
-    static var currentLanguageCode: String {
+    public static var currentLanguageCode: String {
         return Locale.current.language.languageCode?.identifier ?? "en"
     }
     
 #if canImport(UIKit)
     /// Returns the semantic content attribute based on the current locale's text direction
-    static var semanticContentAttribute: UISemanticContentAttribute {
+    public static var semanticContentAttribute: UISemanticContentAttribute {
         return isRTL ? .forceRightToLeft : .forceLeftToRight
     }
 #endif

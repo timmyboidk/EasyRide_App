@@ -10,7 +10,7 @@ struct TripConfigurationView: View {
 
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -26,7 +26,6 @@ struct TripConfigurationView: View {
         }
         .navigationTitle(Text("行程配置", bundle: nil))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarColorScheme(.dark, for: .navigationBar) // Ensures bar items are white
         .sheet(isPresented: $viewModel.showingAddressPicker) {
             // Placeholder for Address Picker UI
             Text("地址选择器")
@@ -49,7 +48,7 @@ struct TripConfigurationView: View {
             }
         }
         .padding(6)
-        .background(Color.gray.opacity(0.2))
+        .background(Color.primary.opacity(0.05))
         .cornerRadius(12)
     }
 
@@ -81,16 +80,12 @@ struct TripConfigurationView: View {
                 navigationPath.append(BookingStep.valueAddedServicesPayment)
             }) {
                 Text("继续", bundle: nil)
-                    .fontWeight(.semibold)
+                    .fontWeight(.heavy)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white, lineWidth: 1)
-                    )
+                    .background(Color.primary)
+                    .foregroundColor(Color(.systemBackground))
+                    .cornerRadius(12)
             }
             .padding(.top)
         }
@@ -107,11 +102,11 @@ struct ModeCard: View {
     var body: some View {
         Button(action: action) {
             Text(mode.displayName)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
-                .background(isSelected ? Color.white : Color.clear)
-                .foregroundColor(isSelected ? .black : .white)
+                .background(isSelected ? Color.primary : Color.clear)
+                .foregroundColor(isSelected ? Color(.systemBackground) : .primary)
                 .cornerRadius(8)
         }
     }
@@ -128,26 +123,26 @@ struct AddressInputField: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
                 .font(.headline)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
             
             Button(action: action) {
                 HStack {
                     Image(systemName: icon)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                     
                     if address.isEmpty {
                         Text(placeholder)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     } else {
                         Text(address)
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                     }
                     
                     Spacer()
                 }
                 .padding()
-                .background(Color.white)
-                .cornerRadius(10)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
             }
         }
     }

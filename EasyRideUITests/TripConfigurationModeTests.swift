@@ -1,6 +1,6 @@
+#if canImport(XCTest)
 import XCTest
 import SwiftUI
-@testable import EasyRide
 
 /// UI tests for trip configuration mode switching
 final class TripConfigurationModeTests: XCTestCase {
@@ -280,3 +280,4 @@ final class TripConfigurationModeTests: XCTestCase {
 }
 
 // MARK: - XCUIElement Extensions
+#endif

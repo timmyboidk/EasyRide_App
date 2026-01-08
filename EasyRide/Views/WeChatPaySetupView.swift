@@ -54,12 +54,12 @@ struct WeChatPaySetupView: View {
                     } else {
                         Button(action: enableWeChatPay) {
                             Text(LocalizationUtils.localized("Bind_WeChat_Pay"))
-                                .fontWeight(.semibold)
+                                .fontWeight(.heavy)
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(Color.green)
                                 .foregroundColor(.white)
-                                .cornerRadius(10)
+                                .cornerRadius(12)
                         }
                     }
                 }

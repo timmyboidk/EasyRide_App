@@ -12,17 +12,6 @@ struct ServiceSelectionView: View {
     init(appState: AppState, navigationPath: Binding<NavigationPath>) {
         self._viewModel = State(initialValue: ServiceSelectionViewModel(appState: appState))
         self._navigationPath = navigationPath
-        
-        // Customize Navigation Bar appearance for dark theme
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .black
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
     }
     
     var body: some View {

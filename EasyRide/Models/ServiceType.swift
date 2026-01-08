@@ -1,14 +1,14 @@
 import Foundation
 
-enum ServiceType: String, Codable, CaseIterable, Identifiable {
+public enum ServiceType: String, Codable, CaseIterable, Identifiable {
     case airport = "airport"
     case longDistance = "long_distance"
     case charter = "charter"
     case carpooling = "carpooling"
     
-    var id: String { rawValue }
+    public var id: String { rawValue }
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .airport: return NSLocalizedString("Airport_Pickup", comment: "")
         case .longDistance: return NSLocalizedString("Long_Distance", comment: "")
@@ -17,7 +17,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .airport: return "airplane"
         case .longDistance: return "road.lanes"
@@ -26,7 +26,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    var description: String {
+    public var description: String {
         switch self {
         case .airport: return NSLocalizedString("Airport_Desc", comment: "Airport transfer service")
         case .longDistance: return NSLocalizedString("Long_Distance_Desc", comment: "Inter-city travel")
@@ -35,7 +35,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    var passengerCount: String {
+    public var passengerCount: String {
         switch self {
         case .airport: return "1-6人"
         case .longDistance: return "1-6人"
@@ -44,7 +44,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    var scenarios: [String] {
+    public var scenarios: [String] {
         switch self {
         case .airport:
             return [NSLocalizedString("Airport_Scenario", comment: "")]
@@ -58,7 +58,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
     }
     
     /// Accessibility-friendly description for screen readers
-    var accessibilityDescription: String {
+    public var accessibilityDescription: String {
         switch self {
         case .airport: return "Airport transfer service"
         case .longDistance: return "Long distance travel service"
@@ -67,7 +67,7 @@ enum ServiceType: String, Codable, CaseIterable, Identifiable {
         }
     }
     
-    var basePrice: Double {
+    public var basePrice: Double {
         switch self {
         case .airport: return 200.0
         case .longDistance: return 500.0

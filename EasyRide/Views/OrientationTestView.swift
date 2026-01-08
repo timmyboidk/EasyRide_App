@@ -11,7 +11,7 @@ struct OrientationTestView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 GeometryReader { geometry in
                     ScrollView {
                         VStack(spacing: ResponsiveLayoutUtils.deviceSpecificSpacing()) {

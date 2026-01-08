@@ -228,8 +228,8 @@ struct OrderTrackingView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.blue, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.blue, lineWidth: 1.5)
                 )
             }
             
@@ -244,8 +244,8 @@ struct OrderTrackingView: View {
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.red, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.red, lineWidth: 1.5)
                 )
             }
         }
@@ -313,7 +313,7 @@ struct ChatInterfaceView: View {
                 // Input Section
                 chatInputSection
             }
-            .background(Color.black)
+            .background(Color(.systemBackground))
             .navigationTitle("聊天界面")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(

@@ -1,16 +1,16 @@
 import Foundation
 
-struct User: Codable, Identifiable {
-    let id: String
-    let name: String
-    let email: String
-    let phoneNumber: String?
-    let profileImage: String?
-    let preferredLanguage: String?
-    let createdAt: Date
-    var isVerified: Bool
+public struct User: Codable, Identifiable {
+    public let id: String
+    public let name: String
+    public let email: String
+    public let phoneNumber: String?
+    public let profileImage: String?
+    public let preferredLanguage: String?
+    public let createdAt: Date
+    public var isVerified: Bool
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String,
         email: String,
@@ -30,11 +30,11 @@ struct User: Codable, Identifiable {
         self.isVerified = isVerified
     }
     
-    var displayName: String {
+    public var displayName: String {
         return name.isEmpty ? email : name
     }
     
-    var initials: String {
+    public var initials: String {
         let components = name.components(separatedBy: " ")
         let initials = components.compactMap { $0.first }.map { String($0) }
         return initials.prefix(2).joined().uppercased()

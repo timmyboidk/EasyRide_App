@@ -326,8 +326,14 @@ class OrderTrackingViewModel {
 
 // MARK: - Response Models
 
-struct LocationUpdateResponse: Codable {
-    let location: Location
-    let estimatedArrival: Date?
-    let status: OrderStatus
+public struct LocationUpdateResponse: Codable {
+    public let location: Location
+    public let estimatedArrival: Date?
+    public let status: OrderStatus
+
+    public init(location: Location, estimatedArrival: Date?, status: OrderStatus) {
+        self.location = location
+        self.estimatedArrival = estimatedArrival
+        self.status = status
+    }
 }

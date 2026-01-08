@@ -1,6 +1,6 @@
+#if canImport(XCTest)
 import XCTest
 import SwiftUI
-@testable import EasyRide
 
 /// Tests for VoiceOver support and accessibility labels
 final class VoiceOverSupportTests: XCTestCase {
@@ -293,4 +293,4 @@ extension XCUIElement {
     var isSelected: Bool {
         return (value(forKey: "selected") as? Bool) ?? false
     }
-}
+}#endif

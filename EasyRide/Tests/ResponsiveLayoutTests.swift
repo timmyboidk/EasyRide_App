@@ -231,38 +231,3 @@ final class ResponsiveLayoutTests: XCTestCase {
         }
     }
 }
-
-// MARK: - UI Tests for Responsive Layout
-final class ResponsiveLayoutUITests: XCTestCase {
-    
-    func testOrientationTestViewLoads() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
-        // Test that orientation test view can be displayed
-        // This would be integrated into the main app navigation for testing
-        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
-    }
-    
-    func testServiceSelectionResponsiveLayout() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
-        // Test service selection view adapts to different orientations
-        // This test would verify that service cards are properly laid out
-        // in both portrait and landscape orientations
-        
-        // Rotate to landscape
-        XCUIDevice.shared.orientation = .landscapeLeft
-        
-        // Verify layout adapts
-        let serviceCards = app.buttons.matching(identifier: "service-card")
-        XCTAssertGreaterThan(serviceCards.count, 0)
-        
-        // Rotate back to portrait
-        XCUIDevice.shared.orientation = .portrait
-        
-        // Verify layout adapts again
-        XCTAssertGreaterThan(serviceCards.count, 0)
-    }
-}

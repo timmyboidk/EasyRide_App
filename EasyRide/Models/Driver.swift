@@ -1,18 +1,18 @@
 import Foundation
 
-struct Driver: Codable, Identifiable {
-    let id: String
-    let name: String
-    let phoneNumber: String
-    let profileImage: String?
-    let rating: Double
-    let totalTrips: Int
-    let vehicleInfo: VehicleInfo
-    let currentLocation: Location?
-    let isOnline: Bool
-    var estimatedArrival: Date?
+public struct Driver: Codable, Identifiable {
+    public let id: String
+    public let name: String
+    public let phoneNumber: String
+    public let profileImage: String?
+    public let rating: Double
+    public let totalTrips: Int
+    public let vehicleInfo: VehicleInfo
+    public let currentLocation: Location?
+    public let isOnline: Bool
+    public var estimatedArrival: Date?
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         name: String,
         phoneNumber: String,
@@ -36,40 +36,40 @@ struct Driver: Codable, Identifiable {
         self.estimatedArrival = estimatedArrival
     }
     
-    var ratingFormatted: String {
+    public var ratingFormatted: String {
         return String(format: "%.1f", rating)
     }
     
-    var isHighRated: Bool {
+    public var isHighRated: Bool {
         return rating >= 4.5
     }
 }
 
-struct VehicleInfo: Codable {
-    let make: String
-    let model: String
-    let year: Int
-    let color: String
-    let licensePlate: String
-    let vehicleType: VehicleType
+public struct VehicleInfo: Codable {
+    public let make: String
+    public let model: String
+    public let year: Int
+    public let color: String
+    public let licensePlate: String
+    public let vehicleType: VehicleType
     
-    var displayName: String {
+    public var displayName: String {
         return "\(year) \(make) \(model)"
     }
     
-    var fullDescription: String {
+    public var fullDescription: String {
         return "\(color) \(displayName) (\(licensePlate))"
     }
 }
 
-enum VehicleType: String, Codable, CaseIterable {
+public enum VehicleType: String, Codable, CaseIterable {
     case sedan = "sedan"
     case suv = "suv"
     case van = "van"
     case luxury = "luxury"
     case electric = "electric"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .sedan: return "轿车"
         case .suv: return "SUV"
@@ -79,7 +79,7 @@ enum VehicleType: String, Codable, CaseIterable {
         }
     }
     
-    var capacity: Int {
+    public var capacity: Int {
         switch self {
         case .sedan: return 4
         case .suv: return 6
@@ -89,7 +89,7 @@ enum VehicleType: String, Codable, CaseIterable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .sedan: return "car.fill"
         case .suv: return "car.2.fill"

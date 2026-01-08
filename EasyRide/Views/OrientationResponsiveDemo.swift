@@ -37,7 +37,7 @@ struct OrientationResponsiveDemo: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 ScrollView {
                     VStack(spacing: orientationObserver.isLandscape ? 16 : 24) {
                         // Header Section

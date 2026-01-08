@@ -6,32 +6,32 @@ import UIKit
 // MARK: - Accessibility Utilities
 
 /// Utility class for managing accessibility features throughout the app
-class AccessibilityUtils {
+public class AccessibilityUtils {
     
     // MARK: - Environment Detection
     
     /// Check if VoiceOver is currently running
-    static var isVoiceOverRunning: Bool {
+    public static var isVoiceOverRunning: Bool {
         return UIAccessibility.isVoiceOverRunning
     }
     
     /// Check if Switch Control is currently running
-    static var isSwitchControlRunning: Bool {
+    public static var isSwitchControlRunning: Bool {
         return UIAccessibility.isSwitchControlRunning
     }
     
     /// Check if user prefers reduced motion
-    static var isReduceMotionEnabled: Bool {
+    public static var isReduceMotionEnabled: Bool {
         return UIAccessibility.isReduceMotionEnabled
     }
     
     /// Check if user prefers reduced transparency
-    static var isReduceTransparencyEnabled: Bool {
+    public static var isReduceTransparencyEnabled: Bool {
         return UIAccessibility.isReduceTransparencyEnabled
     }
     
     /// Check if user has enabled high contrast mode
-    static var isDarkerSystemColorsEnabled: Bool {
+    public static var isDarkerSystemColorsEnabled: Bool {
         return UIAccessibility.isDarkerSystemColorsEnabled
     }
     
@@ -41,7 +41,7 @@ class AccessibilityUtils {
     /// - Parameters:
     ///   - message: The message to announce
     ///   - priority: The priority of the announcement (default: .medium)
-    static func announce(_ message: String) {
+    public static func announce(_ message: String) {
         guard isVoiceOverRunning else { return }
         
         DispatchQueue.main.async {
@@ -51,7 +51,7 @@ class AccessibilityUtils {
     
     /// Post a layout change notification to refocus VoiceOver
     /// - Parameter element: The element to focus on (optional)
-    static func announceLayoutChange(focusOn element: Any? = nil) {
+    public static func announceLayoutChange(focusOn element: Any? = nil) {
         guard isVoiceOverRunning else { return }
         
         DispatchQueue.main.async {
@@ -61,7 +61,7 @@ class AccessibilityUtils {
     
     /// Post a screen change notification for major navigation changes
     /// - Parameter element: The element to focus on (optional)
-    static func announceScreenChange(focusOn element: Any? = nil) {
+    public static func announceScreenChange(focusOn element: Any? = nil) {
         guard isVoiceOverRunning else { return }
         
         DispatchQueue.main.async {
@@ -77,7 +77,7 @@ class AccessibilityUtils {
     ///   - price: The estimated price
     ///   - isSelected: Whether the service is selected
     /// - Returns: Formatted accessibility label
-    static func serviceCardLabel(for serviceType: ServiceType, price: String, isSelected: Bool) -> String {
+    public static func serviceCardLabel(for serviceType: ServiceType, price: String, isSelected: Bool) -> String {
         let selectionState = isSelected ? "Selected" : "Not selected"
         return "\(serviceType.displayName), \(price), \(selectionState)"
     }
@@ -85,7 +85,7 @@ class AccessibilityUtils {
     /// Generate accessibility hint for service cards
     /// - Parameter isSelected: Whether the service is selected
     /// - Returns: Formatted accessibility hint
-    static func serviceCardHint(isSelected: Bool) -> String {
+    public static func serviceCardHint(isSelected: Bool) -> String {
         return isSelected ? "Double tap to deselect this service" : "Double tap to select this service"
     }
     
@@ -94,7 +94,7 @@ class AccessibilityUtils {
     ///   - title: The button title
     ///   - isLoading: Whether the button is in loading state
     /// - Returns: Formatted accessibility label
-    static func buttonLabel(title: String, isLoading: Bool) -> String {
+    public static func buttonLabel(title: String, isLoading: Bool) -> String {
         return isLoading ? "\(title), Loading" : title
     }
     
@@ -103,7 +103,7 @@ class AccessibilityUtils {
     ///   - progress: Progress value (0.0 to 1.0)
     ///   - description: Description of what's progressing
     /// - Returns: Formatted accessibility label
-    static func progressLabel(progress: Double, description: String) -> String {
+    public static func progressLabel(progress: Double, description: String) -> String {
         let percentage = Int(progress * 100)
         return "\(description), \(percentage) percent complete"
     }
@@ -113,7 +113,7 @@ class AccessibilityUtils {
     ///   - amount: The price amount
     ///   - currency: The currency (default: "dollars")
     /// - Returns: Formatted accessibility label
-    static func priceLabel(amount: Double, currency: String = "dollars") -> String {
+    public static func priceLabel(amount: Double, currency: String = "dollars") -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "USD"
@@ -129,7 +129,7 @@ class AccessibilityUtils {
     
     /// Set accessibility focus to a specific element
     /// - Parameter element: The element to focus on
-    static func setFocus(to element: Any) {
+    public static func setFocus(to element: Any) {
         guard isVoiceOverRunning else { return }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -224,7 +224,7 @@ extension View {
 
 // MARK: - Cross-platform Announcement Priority
 // Note: UIAccessibility.AnnouncementPriority is not a public API. Announcements are posted with default priority.
-enum AnnouncementPriority {
+public enum AnnouncementPriority {
     case low
     case medium
     case high

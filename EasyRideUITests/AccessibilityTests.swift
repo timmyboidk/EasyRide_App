@@ -1,6 +1,6 @@
+#if canImport(XCTest)
 import XCTest
 import SwiftUI
-@testable import EasyRide
 
 /// Comprehensive accessibility tests for the EasyRide app
 /// Tests VoiceOver support, focus management, and accessibility compliance
@@ -311,3 +311,4 @@ class MockAccessibilitySettings {
         isDarkerSystemColorsEnabled = false
     }
 }
+#endif

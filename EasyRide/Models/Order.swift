@@ -1,38 +1,38 @@
 import Foundation
 import SwiftUI
 
-struct Order: Codable, Identifiable {
-    let id: String
-    let serviceType: ServiceType
-    var status: OrderStatus
-    let pickupLocation: Location
-    let destination: Location?
-    let estimatedPrice: Double
-    var actualPrice: Double?
-    var driver: Driver?
-    let createdAt: Date
-    let scheduledTime: Date?
-    var completedAt: Date?
-    let passengerCount: Int
-    let luggageCount: Int
-    let notes: String?
-    let specialInstructions: String?
-    var stops: [TripStop]
+public struct Order: Codable, Identifiable {
+    public let id: String
+    public let serviceType: ServiceType
+    public var status: OrderStatus
+    public let pickupLocation: Location
+    public let destination: Location?
+    public let estimatedPrice: Double
+    public var actualPrice: Double?
+    public var driver: Driver?
+    public let createdAt: Date
+    public let scheduledTime: Date?
+    public var completedAt: Date?
+    public let passengerCount: Int
+    public let luggageCount: Int
+    public let notes: String?
+    public let specialInstructions: String?
+    public var stops: [TripStop]
     
     // Charter-specific fields
-    let tripMode: TripMode
-    let duration: TimeInterval? // For charter services
+    public let tripMode: TripMode
+    public let duration: TimeInterval? // For charter services
     
     // Value-added services
-    var airportPickup: Bool
-    var airportPickupName: String?
-    var checkinAssistance: Bool
-    var tripSharing: Bool
-    var childSeat: Bool
-    var interpreter: Bool
-    var elderlyCompanion: Bool
+    public var airportPickup: Bool
+    public var airportPickupName: String?
+    public var checkinAssistance: Bool
+    public var tripSharing: Bool
+    public var childSeat: Bool
+    public var interpreter: Bool
+    public var elderlyCompanion: Bool
     
-    init(
+    public init(
         id: String = UUID().uuidString,
         serviceType: ServiceType,
         status: OrderStatus = .pending,
@@ -88,15 +88,15 @@ struct Order: Codable, Identifiable {
     
     // MARK: - Computed Properties
     
-    var isCharterService: Bool {
+    public var isCharterService: Bool {
         return serviceType == .charter
     }
     
-    var hasValueAddedServices: Bool {
+    public var hasValueAddedServices: Bool {
         return airportPickup || checkinAssistance || tripSharing || childSeat || interpreter || elderlyCompanion
     }
     
-    var valueAddedServicesCount: Int {
+    public var valueAddedServicesCount: Int {
         var count = 0
         if airportPickup { count += 1 }
         if checkinAssistance { count += 1 }
@@ -107,7 +107,7 @@ struct Order: Codable, Identifiable {
         return count
     }
     
-    var durationFormatted: String {
+    public var durationFormatted: String {
         guard let duration = duration else { return "未指定" }
         let hours = Int(duration / 3600)
         let minutes = Int((duration.truncatingRemainder(dividingBy: 3600)) / 60)
@@ -119,10 +119,10 @@ struct Order: Codable, Identifiable {
         }
     }
     
-    var vehicleModel: String {
+    public var vehicleModel: String {
         return driver?.vehicleInfo.displayName ?? "待分配"
     }
-    static var sample: Order {
+    public static var sample: Order {
         Order(
             serviceType: ServiceType.charter,
             pickupLocation: Location(latitude: 39.9042, longitude: 116.4074, address: "北京市中心"),
@@ -143,7 +143,7 @@ struct Order: Codable, Identifiable {
     }
 }
 
-enum OrderStatus: String, Codable, CaseIterable {
+public enum OrderStatus: String, Codable, CaseIterable {
     case pending = "pending"
     case matching = "matching"
     case matched = "matched"
@@ -153,7 +153,7 @@ enum OrderStatus: String, Codable, CaseIterable {
     case completed = "completed"
     case cancelled = "cancelled"
     
-    var displayName: String {
+    public var displayName: String {
         switch self {
         case .pending: return "待处理"
         case .matching: return "正在匹配司机"
@@ -166,7 +166,7 @@ enum OrderStatus: String, Codable, CaseIterable {
         }
     }
     
-    var isActive: Bool {
+    public var isActive: Bool {
         switch self {
         case .pending, .matching, .matched, .driverEnRoute, .arrived, .inProgress:
             return true
@@ -175,7 +175,7 @@ enum OrderStatus: String, Codable, CaseIterable {
         }
     }
     
-    var icon: String {
+    public var icon: String {
         switch self {
         case .pending: return "clock.fill"
         case .matching: return "magnifyingglass"
@@ -188,7 +188,7 @@ enum OrderStatus: String, Codable, CaseIterable {
         }
     }
     
-    var color: Color {
+    public var color: Color {
         switch self {
         case .pending: return .orange
         case .matching: return .blue

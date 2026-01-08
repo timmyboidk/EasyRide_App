@@ -12,7 +12,7 @@ extension ResponsiveLayoutUtils {
     /// Detects orientation changes and returns a boolean indicating if orientation has changed
     /// - Parameter previousOrientation: The previous orientation to compare against
     /// - Returns: True if orientation has changed, false otherwise
-    static func hasOrientationChanged(from previousOrientation: UIDeviceOrientation?) -> Bool {
+    public static func hasOrientationChanged(from previousOrientation: UIDeviceOrientation?) -> Bool {
         #if os(iOS)
         guard let previousOrientation = previousOrientation else { return false }
         let currentOrientation = UIDevice.current.orientation
@@ -28,7 +28,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Returns the current device orientation as a string
-    static func currentOrientationString() -> String {
+    public static func currentOrientationString() -> String {
         #if os(iOS)
         if isPortrait() {
             return "Portrait"
@@ -45,7 +45,7 @@ extension ResponsiveLayoutUtils {
     // MARK: - Safe Area Handling
     
     /// Returns safe area insets adjusted for the current orientation
-    static func orientationAwareSafeAreaInsets() -> EdgeInsets {
+    public static func orientationAwareSafeAreaInsets() -> EdgeInsets {
         #if os(iOS)
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
               let window = windowScene.windows.first else {
@@ -83,7 +83,7 @@ extension ResponsiveLayoutUtils {
     ///   - contentHeight: Height of the content
     ///   - availableHeight: Available height in the container
     /// - Returns: Boolean indicating if scrolling should be enabled
-    static func shouldScrollInCurrentOrientation(contentHeight: CGFloat, availableHeight: CGFloat) -> Bool {
+    public static func shouldScrollInCurrentOrientation(contentHeight: CGFloat, availableHeight: CGFloat) -> Bool {
         #if os(iOS)
         let threshold: CGFloat = isLandscape() ? 0.9 : 0.8
         return contentHeight > (availableHeight * threshold)
@@ -99,7 +99,7 @@ extension ResponsiveLayoutUtils {
     ///   - portrait: Spacing to use in portrait orientation
     ///   - landscape: Spacing to use in landscape orientation
     /// - Returns: Appropriate spacing for current orientation
-    static func orientationAwareSpacing(portrait: CGFloat = 16, landscape: CGFloat = 24) -> CGFloat {
+    public static func orientationAwareSpacing(portrait: CGFloat = 16, landscape: CGFloat = 24) -> CGFloat {
         #if os(iOS)
         return isLandscape() ? landscape : portrait
         #else
@@ -112,7 +112,7 @@ extension ResponsiveLayoutUtils {
     ///   - portrait: Padding to use in portrait orientation
     ///   - landscape: Padding to use in landscape orientation
     /// - Returns: Appropriate padding for current orientation
-    static func orientationAwarePadding(
+    public static func orientationAwarePadding(
         portrait: EdgeInsets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
         landscape: EdgeInsets = EdgeInsets(top: 12, leading: 24, bottom: 12, trailing: 24)
     ) -> EdgeInsets {
@@ -128,7 +128,7 @@ extension ResponsiveLayoutUtils {
     ///   - portrait: Font to use in portrait orientation
     ///   - landscape: Font to use in landscape orientation
     /// - Returns: Appropriate font for current orientation
-    static func orientationAwareFont(portrait: Font, landscape: Font) -> Font {
+    public static func orientationAwareFont(portrait: Font, landscape: Font) -> Font {
         #if os(iOS)
         return isLandscape() ? landscape : portrait
         #else
@@ -140,7 +140,7 @@ extension ResponsiveLayoutUtils {
     
     /// Returns a multiplier for scaling UI elements based on device screen size
     /// - Returns: Scale factor for UI elements
-    static func deviceSizeScaleFactor() -> CGFloat {
+    public static func deviceSizeScaleFactor() -> CGFloat {
         #if os(iOS)
         let screenWidth = UIScreen.main.bounds.width
         let screenHeight = UIScreen.main.bounds.height
@@ -169,7 +169,7 @@ extension ResponsiveLayoutUtils {
     ///   - compactMultiplier: Multiplier for compact devices
     ///   - regularMultiplier: Multiplier for regular devices
     /// - Returns: Scaled height appropriate for current device
-    static func deviceAwareHeight(
+    public static func deviceAwareHeight(
         baseHeight: CGFloat,
         compactMultiplier: CGFloat = 0.9,
         regularMultiplier: CGFloat = 1.1
@@ -196,7 +196,7 @@ extension ResponsiveLayoutUtils {
     ///   - availableWidth: Available width in container
     ///   - maxWidth: Maximum allowed width
     /// - Returns: Constrained width appropriate for content
-    static func deviceAwareContentWidth(availableWidth: CGFloat, maxWidth: CGFloat = 500) -> CGFloat {
+    public static func deviceAwareContentWidth(availableWidth: CGFloat, maxWidth: CGFloat = 500) -> CGFloat {
         #if os(iOS)
         if isLandscape() {
             // In landscape, we might want to constrain width more to prevent overly wide content
@@ -307,11 +307,11 @@ extension View {
 
 // MARK: - Orientation Observer
 /// View modifier that detects orientation changes and triggers an action
-struct OrientationChangeObserver: ViewModifier {
+public struct OrientationChangeObserver: ViewModifier {
     @State private var orientation = UIDevice.current.orientation
     let action: (Bool) -> Void
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .onAppear {
                 // Start monitoring orientation changes
@@ -348,17 +348,17 @@ extension View {
 
 // MARK: - Orientation-Aware Container
 /// A container view that adapts its layout based on device orientation
-struct OrientationAwareContainer<Content: View>: View {
+public struct OrientationAwareContainer<Content: View>: View {
     @State private var orientation = UIDevice.current.orientation
     @State private var hasChangedOrientation = false
     
     let content: (Bool) -> Content
     
-    init(@ViewBuilder content: @escaping (Bool) -> Content) {
+    public init(@ViewBuilder content: @escaping (Bool) -> Content) {
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         content(ResponsiveLayoutUtils.isLandscape())
             .animation(.easeInOut(duration: 0.3), value: ResponsiveLayoutUtils.isLandscape())
             .onOrientationChange { didChange in

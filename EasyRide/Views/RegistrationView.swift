@@ -32,7 +32,6 @@ struct RegistrationView: View {
         .background(Color(.systemBackground).ignoresSafeArea())
         .navigationTitle(LocalizationUtils.localized("Create_Account"))
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarTintColor(Color.primary) // Sets back button color
         .alert("错误", isPresented: $authViewModel.showingError) {
             Button("确定") {
                 authViewModel.showingError = false
@@ -84,7 +83,7 @@ struct RegistrationView: View {
                 }) {
                     Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                         .font(.subheadline)
-                        .fontWeight(.medium)
+                        .fontWeight(.bold)
                         .foregroundColor(.white)
                         .frame(width: 100, height: 50)
                         .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Color.blue)
@@ -123,15 +122,15 @@ struct RegistrationView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
-                    .cornerRadius(10)
+                    .cornerRadius(12)
             } else {
                 Text(LocalizationUtils.localized("Register"))
-                    .fontWeight(.semibold)
+                    .fontWeight(.heavy)
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
-                    .cornerRadius(10)
+                    .cornerRadius(12)
             }
         }
         .disabled(!authViewModel.isRegistrationFormValid || authViewModel.isLoading)
@@ -156,39 +155,6 @@ enum RegistrationField {
 #Preview {
     NavigationView {
         RegistrationView(appState: AppState())
-    }
-}
-
-// Custom extension to set the navigation bar back button color
-extension View {
-    func navigationBarTintColor(_ color: Color) -> some View {
-        self.modifier(NavigationBarTintColor(color: color))
-    }
-}
-
-struct NavigationBarTintColor: ViewModifier {
-    var color: Color
-
-    init(color: Color) {
-        self.color = color
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithTransparentBackground()
-        appearance.titleTextAttributes = [.foregroundColor: UIColor(color)]
-        
-        let backButtonAppearance = UIBarButtonItemAppearance()
-        backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(color)]
-        appearance.backButtonAppearance = backButtonAppearance
-        
-        let image = UIImage(systemName: "chevron.backward")?.withTintColor(UIColor(color), renderingMode: .alwaysOriginal)
-        appearance.setBackIndicatorImage(image, transitionMaskImage: image)
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-    }
-
-    func body(content: Content) -> some View {
-        content
     }
 }
 #endif

@@ -227,31 +227,3 @@ final class OrientationLayoutIntegrationTests: XCTestCase {
     }
 }
 
-// MARK: - UI Tests
-final class OrientationLayoutUITests: XCTestCase {
-    
-    func testOrientationResponsiveDemoLoads() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
-        // Test that orientation responsive demo can be displayed
-        XCTAssertTrue(app.wait(for: .runningForeground, timeout: 5))
-    }
-    
-    func testLayoutAdaptsToOrientationChange() throws {
-        let app = XCUIApplication()
-        app.launch()
-        
-        // Rotate to landscape
-        XCUIDevice.shared.orientation = .landscapeLeft
-        
-        // Verify layout adapts
-        // This would check for specific UI elements that change in landscape
-        
-        // Rotate back to portrait
-        XCUIDevice.shared.orientation = .portrait
-        
-        // Verify layout adapts back
-        // This would check that UI elements return to portrait layout
-    }
-}

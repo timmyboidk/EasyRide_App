@@ -99,11 +99,11 @@ struct LoginView: View {
             }) {
                 Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                     .font(.subheadline)
-                    .fontWeight(.medium)
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
                     .frame(width: 100, height: 50)
                     .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Color.blue)
-                    .cornerRadius(10)
+                    .cornerRadius(12)
             }
             .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
         }
@@ -127,12 +127,12 @@ struct LoginView: View {
                         .cornerRadius(10)
                 } else {
                     Text(LocalizationUtils.localized("Login"))
-                        .fontWeight(.semibold)
+                        .fontWeight(.heavy)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .background(Color.blue)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(12)
                 }
             }
             .disabled(!authViewModel.isOTPFormValid || authViewModel.isLoading)
@@ -147,12 +147,12 @@ struct LoginView: View {
                     Image(systemName: "message.fill")
                     Text(LocalizationUtils.localized("Login_WeChat"))
                 }
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color(red: 0.03, green: 0.76, blue: 0.02)) // WeChat Green
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(12)
             }
         }
     }

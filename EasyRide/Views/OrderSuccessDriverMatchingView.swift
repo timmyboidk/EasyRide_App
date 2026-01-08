@@ -196,12 +196,12 @@ struct OrderSuccessDriverMatchingView: View {
     private var actionButton: some View {
         Button(action: proceedToCurrentOrder) {
             Text(isMatching ? LocalizationUtils.localized("Check_Progress") : LocalizationUtils.localized("View_Current_Order"))
-                .fontWeight(.semibold)
+                .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color.blue)
                 .foregroundColor(.white)
-                .cornerRadius(10)
+                .cornerRadius(12)
         }
     }
     

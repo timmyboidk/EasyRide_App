@@ -4,41 +4,41 @@ import UIKit
 #endif
 
 // MARK: - Animation Utilities
-struct AnimationUtils {
+public struct AnimationUtils {
     // MARK: - Animation Presets
     
     /// Standard button press animation
-    static let buttonPress = Animation.spring(response: 0.3, dampingFraction: 0.6)
+    public static let buttonPress = Animation.spring(response: 0.3, dampingFraction: 0.6)
     
     /// Smooth transition animation
-    static let smoothTransition = Animation.easeInOut(duration: 0.3)
+    public static let smoothTransition = Animation.easeInOut(duration: 0.3)
     
     /// Quick pop animation
-    static let quickPop = Animation.spring(response: 0.4, dampingFraction: 0.7)
+    public static let quickPop = Animation.spring(response: 0.4, dampingFraction: 0.7)
     
     /// Slow and smooth animation
-    static let slowSmooth = Animation.easeInOut(duration: 0.6)
+    public static let slowSmooth = Animation.easeInOut(duration: 0.6)
     
     /// Bouncy animation
-    static let bouncy = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.25)
+    public static let bouncy = Animation.spring(response: 0.5, dampingFraction: 0.5, blendDuration: 0.25)
     
     /// Subtle animation
-    static let subtle = Animation.easeOut(duration: 0.2)
+    public static let subtle = Animation.easeOut(duration: 0.2)
     
     /// Delayed appearance animation
-    static func delayedAppearance(delay: Double = 0.1) -> Animation {
+    public static func delayedAppearance(delay: Double = 0.1) -> Animation {
         return Animation.easeInOut(duration: 0.3).delay(delay)
     }
     
     /// Staggered animation for lists
-    static func staggered(index: Int, baseDelay: Double = 0.05) -> Animation {
+    public static func staggered(index: Int, baseDelay: Double = 0.05) -> Animation {
         return Animation.spring(response: 0.4, dampingFraction: 0.7)
             .delay(Double(index) * baseDelay)
     }
     // MARK: - Motion Sensitivity
     
     /// Returns appropriate animation based on reduce motion setting
-    static func motionSensitive(_ animation: Animation?) -> Animation? {
+    public static func motionSensitive(_ animation: Animation?) -> Animation? {
         #if canImport(UIKit)
         return UIAccessibility.isReduceMotionEnabled ? nil : animation
         #else
@@ -47,7 +47,7 @@ struct AnimationUtils {
     }
     
     /// Returns appropriate animation duration based on reduce motion setting
-    static func motionSensitiveDuration(_ duration: Double) -> Double {
+    public static func motionSensitiveDuration(_ duration: Double) -> Double {
         #if canImport(UIKit)
         return UIAccessibility.isReduceMotionEnabled ? 0.1 : duration
         #else
@@ -58,7 +58,7 @@ struct AnimationUtils {
     // MARK: - Haptic Feedback
     
     /// Trigger light impact haptic feedback
-    static func hapticLight() {
+    public static func hapticLight() {
         #if canImport(UIKit)
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
@@ -66,7 +66,7 @@ struct AnimationUtils {
     }
     
     /// Trigger medium impact haptic feedback
-    static func hapticMedium() {
+    public static func hapticMedium() {
         #if canImport(UIKit)
         let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
@@ -74,7 +74,7 @@ struct AnimationUtils {
     }
     
     /// Trigger heavy impact haptic feedback
-    static func hapticHeavy() {
+    public static func hapticHeavy() {
         #if canImport(UIKit)
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
@@ -82,7 +82,7 @@ struct AnimationUtils {
     }
     
     /// Trigger selection haptic feedback
-    static func hapticSelection() {
+    public static func hapticSelection() {
         #if canImport(UIKit)
         let generator = UISelectionFeedbackGenerator()
         generator.selectionChanged()
@@ -90,7 +90,7 @@ struct AnimationUtils {
     }
     
     /// Trigger notification haptic feedback
-    static func hapticNotification(type: HapticNotificationType = .success) {
+    public static func hapticNotification(type: HapticNotificationType = .success) {
         #if canImport(UIKit)
         let generator = UINotificationFeedbackGenerator()
         switch type {
@@ -104,7 +104,7 @@ struct AnimationUtils {
         #endif
     }
     
-    enum HapticNotificationType {
+    public enum HapticNotificationType {
         case success
         case warning
         case error
@@ -114,10 +114,10 @@ struct AnimationUtils {
 // MARK: - Animation View Modifiers
 
 /// Button press animation modifier
-struct ButtonPressAnimationModifier: ViewModifier {
+public struct ButtonPressAnimationModifier: ViewModifier {
     @State private var isPressed = false
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .scaleEffect(isPressed ? 0.95 : 1.0)
             .animation(AnimationUtils.motionSensitive(.spring(response: 0.3, dampingFraction: 0.6)), value: isPressed)
@@ -138,19 +138,19 @@ struct ButtonPressAnimationModifier: ViewModifier {
 }
 
 /// Pulse animation modifier
-struct PulseAnimationModifier: ViewModifier {
+public struct PulseAnimationModifier: ViewModifier {
     @State private var isPulsing = false
     let duration: Double
     let scale: CGFloat
     let autoStart: Bool
     
-    init(duration: Double = 1.5, scale: CGFloat = 1.1, autoStart: Bool = true) {
+    public init(duration: Double = 1.5, scale: CGFloat = 1.1, autoStart: Bool = true) {
         self.duration = duration
         self.scale = scale
         self.autoStart = autoStart
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .scaleEffect(isPulsing ? scale : 1.0)
             .animation(
@@ -169,15 +169,15 @@ struct PulseAnimationModifier: ViewModifier {
 }
 
 /// Shimmer loading effect modifier
-struct ShimmerModifier: ViewModifier {
+public struct ShimmerModifier: ViewModifier {
     @State private var isAnimating = false
     let duration: Double
     
-    init(duration: Double = 1.5) {
+    public init(duration: Double = 1.5) {
         self.duration = duration
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .overlay(
                 GeometryReader { geometry in
@@ -207,7 +207,7 @@ struct ShimmerModifier: ViewModifier {
 }
 
 /// Fade in animation modifier
-struct FadeInModifier: ViewModifier {
+public struct FadeInModifier: ViewModifier {
     @State private var opacity: Double = 0
     let duration: Double
     let delay: Double
@@ -217,7 +217,7 @@ struct FadeInModifier: ViewModifier {
         self.delay = delay
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .opacity(opacity)
             .onAppear {
@@ -229,7 +229,7 @@ struct FadeInModifier: ViewModifier {
 }
 
 /// Slide in animation modifier
-struct SlideInModifier: ViewModifier {
+public struct SlideInModifier: ViewModifier {
     @State private var offset: CGFloat = 100
     @State private var opacity: Double = 0
     let direction: SlideDirection
@@ -242,7 +242,7 @@ struct SlideInModifier: ViewModifier {
         self.delay = delay
     }
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .offset(
                 x: direction == .leading || direction == .trailing ? 
@@ -259,7 +259,7 @@ struct SlideInModifier: ViewModifier {
             }
     }
     
-    enum SlideDirection {
+    public enum SlideDirection {
         case top, bottom, leading, trailing
     }
 }
@@ -314,8 +314,8 @@ extension View {
 // MARK: - Button Styles
 
 /// Scale button style with accessibility support
-struct AccessibleScaleButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct AccessibleScaleButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.95 : 1)
             .animation(
@@ -331,8 +331,8 @@ struct AccessibleScaleButtonStyle: ButtonStyle {
 }
 
 /// Bounce button style with accessibility support
-struct BouncyButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
+public struct BouncyButtonStyle: ButtonStyle {
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 0.9 : 1)
             .animation(

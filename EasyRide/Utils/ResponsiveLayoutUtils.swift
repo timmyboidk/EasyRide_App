@@ -4,19 +4,19 @@ import UIKit
 #endif
 
 // MARK: - Responsive Layout Utilities
-struct ResponsiveLayoutUtils {
+public struct ResponsiveLayoutUtils {
     
     // MARK: - Size Class Detection
-    static func isCompactHorizontal(_ sizeClass: UserInterfaceSizeClass?) -> Bool {
+    public static func isCompactHorizontal(_ sizeClass: UserInterfaceSizeClass?) -> Bool {
         return sizeClass == .compact
     }
     
-    static func isRegularHorizontal(_ sizeClass: UserInterfaceSizeClass?) -> Bool {
+    public static func isRegularHorizontal(_ sizeClass: UserInterfaceSizeClass?) -> Bool {
         return sizeClass == .regular
     }
     
     // MARK: - Adaptive Grid Configuration
-    static func adaptiveGridColumns(
+    public static func adaptiveGridColumns(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         compactColumns: Int = 1,
         regularColumns: Int = 2,
@@ -37,7 +37,7 @@ struct ResponsiveLayoutUtils {
     }
     
     // MARK: - Adaptive Spacing
-    static func adaptiveSpacing(
+    public static func adaptiveSpacing(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         compact: CGFloat = 16,
         regular: CGFloat = 24
@@ -46,7 +46,7 @@ struct ResponsiveLayoutUtils {
     }
     
     // MARK: - Adaptive Padding
-    static func adaptivePadding(
+    public static func adaptivePadding(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         compact: EdgeInsets = EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16),
         regular: EdgeInsets = EdgeInsets(top: 24, leading: 32, bottom: 24, trailing: 32)
@@ -55,7 +55,7 @@ struct ResponsiveLayoutUtils {
     }
     
     // MARK: - Adaptive Font Sizes
-    static func adaptiveFont(
+    public static func adaptiveFont(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         compactSize: Font = .body,
         regularSize: Font = .title3
@@ -64,7 +64,7 @@ struct ResponsiveLayoutUtils {
     }
     
     // MARK: - Content Overflow Handling
-    static func shouldUseScrollView(
+    public static func shouldUseScrollView(
         contentHeight: CGFloat,
         availableHeight: CGFloat,
         threshold: CGFloat = 0.8
@@ -74,17 +74,17 @@ struct ResponsiveLayoutUtils {
 }
 
 // MARK: - Adaptive Layout Container
-struct AdaptiveLayoutContainer<Content: View>: View {
+public struct AdaptiveLayoutContainer<Content: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     
     let content: (UserInterfaceSizeClass?) -> Content
     
-    init(@ViewBuilder content: @escaping (UserInterfaceSizeClass?) -> Content) {
+    public init(@ViewBuilder content: @escaping (UserInterfaceSizeClass?) -> Content) {
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         content(horizontalSizeClass)
             .animation(.easeInOut(duration: 0.3), value: horizontalSizeClass)
     }
@@ -95,7 +95,7 @@ extension ResponsiveLayoutUtils {
     /// Creates adaptive grid columns based on horizontal size class
     /// - Compact horizontal: Uses LazyVStack (single column)
     /// - Regular horizontal: Uses LazyHStack or LazyVGrid (multiple columns)
-    static func adaptiveGridFunction<Item: Identifiable, Content: View>(
+    public static func adaptiveGridFunction<Item: Identifiable, Content: View>(
         items: [Item],
         horizontalSizeClass: UserInterfaceSizeClass?,
         spacing: CGFloat = 16,
@@ -123,7 +123,7 @@ extension ResponsiveLayoutUtils {
 }
 
 // MARK: - Adaptive Grid View
-struct AdaptiveGrid<Item: Identifiable, ItemView: View>: View {
+public struct AdaptiveGrid<Item: Identifiable, ItemView: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let items: [Item]
@@ -132,7 +132,7 @@ struct AdaptiveGrid<Item: Identifiable, ItemView: View>: View {
     let spacing: CGFloat
     let itemView: (Item) -> ItemView
     
-    init(
+    public init(
         items: [Item],
         compactColumns: Int = 1,
         regularColumns: Int = 2,
@@ -146,7 +146,7 @@ struct AdaptiveGrid<Item: Identifiable, ItemView: View>: View {
         self.itemView = itemView
     }
     
-    var body: some View {
+    public var body: some View {
         // Use the new adaptive grid function
         ResponsiveLayoutUtils.adaptiveGridFunction(
             items: items,
@@ -159,18 +159,18 @@ struct AdaptiveGrid<Item: Identifiable, ItemView: View>: View {
 }
 
 // MARK: - Adaptive Stack View
-struct AdaptiveStack<Content: View>: View {
+public struct AdaptiveStack<Content: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     let spacing: CGFloat
     let content: () -> Content
     
-    init(spacing: CGFloat = 16, @ViewBuilder content: @escaping () -> Content) {
+    public init(spacing: CGFloat = 16, @ViewBuilder content: @escaping () -> Content) {
         self.spacing = spacing
         self.content = content
     }
     
-    var body: some View {
+    public var body: some View {
         if ResponsiveLayoutUtils.isCompactHorizontal(horizontalSizeClass) {
             LazyVStack(spacing: spacing) {
                 content()
@@ -186,7 +186,7 @@ struct AdaptiveStack<Content: View>: View {
 // MARK: - Device-Specific Utilities (Task 11.1)
 extension ResponsiveLayoutUtils {
     /// Returns device-specific spacing based on screen size
-    static func deviceSpecificSpacing() -> CGFloat {
+    public static func deviceSpecificSpacing() -> CGFloat {
         #if os(iOS)
         let screenWidth = UIScreen.main.bounds.width
         if screenWidth <= 375 { // iPhone SE, iPhone 12 mini
@@ -202,7 +202,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Determines if the device is in portrait orientation
-    static func isPortrait() -> Bool {
+    public static func isPortrait() -> Bool {
         #if os(iOS)
         return UIDevice.current.orientation.isPortrait || 
                (!UIDevice.current.orientation.isPortrait && !UIDevice.current.orientation.isLandscape)
@@ -212,7 +212,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Determines if the device is in landscape orientation
-    static func isLandscape() -> Bool {
+    public static func isLandscape() -> Bool {
         #if os(iOS)
         return UIDevice.current.orientation.isLandscape
         #else
@@ -221,7 +221,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Returns device-specific padding
-    static func deviceSpecificPadding() -> EdgeInsets {
+    public static func deviceSpecificPadding() -> EdgeInsets {
         #if os(iOS)
         let screenWidth = UIScreen.main.bounds.width
         if screenWidth <= 375 {
@@ -237,13 +237,13 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Screen size categories for more granular control
-    enum ScreenSizeCategory {
+    public enum ScreenSizeCategory {
         case compact    // iPhone SE, iPhone 12 mini
         case regular    // iPhone 12, iPhone 13
         case large      // iPhone 12 Pro Max, iPhone 13 Pro Max
         case extraLarge // iPad
         
-        static var current: ScreenSizeCategory {
+        public static var current: ScreenSizeCategory {
             #if os(iOS)
             let screenWidth = UIScreen.main.bounds.width
             if screenWidth <= 375 {
@@ -262,7 +262,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Orientation-adaptive columns for grid layouts
-    static func orientationAdaptiveColumns(
+    public static func orientationAdaptiveColumns(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         portraitColumns: Int,
         landscapeColumns: Int,
@@ -279,7 +279,7 @@ extension ResponsiveLayoutUtils {
     }
     
     /// Adaptive card width based on screen size and size class
-    static func adaptiveCardWidth(
+    public static func adaptiveCardWidth(
         for horizontalSizeClass: UserInterfaceSizeClass?,
         screenWidth: CGFloat
     ) -> CGFloat {
