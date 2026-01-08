@@ -8,8 +8,6 @@ class AuthenticationViewModel {
     
     // MARK: - Authentication State
     var phoneNumber: String = ""
-    var password: String = ""
-    var confirmPassword: String = ""
     var nickname: String = ""
     var email: String = ""
     var otp: String = ""
@@ -24,8 +22,6 @@ class AuthenticationViewModel {
     
     // MARK: - Validation State
     var phoneNumberError: String?
-    var passwordError: String?
-    var confirmPasswordError: String?
     var nicknameError: String?
     var emailError: String?
     var otpError: String?
@@ -37,35 +33,30 @@ class AuthenticationViewModel {
     
     // MARK: - Login Methods
     
-    func loginWithPassword() async {
-        guard validateLoginInput() else { return }
+    func loginWithOTP() async {
+        guard validateOTPInput() else { return }
         
         isLoading = true
         clearError()
         
         do {
-            let authResponse: AuthResponse = try await apiService.request(.login(phoneNumber: phoneNumber, password: password))
-            
-            await MainActor.run {
-                // Store tokens in API service
-                if let apiService = apiService as? EasyRideAPIService {
-                    apiService.setAuthTokens(
-                        accessToken: authResponse.accessToken,
-                        refreshToken: authResponse.refreshToken
-                    )
-                }
-                
-                appState.signIn(user: authResponse.user, token: authResponse.accessToken)
-                clearForm()
-                isLoading = false
-            }
-            
+            let authResponse: AuthResponse = try await apiService.request(.loginOTP(phoneNumber: phoneNumber, otp: otp))
+            await handleAuthSuccess(authResponse)
         } catch {
-            await MainActor.run {
-                handleError(error)
-                isLoading = false
-            }
+            await handleErrorOnMain(error)
         }
+    }
+    
+    func loginWithWeChat() async {
+        // Mock WeChat Login Flow for now or integrate SDK later
+        print("WeChat Login Tapped")
+        // 1. Get code from WeChat SDK
+        // 2. Call .loginWeChat(code: code)
+        // For demonstration/mock:
+        isLoading = true
+        // Simulate network delay
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        await handleErrorOnMain(EasyRideError.unknownError) // Placeholder until SDK is integrated
     }
     
     func sendOTP() async {
@@ -75,9 +66,7 @@ class AuthenticationViewModel {
         clearError()
         
         do {
-            // In a real implementation, this would be a separate endpoint to send OTP
-            // For now, we'll simulate the OTP sending process
-            try await apiService.requestWithoutResponse(.loginOTP(phoneNumber: phoneNumber, otp: "000000"))
+            try await apiService.requestWithoutResponse(.otpRequest(phoneNumber: phoneNumber))
             
             await MainActor.run {
                 isOTPSent = true
@@ -86,41 +75,7 @@ class AuthenticationViewModel {
             }
             
         } catch {
-            await MainActor.run {
-                handleError(error)
-                isLoading = false
-            }
-        }
-    }
-    
-    func loginWithOTP() async {
-        guard validateOTPInput() else { return }
-        
-        isLoading = true
-        clearError()
-        
-        do {
-            let authResponse: AuthResponse = try await apiService.request(.loginOTP(phoneNumber: phoneNumber, otp: otp))
-            
-            await MainActor.run {
-                // Store tokens in API service
-                if let apiService = apiService as? EasyRideAPIService {
-                    apiService.setAuthTokens(
-                        accessToken: authResponse.accessToken,
-                        refreshToken: authResponse.refreshToken
-                    )
-                }
-                
-                appState.signIn(user: authResponse.user, token: authResponse.accessToken)
-                clearForm()
-                isLoading = false
-            }
-            
-        } catch {
-            await MainActor.run {
-                handleError(error)
-                isLoading = false
-            }
+            await handleErrorOnMain(error)
         }
     }
     
@@ -133,34 +88,19 @@ class AuthenticationViewModel {
         clearError()
         
         do {
+            // Registration now uses OTP instead of password
             let registerRequest = RegisterRequest(
                 phoneNumber: phoneNumber,
-                password: password,
+                otp: otp,
                 nickname: nickname,
                 email: email.isEmpty ? nil : email
             )
             
             let authResponse: AuthResponse = try await apiService.request(.register(registerRequest))
-            
-            await MainActor.run {
-                // Store tokens in API service
-                if let apiService = apiService as? EasyRideAPIService {
-                    apiService.setAuthTokens(
-                        accessToken: authResponse.accessToken,
-                        refreshToken: authResponse.refreshToken
-                    )
-                }
-                
-                appState.signIn(user: authResponse.user, token: authResponse.accessToken)
-                clearForm()
-                isLoading = false
-            }
+            await handleAuthSuccess(authResponse)
             
         } catch {
-            await MainActor.run {
-                handleError(error)
-                isLoading = false
-            }
+            await handleErrorOnMain(error)
         }
     }
     
@@ -172,12 +112,10 @@ class AuthenticationViewModel {
         do {
             try await apiService.requestWithoutResponse(.logout)
         } catch {
-            // Even if logout fails on server, we still clear local state
             print("Logout request failed: \(error)")
         }
         
         await MainActor.run {
-            // Clear tokens from API service
             if let apiService = apiService as? EasyRideAPIService {
                 apiService.clearAuthTokens()
             }
@@ -189,22 +127,6 @@ class AuthenticationViewModel {
     }
     
     // MARK: - Validation Methods
-    
-    private func validateLoginInput() -> Bool {
-        clearValidationErrors()
-        var isValid = true
-        
-        if !validatePhoneNumber() {
-            isValid = false
-        }
-        
-        if password.isEmpty {
-            passwordError = "Password is required"
-            isValid = false
-        }
-        
-        return isValid
-    }
     
     private func validateOTPInput() -> Bool {
         clearValidationErrors()
@@ -236,17 +158,8 @@ class AuthenticationViewModel {
             isValid = false
         }
         
-        if password.isEmpty {
-            passwordError = "Password is required"
-            isValid = false
-        } else if password.count < 6 {
-            passwordError = "Password must be at least 6 characters"
-            isValid = false
-        }
-        
-        if confirmPassword != password {
-            confirmPasswordError = "Passwords do not match"
-            isValid = false
+        if !validateOTPInput() {
+             isValid = false
         }
         
         if nickname.isEmpty {
@@ -272,7 +185,7 @@ class AuthenticationViewModel {
             return false
         }
         
-        // Basic phone number validation (can be enhanced)
+        // Basic phone number validation
         let phoneRegex = "^[+]?[1-9]\\d{1,14}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegex)
         
@@ -292,10 +205,30 @@ class AuthenticationViewModel {
     
     // MARK: - Helper Methods
     
+    private func handleAuthSuccess(_ authResponse: AuthResponse) async {
+        await MainActor.run {
+             if let apiService = apiService as? EasyRideAPIService {
+                 apiService.setAuthTokens(
+                     accessToken: authResponse.accessToken,
+                     refreshToken: authResponse.refreshToken
+                 )
+             }
+             
+             appState.signIn(user: authResponse.user, token: authResponse.accessToken)
+             clearForm()
+             isLoading = false
+        }
+    }
+    
+    private func handleErrorOnMain(_ error: Error) async {
+        await MainActor.run {
+            handleError(error)
+            isLoading = false
+        }
+    }
+    
     private func clearValidationErrors() {
         phoneNumberError = nil
-        passwordError = nil
-        confirmPasswordError = nil
         nicknameError = nil
         emailError = nil
         otpError = nil
@@ -303,8 +236,6 @@ class AuthenticationViewModel {
     
     private func clearForm() {
         phoneNumber = ""
-        password = ""
-        confirmPassword = ""
         nickname = ""
         email = ""
         otp = ""
@@ -348,16 +279,12 @@ class AuthenticationViewModel {
     
     // MARK: - Computed Properties
     
-    var isLoginFormValid: Bool {
-        !phoneNumber.isEmpty && !password.isEmpty
+    var isOTPFormValid: Bool {
+        !phoneNumber.isEmpty && otp.count == 6
     }
     
     var isRegistrationFormValid: Bool {
-        !phoneNumber.isEmpty && !password.isEmpty && !confirmPassword.isEmpty && !nickname.isEmpty && password == confirmPassword
-    }
-    
-    var isOTPFormValid: Bool {
-        !phoneNumber.isEmpty && otp.count == 6
+        !phoneNumber.isEmpty && otp.count == 6 && !nickname.isEmpty
     }
     
     var formattedCountdown: String {

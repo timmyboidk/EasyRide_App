@@ -50,10 +50,7 @@ enum LocalizationUtils {
     
     /// Returns whether the current locale uses right-to-left text direction
     static var isRTL: Bool {
-        if let languageCode = Locale.current.language.languageCode {
-            return Locale.characterDirection(forLanguage: languageCode.identifier) == .rightToLeft
-        }
-        return false
+        return Locale.current.language.characterDirection == .rightToLeft
     }
     
     /// Returns the current locale's language code

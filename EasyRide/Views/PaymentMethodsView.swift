@@ -19,10 +19,10 @@ struct PaymentMethodsView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 if isLoading && paymentMethods.isEmpty {
-                    ProgressView().progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    ProgressView()
                 } else {
                     List {
                         // Wallet Section
@@ -32,22 +32,28 @@ struct PaymentMethodsView: View {
                                     showingAddFunds = true
                                 }
                             }
-                            .listRowBackground(Color.black)
+                            .listRowBackground(Color(.systemBackground))
                             .listRowInsets(EdgeInsets())
                         }
                         
                         // Payment Methods Section
-                        Section(header: Text("支付方式").foregroundColor(.gray).fontWeight(.bold)) {
-                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
-                                .listRowBackground(Color.gray.opacity(0.2))
-                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .creditCard, displayName: "Card"))
-                                .listRowBackground(Color.gray.opacity(0.2))
-                            PaymentMethodRowView(paymentMethod: PaymentMethod(type: .paypal, displayName: "Stripe"))
-                                .listRowBackground(Color.gray.opacity(0.2))
+                        Section(header: Text("支付方式").foregroundColor(.secondary).fontWeight(.bold)) {
+                            // Example list if loaded
+                            if paymentMethods.isEmpty {
+                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
+                                    .listRowBackground(Color(.secondarySystemBackground))
+                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .creditCard, displayName: "Card"))
+                                    .listRowBackground(Color(.secondarySystemBackground))
+                            } else {
+                                ForEach(paymentMethods) { method in
+                                    PaymentMethodRowView(paymentMethod: method)
+                                    .listRowBackground(Color(.secondarySystemBackground))
+                                }
+                            }
                         }
                     }
                     .listStyle(.insetGrouped)
-                    .background(Color.black)
+                    .background(Color(.systemBackground))
                     .scrollContentBackground(.hidden)
                     .refreshable {
                         await loadPaymentData()
@@ -56,7 +62,13 @@ struct PaymentMethodsView: View {
             }
             .navigationTitle("支付")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: { showingAddPaymentMethod = true }) {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
         .task {
             await loadPaymentData()
@@ -115,11 +127,11 @@ struct PaymentMethodRowView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(paymentMethod.displayName)
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundColor(.primary)
                 if let lastFour = paymentMethod.lastFourDigits {
                     Text("**** \(lastFour)")
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
             }
             
@@ -137,15 +149,14 @@ struct PaymentMethodRowView: View {
     
     private var iconColor: Color {
         switch paymentMethod.type {
-        case .applePay: return .white
+        case .applePay: return .primary
         case .wechatPay: return .green
-        default: return .white
+        default: return .primary
         }
     }
 }
 
 #Preview {
     PaymentMethodsView()
-        .preferredColorScheme(.dark)
 }
 #endif

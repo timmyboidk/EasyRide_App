@@ -4,7 +4,6 @@ import SwiftUI
 struct LoginView: View {
     @Environment(AppState.self) private var appState
     @State private var authViewModel: AuthenticationViewModel
-    @State private var loginMode: LoginMode = .password
     @FocusState private var focusedField: LoginField?
     
     init(appState: AppState) {
@@ -30,7 +29,8 @@ struct LoginView: View {
                 .padding(.horizontal, 24)
                 .padding(.vertical, 32)
             }
-            .background(Color.black.ignoresSafeArea())
+            // Use system background color which adapts to Light/Dark mode
+            .background(Color(.systemBackground).ignoresSafeArea())
             .navigationBarHidden(true)
             .alert("错误", isPresented: $authViewModel.showingError) {
                 Button("确定") {
@@ -40,7 +40,7 @@ struct LoginView: View {
                 Text(authViewModel.currentError?.localizedDescription ?? "错误")
             }
         }
-        .accentColor(.white)
+        .accentColor(.primary)
     }
     
     // MARK: - Header Section
@@ -49,12 +49,12 @@ struct LoginView: View {
         VStack(spacing: 16) {
             Image(systemName: "car.circle.fill")
                 .font(.system(size: 80))
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
             
             Text("EasyRide")
                 .font(.largeTitle)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
         }
     }
     
@@ -66,76 +66,81 @@ struct LoginView: View {
             // Phone Number Field
             phoneNumberField
             
-            // Password or OTP Field
-            if loginMode == .password {
-                passwordField
-            } else {
-                otpSection
-            }
+            // OTP Field
+            otpSection
         }
     }
     
     private var phoneNumberField: some View {
         TextField("请输入手机号码", text: $authViewModel.phoneNumber)
             .padding()
-            .background(Color.white)
+            .background(Color(.secondarySystemBackground))
             .cornerRadius(10)
             .keyboardType(.phonePad)
             .textContentType(.telephoneNumber)
             .focused($focusedField, equals: .phoneNumber)
     }
     
-    private var passwordField: some View {
-        SecureField("请输入密码", text: $authViewModel.password)
-            .padding()
-            .background(Color.white)
-            .cornerRadius(10)
-            .textContentType(.password)
-            .focused($focusedField, equals: .password)
-    }
-    
     private var otpSection: some View {
-        VStack(spacing: 16) {
+        HStack(spacing: 12) {
             TextField("6位数验证码", text: $authViewModel.otp)
                 .padding()
-                .background(Color.white)
+                .background(Color(.secondarySystemBackground))
                 .cornerRadius(10)
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .focused($focusedField, equals: .otp)
+            
+            Button(action: {
+                Task {
+                    await authViewModel.sendOTP()
+                }
+            }) {
+                Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : "获取验证码")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.white)
+                    .frame(width: 100, height: 50)
+                    .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Color.blue)
+                    .cornerRadius(10)
+            }
+            .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
         }
     }
     
     // MARK: - Action Buttons
     
     private var actionButtons: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             Button(action: {
                 Task {
-                    if loginMode == .password {
-                        await authViewModel.loginWithPassword()
-                    } else {
-                        await authViewModel.loginWithOTP()
-                    }
+                    await authViewModel.loginWithOTP()
                 }
             }) {
-                Text("登录")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.black)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.white, lineWidth: 1)
-                    )
+                if authViewModel.isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                } else {
+                    Text("登录")
+                        .fontWeight(.semibold)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
             }
-            .disabled(loginMode == .password ? !authViewModel.isLoginFormValid : !authViewModel.isOTPFormValid)
+            .disabled(!authViewModel.isOTPFormValid || authViewModel.isLoading)
 
-            // Add this button for WeChat Login
+            // WeChat Login
             Button(action: {
-                // Logic for WeChat login
+                Task {
+                    await authViewModel.loginWithWeChat()
+                }
             }) {
                 HStack {
                     Image(systemName: "message.fill")
@@ -144,7 +149,7 @@ struct LoginView: View {
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.green)
+                .background(Color(red: 0.03, green: 0.76, blue: 0.02)) // WeChat Green
                 .foregroundColor(.white)
                 .cornerRadius(10)
             }
@@ -157,21 +162,15 @@ struct LoginView: View {
         NavigationLink(destination: RegistrationView(appState: appState)) {
             Text("创建新账户")
                 .fontWeight(.semibold)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
         }
     }
 }
 
 // MARK: - Supporting Types
 
-enum LoginMode {
-    case password
-    case otp
-}
-
 enum LoginField {
     case phoneNumber
-    case password
     case otp
 }
 

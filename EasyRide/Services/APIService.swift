@@ -19,7 +19,7 @@ class EasyRideAPIService: APIService {
     private let secureStorage = SecureStorage.shared
     
     init(
-        baseURL: String = "https://api.easyride.com",
+        baseURL: String = AppConfiguration.baseURL,
         session: URLSession = .shared
     ) {
         self.baseURL = baseURL

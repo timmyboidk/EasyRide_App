@@ -32,16 +32,17 @@ import SwiftUI
       // Customize TabView appearance
       let appearance = UITabBarAppearance()
       appearance.configureWithOpaqueBackground()
-      appearance.backgroundColor = .black
-
-      // Set item colors
-      appearance.stackedLayoutAppearance.normal.iconColor = .gray
+      // Use system background color
+      appearance.backgroundColor = UIColor.systemBackground
+      
+      // Set item colors to adapt
+      appearance.stackedLayoutAppearance.normal.iconColor = UIColor.secondaryLabel
       appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
-        .foregroundColor: UIColor.gray
+        .foregroundColor: UIColor.secondaryLabel
       ]
-      appearance.stackedLayoutAppearance.selected.iconColor = .white
+      appearance.stackedLayoutAppearance.selected.iconColor = UIColor.label
       appearance.stackedLayoutAppearance.selected.titleTextAttributes = [
-        .foregroundColor: UIColor.white
+        .foregroundColor: UIColor.label
       ]
 
       UITabBar.appearance().standardAppearance = appearance
@@ -68,7 +69,7 @@ import SwiftUI
             Text("个人", bundle: nil)
           }
       }
-      .accentColor(.white)  // Sets the selected tab item color
+      .accentColor(.primary)  // Sets the selected tab item color
     }
   }
 
@@ -100,29 +101,81 @@ import SwiftUI
   }
 
   struct OrdersView: View {
+    @StateObject private var viewModel = OrdersViewModel()
+
     var body: some View {
       NavigationView {
         ZStack {
-          Color.black.ignoresSafeArea()
-          VStack {
-            Image(systemName: "list.bullet.rectangle.portrait")
-              .font(.system(size: 60))
-              .foregroundStyle(.gray)
+          Color(.systemBackground).ignoresSafeArea()
+          
+          if viewModel.isLoading {
+            ProgressView()
+          } else if viewModel.orders.isEmpty {
+            VStack {
+              Image(systemName: "list.bullet.rectangle.portrait")
+                .font(.system(size: 60))
+                .foregroundStyle(.secondary)
 
-            Text("暂无订单", bundle: nil)
-              .font(.title3)
-              .fontWeight(.medium)
-              .foregroundColor(.white)
+              Text("暂无订单", bundle: nil)
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundColor(.primary)
 
-            Text("您的行程记录将显示在这里", bundle: nil)
-              .font(.subheadline)
-              .foregroundStyle(.secondary)
+              Text("您的行程记录将显示在这里", bundle: nil)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+            }
+          } else {
+            List(viewModel.orders) { order in
+                OrderRowView(order: order)
+            }
+            .listStyle(.plain)
           }
         }
         .navigationTitle(Text("订单", bundle: nil))
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        .task {
+            await viewModel.fetchOrders()
+        }
       }
+    }
+  }
+
+  struct OrderRowView: View {
+    let order: Order
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(order.serviceType.rawValue) // ServiceType
+                    .font(.headline)
+                Spacer()
+                Text(order.status.displayName)
+                    .font(.subheadline)
+                    .foregroundColor(order.status.color)
+            }
+            
+            HStack {
+                Image(systemName: "mappin.circle.fill")
+                    .foregroundColor(.green)
+                Text(order.pickupLocation.address)
+                    .font(.subheadline)
+            }
+            
+            if let dest = order.destination {
+                HStack {
+                    Image(systemName: "mappin.circle.fill")
+                        .foregroundColor(.red)
+                    Text(dest.address)
+                        .font(.subheadline)
+                }
+            }
+            
+            Text(LocalizationUtils.formatDate(order.createdAt))
+                .font(.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 8)
     }
   }
 
@@ -137,23 +190,23 @@ import SwiftUI
     var body: some View {
       NavigationView {
         ZStack {
-          Color.black.ignoresSafeArea()
+          Color(.systemBackground).ignoresSafeArea()
           VStack(spacing: 20) {
             // User Info Header
             VStack(spacing: 12) {
               Image(systemName: "person.crop.circle.fill")
                 .font(.system(size: 100))
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
 
               if let user = appState.currentUser {
                 Text(user.name)
                   .font(.title2)
                   .fontWeight(.semibold)
-                  .foregroundColor(.white)
+                  .foregroundColor(.primary)
 
                 Text(user.phoneNumber ?? "无电话号码")
                   .font(.subheadline)
-                  .foregroundStyle(.gray)
+                  .foregroundStyle(.secondary)
               }
             }
             .padding(.top, 30)

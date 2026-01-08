@@ -18,7 +18,7 @@ struct OrderDetailView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color(.systemBackground).ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Order Status Header
@@ -38,7 +38,11 @@ struct OrderDetailView: View {
         }
         .navigationTitle("行程详情")
         .navigationBarTitleDisplayMode(.inline)
-        .toolbarColorScheme(.dark, for: .navigationBar)
+        // toolbarColorScheme deprecated in iOS 16/17 depending on usage, but standard is .toolbarColorScheme(.dark, ...)
+        // We generally want it to adapt. If we force dark, nav bar is dark.
+        // Let's remove it to adapt or keep if "Native Aesthetics" implies specific look. 
+        // Given user wants themes, removing forced scheme is better.
+        // .toolbarColorScheme(.dark, for: .navigationBar) 
         .sheet(isPresented: $viewModel.showingTripModification) {
             // Placeholder for TripModificationView
             Text("行程修改视图")
@@ -66,15 +70,15 @@ struct OrderDetailView: View {
                 HStack(spacing: 12) {
                     Image(systemName: "person.crop.circle.fill")
                         .font(.system(size: 50))
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text(driver.name)
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.primary)
                         Text(driver.vehicleInfo.fullDescription)
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.secondary)
                     }
                     
                     Spacer()
@@ -98,7 +102,7 @@ struct OrderDetailView: View {
             }
         }
         .padding()
-        .background(Color.gray.opacity(0.2))
+        .background(Color(.secondarySystemBackground))
     }
     
     private var chatMessagesView: some View {
@@ -116,7 +120,9 @@ struct OrderDetailView: View {
                 scrollProxy = proxy
                 scrollToBottom()
             }
-            .onChange(of: viewModel.messages.count) { _, _ in
+            .onChange(of: viewModel.messages.count) {
+                // iOS 17 onChange uses 0 args or older version. 
+                // Using 0 args closure for compatibility if possible, or verify syntax.
                 scrollToBottom()
             }
         }
@@ -126,20 +132,20 @@ struct OrderDetailView: View {
         HStack(spacing: 12) {
             TextField("输入消息...", text: $viewModel.messageText, axis: .vertical)
                 .padding(10)
-                .background(Color.gray.opacity(0.2))
+                .background(Color(.secondarySystemBackground))
                 .cornerRadius(20)
-                .foregroundColor(.white)
+                .foregroundColor(.primary)
                 .focused($isMessageFieldFocused)
             
             Button(action: sendMessage) {
                 Image(systemName: "arrow.up.circle.fill")
                     .font(.title)
-                    .foregroundColor(canSendMessage ? .white : .gray)
+                    .foregroundColor(canSendMessage ? .blue : .gray)
             }
             .disabled(!canSendMessage)
         }
         .padding()
-        .background(Color.black)
+        .background(Color(.systemBackground))
     }
     
     // MARK: - Helper Methods
@@ -191,8 +197,8 @@ struct MessageBubbleView: View {
             
             Text(message.content)
                 .padding(12)
-                .background(message.isFromCurrentUser ? Color.white : Color.gray.opacity(0.3))
-                .foregroundColor(message.isFromCurrentUser ? .black : .white)
+                .background(message.isFromCurrentUser ? Color.blue : Color(.secondarySystemBackground))
+                .foregroundColor(message.isFromCurrentUser ? .white : .primary)
                 .cornerRadius(20)
             
             if !message.isFromCurrentUser {
@@ -205,16 +211,17 @@ struct MessageBubbleView: View {
 // MARK: - RealTimeMapView
 
 struct RealTimeMapView: View {
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
-        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    @State private var position: MapCameraPosition = .region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194),
+            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        )
     )
 
     var body: some View {
-        Map(coordinateRegion: $region, annotationItems: [
-            AnnotationItem(coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194))
-        ]) { item in
-            MapMarker(coordinate: item.coordinate, tint: .blue)
+        Map(position: $position) {
+            Marker("Location", coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194))
+                .tint(.blue)
         }
         .frame(height: 250)
     }

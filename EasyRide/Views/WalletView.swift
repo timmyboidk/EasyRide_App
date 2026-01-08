@@ -11,13 +11,13 @@ struct WalletView: View {
     @State private var showingError = false
     
     var body: some View {
+
         NavigationView {
             ZStack {
-                Color.black.ignoresSafeArea()
+                Color(.systemBackground).ignoresSafeArea()
                 
                 if isLoading && wallet == nil {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else if let wallet = wallet {
                     List {
                         // Wallet Card Section
@@ -26,37 +26,36 @@ struct WalletView: View {
                                 showingAddFunds = true
                             }
                         }
-                        .listRowBackground(Color.black)
+                        .listRowBackground(Color(.systemBackground))
                         .listRowInsets(EdgeInsets())
 
                         // Transaction History Section
-                        Section(header: Text("交易记录").foregroundColor(.gray).fontWeight(.bold)) {
+                        Section(header: Text("交易记录").foregroundColor(.secondary).fontWeight(.bold)) {
                             if transactions.isEmpty {
                                 Text("暂无交易记录")
-                                    .foregroundColor(.gray)
-                                    .listRowBackground(Color.black)
+                                    .foregroundColor(.secondary)
+                                    .listRowBackground(Color(.systemBackground))
                             } else {
                                 ForEach(transactions) { transaction in
                                     TransactionRow(transaction: transaction)
-                                        .listRowBackground(Color.black)
+                                        .listRowBackground(Color(.systemBackground))
                                 }
                             }
                         }
                     }
                     .listStyle(.insetGrouped)
-                    .background(Color.black)
+                    .background(Color(.systemBackground))
                     .scrollContentBackground(.hidden) // Makes list background transparent
                     .refreshable {
                         await loadWalletData(refresh: true)
                     }
                 } else {
                     Text("无法加载钱包。")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                 }
             }
             .navigationTitle("钱包")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: { showingAddFunds = true }) {
@@ -117,16 +116,16 @@ struct WalletCardView: View {
                 VStack(alignment: .leading) {
                     Text("余额")
                         .font(.headline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.secondary)
                     Text(wallet.formattedBalance)
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primary)
                 }
                 Spacer()
                 Image(systemName: "wallet.pass.fill")
                     .font(.largeTitle)
-                    .foregroundColor(.white)
+                    .foregroundColor(.blue) // Use a tint color instead of white
             }
             
             Button(action: onAddFunds) {
@@ -134,13 +133,13 @@ struct WalletCardView: View {
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.gray.opacity(0.3))
-                    .foregroundColor(.white)
+                    .background(Color(.secondarySystemBackground))
+                    .foregroundColor(.primary)
                     .cornerRadius(10)
             }
         }
         .padding()
-        .background(Color.gray.opacity(0.2))
+        .background(Color(.secondarySystemBackground))
         .cornerRadius(12)
     }
 }
@@ -158,10 +157,10 @@ struct TransactionRow: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(transaction.description)
                     .font(.headline)
-                    .foregroundColor(.white)
-                Text(transaction.createdAt, style: .date)
+                    .foregroundColor(.primary)
+                Text(LocalizationUtils.formatDate(transaction.createdAt))
                     .font(.subheadline)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.secondary)
             }
             
             Spacer()
@@ -169,7 +168,7 @@ struct TransactionRow: View {
             Text(transaction.formattedAmount)
                 .font(.headline)
                 .fontWeight(.medium)
-                .foregroundColor(transaction.type == .payment ? .white : .green)
+                .foregroundColor(transaction.type == .payment ? .primary : .green)
         }
         .padding(.vertical, 8)
     }
@@ -177,6 +176,5 @@ struct TransactionRow: View {
 
 #Preview {
     WalletView()
-        .preferredColorScheme(.dark)
 }
 #endif

@@ -2,9 +2,11 @@ import Foundation
 
 enum APIEndpoint {
     // Authentication
-    case login(phoneNumber: String, password: String)
     case loginOTP(phoneNumber: String, otp: String)
+    case loginWeChat(code: String, phoneNumber: String?)
     case register(RegisterRequest)
+    // case registerOTP // In case we need a distinct one, but let's assume register uses OTP logic internally now
+    case otpRequest(phoneNumber: String)
     case refreshToken(refreshToken: String)
     case logout
     
@@ -53,7 +55,7 @@ enum APIEndpoint {
     
     var httpMethod: HTTPMethod {
         switch self {
-        case .login, .loginOTP, .register, .refreshToken, .createOrder, .estimatePrice, .updateDriverLocation, .addPaymentMethod, .processPayment, .addFundsToWallet, .sendMessage, .sendTypingIndicator, .calculateFareAdjustment, .requestTripModification:
+        case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken, .createOrder, .estimatePrice, .updateDriverLocation, .addPaymentMethod, .processPayment, .addFundsToWallet, .sendMessage, .sendTypingIndicator, .calculateFareAdjustment, .requestTripModification:
             return .POST
         case .updateUserProfile, .updateOrderStatus, .cancelOrder:
             return .PUT
@@ -69,16 +71,18 @@ enum APIEndpoint {
     var path: String {
         switch self {
         // Authentication
-        case .login:
-            return "/api/user/login"
         case .loginOTP:
-            return "/api/user/login/otp"
+            return "/api/user/auth/login/otp"
+        case .loginWeChat:
+            return "/api/user/auth/login/wechat"
         case .register:
-            return "/api/user/register"
+            return "/api/user/auth/register" // Assuming revised OTP-based register logic resides here or similar
+        case .otpRequest:
+            return "/api/user/otp/request"
         case .refreshToken:
-            return "/api/user/refresh"
+            return "/api/user/auth/refresh"
         case .logout:
-            return "/api/user/logout"
+            return "/api/user/auth/logout"
             
         // User Management
         case .getUserProfile:
@@ -191,10 +195,13 @@ enum APIEndpoint {
     
     var body: Data? {
         switch self {
-        case .login(let phoneNumber, let password):
-            return try? JSONEncoder().encode(LoginRequest(phoneNumber: phoneNumber, password: password))
         case .loginOTP(let phoneNumber, let otp):
             return try? JSONEncoder().encode(OTPRequest(phoneNumber: phoneNumber, otp: otp))
+        case .loginWeChat(let code, let phoneNumber):
+            return try? JSONEncoder().encode(WeChatLoginRequest(code: code, phoneNumber: phoneNumber))
+        case .otpRequest(let phoneNumber):
+             // Assuming simple mapping to a structure or just param
+             return try? JSONEncoder().encode(["phoneNumber": phoneNumber])
         case .register(let request):
             return try? JSONEncoder().encode(request)
         case .refreshToken(let refreshToken):
@@ -251,7 +258,7 @@ enum APIEndpoint {
     
     var requiresAuthentication: Bool {
         switch self {
-        case .login, .loginOTP, .register, .refreshToken:
+        case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken:
             return false
         default:
             return true
@@ -275,9 +282,9 @@ enum MessageType: String, Codable {
 }
 
 // MARK: - Request Models
-struct LoginRequest: Codable {
-    let phoneNumber: String
-    let password: String
+struct WeChatLoginRequest: Codable {
+    let code: String
+    let phoneNumber: String?
 }
 
 struct OTPRequest: Codable {
@@ -287,7 +294,8 @@ struct OTPRequest: Codable {
 
 struct RegisterRequest: Codable {
     let phoneNumber: String
-    let password: String
+    // let password: String // REMOVED PASSWORD
+    let otp: String // Added OTP
     let nickname: String
     let email: String?
 }

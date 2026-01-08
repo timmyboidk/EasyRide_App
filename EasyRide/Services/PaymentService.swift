@@ -89,7 +89,7 @@ class EasyRidePaymentService: PaymentService {
         let request = PKPaymentRequest()
         request.merchantIdentifier = merchantIdentifier
         request.supportedNetworks = supportedNetworks
-        request.merchantCapabilities = [.capability3DS, .capabilityEMV]
+        request.merchantCapabilities = [.threeDSecure, .emv]
         request.countryCode = "US"
         request.currencyCode = "USD"
         
