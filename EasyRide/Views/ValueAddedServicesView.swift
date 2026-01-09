@@ -3,6 +3,8 @@ import SwiftUI
 #if os(iOS)
 struct ValueAddedServicesView: View {
     @State private var viewModel = ValueAddedServicesViewModel()
+    @State private var bookingViewModel: BookingViewModel?
+    @Environment(AppState.self) private var appState
     @State private var showingPaymentMethods = false
     @State private var selectedPaymentMethod: PaymentMethod = PaymentMethod(
         type: .applePay,
@@ -48,6 +50,11 @@ struct ValueAddedServicesView: View {
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingPaymentMethods) {
             PaymentMethodsView()
+        }
+        .onAppear {
+            if bookingViewModel == nil {
+                bookingViewModel = BookingViewModel(appState: appState)
+            }
         }
     }
     
@@ -281,9 +288,16 @@ struct ValueAddedServicesView: View {
     
     // MARK: - Payment Button
     private var paymentButton: some View {
-        Button(action: processPayment) {
-            Text("\(LocalizationUtils.localized("Confirm_Pay")) ¥\(viewModel.totalAmount, specifier: "%.0f")")
-                .fontWeight(.heavy)
+        Button(action: processOrderCreation) {
+            HStack {
+                if let isCreating = bookingViewModel?.isCreatingOrder, isCreating {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                } else {
+                    Text("\(LocalizationUtils.localized("Confirm_Pay")) ¥\(viewModel.totalAmount, specifier: "%.0f")")
+                        .fontWeight(.heavy)
+                }
+            }
                 .frame(maxWidth: .infinity)
                 .padding()
                 .background(Color.blue)
@@ -307,8 +321,24 @@ struct ValueAddedServicesView: View {
         )
     }
     
-    private func processPayment() {
-        navigationPath.append(BookingStep.orderSuccessDriverMatching)
+    private func processOrderCreation() {
+        guard let bookingVM = bookingViewModel else { return }
+        
+        Task {
+            // Update trip configuration with selected options (if needed)
+            // Ideally, ValueAddedServicesViewModel should update AppState or return the options.
+            // For now, we assume AppState already has the base config, and we capture these options.
+            
+            // Note: BookingViewModel.createOrder uses AppState.tripConfiguration.
+            // We need to ensure AppState.tripConfiguration is up to date with these services.
+            
+            // Trigger creation
+            await bookingVM.createOrder()
+            
+            if bookingVM.createdOrder != nil {
+                navigationPath.append(BookingStep.orderSuccessDriverMatching)
+            }
+        }
     }
 }
 

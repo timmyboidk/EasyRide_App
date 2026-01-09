@@ -3,6 +3,8 @@ import SwiftUI
 #if os(iOS)
 struct LoginView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
+
     @State private var authViewModel: AuthenticationViewModel
     @FocusState private var focusedField: LoginField?
     
@@ -30,8 +32,8 @@ struct LoginView: View {
                 .padding(.horizontal, 24)
                 .padding(.vertical, 32)
             }
-            // Use system background color which adapts to Light/Dark mode
-            .background(Color(.systemBackground).ignoresSafeArea())
+            // Use pure white for light mode and all black for dark mode
+            .background(Theme.backgroundColor(for: colorScheme).ignoresSafeArea())
             .navigationBarHidden(true)
             .alert("错误", isPresented: $authViewModel.showingError) {
                 Button("确定") {
@@ -75,8 +77,8 @@ struct LoginView: View {
     private var phoneNumberField: some View {
         TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
             .padding()
-            .background(Color(.systemBackground))
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+            .background(Theme.backgroundColor(for: colorScheme))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
             .keyboardType(.phonePad)
             .textContentType(.telephoneNumber)
             .focused($focusedField, equals: .phoneNumber)
@@ -86,8 +88,8 @@ struct LoginView: View {
         HStack(spacing: 12) {
             TextField(LocalizationUtils.localized("OTP_Code"), text: $authViewModel.otp)
                 .padding()
-                .background(Color(.systemBackground))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+                .background(Theme.backgroundColor(for: colorScheme))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                 .keyboardType(.numberPad)
                 .textContentType(.oneTimeCode)
                 .focused($focusedField, equals: .otp)
@@ -100,9 +102,9 @@ struct LoginView: View {
                 Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                     .font(.subheadline)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(Theme.backgroundColor(for: colorScheme))
                     .frame(width: 100, height: 50)
-                    .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Color.blue)
+                    .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Theme.primaryColor(for: colorScheme))
                     .cornerRadius(12)
             }
             .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
@@ -120,18 +122,18 @@ struct LoginView: View {
             }) {
                 if authViewModel.isLoading {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .progressViewStyle(CircularProgressViewStyle(tint: Theme.backgroundColor(for: colorScheme)))
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(Theme.primaryColor(for: colorScheme))
                         .cornerRadius(10)
                 } else {
                     Text(LocalizationUtils.localized("Login"))
                         .fontWeight(.heavy)
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Theme.primaryColor(for: colorScheme))
+                        .foregroundColor(Theme.backgroundColor(for: colorScheme))
                         .cornerRadius(12)
                 }
             }
@@ -150,9 +152,10 @@ struct LoginView: View {
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color(red: 0.03, green: 0.76, blue: 0.02)) // WeChat Green
-                .foregroundColor(.white)
+                .background(Theme.primaryColor(for: colorScheme))
+                .foregroundColor(Theme.backgroundColor(for: colorScheme))
                 .cornerRadius(12)
+                .overlay(RoundedRectangle(cornerRadius: 12).stroke(Theme.primaryColor(for: colorScheme), lineWidth: 1))
             }
         }
     }

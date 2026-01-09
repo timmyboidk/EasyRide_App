@@ -3,6 +3,7 @@ import SwiftUI
 #if os(iOS)
 struct RegistrationView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var authViewModel: AuthenticationViewModel
     @FocusState private var focusedField: RegistrationField?
 
@@ -29,7 +30,7 @@ struct RegistrationView: View {
             .padding(.vertical, 32)
         }
 
-        .background(Color(.systemBackground).ignoresSafeArea())
+        .background(Theme.backgroundColor(for: colorScheme).ignoresSafeArea())
         .navigationTitle(LocalizationUtils.localized("Create_Account"))
         .navigationBarTitleDisplayMode(.inline)
         .alert("错误", isPresented: $authViewModel.showingError) {
@@ -60,8 +61,8 @@ struct RegistrationView: View {
         VStack(spacing: 16) {
             TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
                 .padding()
-                .background(Color(.systemBackground))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+                .background(Theme.backgroundColor(for: colorScheme))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
                 .focused($focusedField, equals: .phoneNumber)
@@ -70,8 +71,8 @@ struct RegistrationView: View {
             HStack(spacing: 12) {
                 TextField(LocalizationUtils.localized("Enter_OTP"), text: $authViewModel.otp)
                     .padding()
-                    .background(Color(.systemBackground))
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+                    .background(Theme.backgroundColor(for: colorScheme))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                     .keyboardType(.numberPad)
                     .textContentType(.oneTimeCode)
                     .focused($focusedField, equals: .otp)
@@ -84,9 +85,9 @@ struct RegistrationView: View {
                     Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
                         .font(.subheadline)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(Theme.backgroundColor(for: colorScheme))
                         .frame(width: 100, height: 50)
-                        .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Color.blue)
+                        .background(authViewModel.isOTPSent && !authViewModel.canResendOTP ? Color.gray : Theme.primaryColor(for: colorScheme))
                         .cornerRadius(10)
                 }
                 .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
@@ -94,15 +95,15 @@ struct RegistrationView: View {
 
             TextField(LocalizationUtils.localized("Nickname"), text: $authViewModel.nickname)
                 .padding()
-                .background(Color(.systemBackground))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+                .background(Theme.backgroundColor(for: colorScheme))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                 .textContentType(.nickname)
                 .focused($focusedField, equals: .nickname)
             
             TextField(LocalizationUtils.localized("Email_Optional"), text: $authViewModel.email)
                 .padding()
-                .background(Color(.systemBackground))
-                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.primary.opacity(0.2), lineWidth: 1))
+                .background(Theme.backgroundColor(for: colorScheme))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                 .keyboardType(.emailAddress)
                 .textContentType(.emailAddress)
                 .focused($focusedField, equals: .email)
@@ -118,18 +119,18 @@ struct RegistrationView: View {
         }) {
             if authViewModel.isLoading {
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Theme.backgroundColor(for: colorScheme)))
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
+                    .background(Theme.primaryColor(for: colorScheme))
                     .cornerRadius(12)
             } else {
                 Text(LocalizationUtils.localized("Register"))
                     .fontWeight(.heavy)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.blue)
-                    .foregroundColor(.white)
+                    .background(Theme.primaryColor(for: colorScheme))
+                    .foregroundColor(Theme.backgroundColor(for: colorScheme))
                     .cornerRadius(12)
             }
         }

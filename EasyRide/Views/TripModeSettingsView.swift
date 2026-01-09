@@ -5,10 +5,11 @@ struct TripModeSettingsView: View {
     @State private var viewModel = TripConfigurationViewModel()
     @State private var showingDatePicker = false
     @Binding var navigationPath: NavigationPath
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+            Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
             
             ScrollView {
                 VStack(spacing: 24) {

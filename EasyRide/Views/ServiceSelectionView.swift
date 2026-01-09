@@ -8,6 +8,7 @@ struct ServiceSelectionView: View {
     @Binding var navigationPath: NavigationPath
     
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.colorScheme) private var colorScheme
     
     init(appState: AppState, navigationPath: Binding<NavigationPath>) {
         self._viewModel = State(initialValue: ServiceSelectionViewModel(appState: appState))
@@ -16,8 +17,8 @@ struct ServiceSelectionView: View {
     
     var body: some View {
         ZStack {
-            // System background for sheet support
-            Color(.systemBackground).ignoresSafeArea()
+            // Pure white/black background
+            Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Charter Type Cards
@@ -69,8 +70,8 @@ struct ServiceSelectionView: View {
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.primary)
-                .foregroundColor(Color(.systemBackground))
+                .background(Theme.primaryColor(for: colorScheme))
+                .foregroundColor(Theme.backgroundColor(for: colorScheme))
                 .cornerRadius(10)
         }
     }
@@ -100,6 +101,7 @@ struct CharterTypeCardView: View {
     let isLoading: Bool
     let animationNamespace: Namespace.ID
     let onTap: () -> Void
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         Button(action: onTap) {
@@ -126,7 +128,7 @@ struct CharterTypeCardView: View {
                     // Selection indicator
                     Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                         .font(.title3)
-                        .foregroundColor(isSelected ? .blue : .gray)
+                        .foregroundColor(isSelected ? Theme.primaryColor(for: colorScheme) : .gray)
                 }
                 .padding()
                 
@@ -189,11 +191,11 @@ struct CharterTypeCardView: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.systemBackground)) // Strict white/black
-                    .shadow(color: Color.primary.opacity(0.1), radius: 4, x: 0, y: 2)
+                    .fill(Theme.backgroundColor(for: colorScheme)) // Strict white/black
+                    .shadow(color: Theme.primaryColor(for: colorScheme).opacity(0.1), radius: 4, x: 0, y: 2)
                     .overlay(
                         RoundedRectangle(cornerRadius: 12)
-                            .stroke(isSelected ? Color.blue : Color.primary.opacity(0.1), lineWidth: isSelected ? 2 : 1)
+                            .stroke(isSelected ? Theme.primaryColor(for: colorScheme) : Theme.primaryColor(for: colorScheme).opacity(0.1), lineWidth: isSelected ? 2 : 1)
                     )
             )
         }

@@ -10,25 +10,50 @@
 "Error" = "错误";
 "OK" = "确定";
 "Cancel" = "取消";
+"Confirm" = "确认";
+"Back" = "返回";
+"Save" = "保存";
+"Delete" = "删除";
+"Edit" = "编辑";
+"Done" = "完成";
+"Close" = "关闭";
+"Loading_Text" = "加载中...";
+"No_Data" = "暂无数据";
+"Search" = "搜索";
+"Unknown" = "未知";
+"Submit" = "提交";
+"Success" = "成功";
 
 // Authentication
 "Login" = "登录";
 "Login_WeChat" = "微信登录";
+"Login_Apple" = "通过Apple登录";
 "Get_OTP" = "获取验证码";
 "Phone_Number" = "请输入手机号码";
 "OTP_Code" = "6位数验证码";
 "Create_Account" = "创建新账户";
 "Debug_Login" = "调试登录 (绕过)";
+"Password" = "密码";
+"Forgot_Password" = "忘记密码？";
+"Sign_Up" = "注册";
 
 // Tab Bar
 "Home" = "首页";
 "Orders" = "订单";
 "Profile" = "个人";
+"Messages" = "消息";
 
 // Orders
 "No_Orders" = "暂无订单";
 "Orders_Empty_State" = "您的行程记录将显示在这里";
 "Order_History" = "订单历史";
+"Order_ID" = "订单号";
+"Order_Status" = "订单状态";
+"Pickup_Time" = "接载时间";
+"Service_Type" = "服务类型";
+"Driver" = "司机";
+"Fare" = "车费";
+"Payment_Status" = "支付状态";
 
 // Profile
 "Wallet" = "钱包";
@@ -37,6 +62,10 @@
 "Settings" = "设置";
 "Logout" = "退出登录";
 "No_Phone" = "无电话号码";
+"User_Info" = "用户信息";
+"Edit_Profile" = "编辑资料";
+"Change_Avatar" = "更換头像";
+"Change_Name" = "更改昵称";
 
 // Wallet
 "Balance" = "余额";
@@ -45,6 +74,7 @@
 "No_Transactions" = "暂无交易记录";
 "Wallet_Load_Error" = "无法加载钱包。";
 "Add_Funds" = "充值";
+"Withdraw" = "提现";
 
 // Payment Methods
 "Payment_Methods" = "支付方式";
@@ -55,6 +85,8 @@
 "Alipay" = "支付宝";
 "WeChat_Pay" = "微信支付";
 "Apple_Pay" = "Apple Pay";
+"Select_Payment_Method" = "选择支付方式";
+"Expires" = "有效期";
 
 // Registration
 "Join_EasyRide" = "加入EasyRide";
@@ -72,25 +104,19 @@
 "Estimated_Price" = "预估价格";
 "Continue" = "继续";
 "Price_Estimation_Error" = "价格估算错误";
-
-"No_Phone" = "无电话号码";
-"OTP_Code" = "6位数验证码";
-"Login_WeChat" = "微信登录";
-"Error" = "错误";
-"OK" = "确定";
-"EasyRide" = "EasyRide";
-"Create_Account" = "创建新账户";
-
-"Language" = "语言";
-"App_Language" = "应用语言";
-"General" = "通用";
-"Version" = "版本";
+"Ride_Type" = "行程类型";
+"Free_Route" = "自由行";
+"Custom_Route" = "自定义路线";
+"Route_Preview" = "路线预览";
 
 // Payment & Funds
 "Card_Info" = "卡信息";
 "Add_Card" = "添加卡";
 "Current_Balance" = "当前余额";
 "Select_Amount" = "选择金额";
+"Pay_Now" = "立即支付";
+"Payment_Successful" = "支付成功";
+"Payment_Failed" = "支付失败";
 
 // Value Added Services
 "Confirm_Vehicle" = "行程车辆确认";
@@ -105,6 +131,9 @@
 "Available_Points" = "可用积分";
 "Confirm_Pay" = "确认并支付";
 "Priority_Match" = "优先匹配收藏司机";
+"Child_Seat" = "儿童座椅";
+"Meet_Greet" = "举牌接机";
+"Help_Luggage" = "搬运行李";
 
 // Order Tracking & Matching
 "Driver_Info" = "司机信息";
@@ -113,19 +142,31 @@
 "License_Plate" = "车牌号";
 "Realtime_Location" = "实时位置";
 "Vehicle_Location" = "车辆位置";
-"Driver_Distance" = "司机距离您 2.3公里";
-"Est_Arrival_Time" = "预计5分钟到达";
+"Driver_Distance" = "司机距离您 %@";
+"Est_Arrival_Time" = "预计%@到达";
 "Contact_Info" = "联系方式";
 "Phone" = "电话";
 "WeChat" = "微信";
 "Chat_Entrance" = "聊天入口";
 "Trip_Modification_Request" = "行程修改申请";
-"Cancel_Order" = "订单取消";
+"Cancel_Order" = "取消订单";
 "Common_Phrases" = "常用语";
 "Current_Order" = "当前订单";
 "Chat_Interface" = "聊天界面";
+"Chat_Title" = "聊天";
 "Modify_Trip" = "修改行程";
 "Order_Submitted_Success" = "订单提交成功";
+"Driver_Matched" = "已为您匹配到司机";
+"Driver_Arrived" = "司机已到达";
+"Trip_In_Progress" = "行程进行中";
+"Trip_Completed" = "行程已完成";
+"Waiting_For_Driver" = "正在为您寻找附近的司机...";
+"Enter_Message" = "输入消息...";
+"Change_Destination" = "修改目的地";
+"Change_Trip_End" = "更改行程终点";
+"Add_Stop_To_Route" = "添加途经点";
+"Change_Time" = "修改时间";
+"Adjust_Time" = "调整出发时间";
 
 // Trip Mode & Config
 "Trip_Mode" = "出行模式";
@@ -138,9 +179,35 @@
 "Stop_Duration" = "停留时长";
 "Trip_Mode_Settings" = "出行模式设置";
 "Trip_Config" = "行程配置";
-"Large_Luggage" = "大件行李";
-"Small_Luggage" = "小件行李";
+"Free_Route_Display" = "自由行";
+"Free_Route_Desc" = "点对点";
+"Custom_Route_Display" = "自定义路线";
+"Custom_Route_Desc" = "多个停靠点";
+"Trip_Type" = "行程类型";
+"Select_Time" = "选择时间";
+"Passenger_Unit" = "位乘客";
+"Trip_Notes_Placeholder" = "添加任何特殊说明或偏好...";
+"Route_Stops" = "路线停靠点";
+"Add_Stop_Label" = "添加停靠点";
+"Add_First_Stop" = "添加您的第一个停靠点";
+"Stop_Count_Format" = "%d个停靠点";
+"Add_Stop_To_See_Route" = "添加停靠点以查看路线";
+"Continue_Arrow" = "继续";
 "Luggage_Count" = "行李件数";
+"Pickup_Location" = "上车地点";
+"Payment_Due" = "应付金额";
+"Pay_Now" = "立即支付";
+"Rate_Your_Trip" = "评价您的行程";
+"How_was_your_trip_with" = "您与";
+"Review_Placeholder" = "写下您的评价...";
+"Submit_Review" = "提交评价";
+"Change_Avatar" = "更换头像";
+"Phone" = "电话";
+"Save" = "保存";
+"Error" = "错误";
+"OK" = "确定";
+"Notes" = "备注";
+"Enter_Notes" = "输入行程备注 (可选)";
 
 // Setup
 "Setup_Apple_Pay" = "设置Apple Pay";
@@ -150,3 +217,30 @@
 "WeChat_Pay_Desc" = "绑定您的账户以便快捷支付。";
 "Trip_Mod_View" = "行程修改视图";
 "Trip_Details" = "行程详情";
+
+// Settings
+"Notifications" = "通知";
+"Privacy" = "隐私";
+"Language" = "语言";
+"App_Language" = "应用语言";
+"General" = "通用";
+"Version" = "版本";
+"About_Us" = "关于我们";
+"Help_Support" = "帮助与支持";
+"Delete_Account" = "注销账户";
+
+// Review
+"Rate_Driver" = "评价司机";
+"Review_Comment_Placeholder" = "请填写评价内容...";
+"Submit_Review" = "提交评价";
+"Driver_Rating" = "司机评分";
+"Tags" = "标签";
+"Great_Service" = "服务极佳";
+"Clean_Car" = "车内整洁";
+"Polite_Driver" = "礼貌待客";
+"Safe_Driving" = "驾驶平稳";
+
+// Format
+"Currency_Symbol" = "¥";
+"Time_Format" = "%d分钟";
+"Distance_Format" = "%.1f公里";

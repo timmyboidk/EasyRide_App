@@ -8,6 +8,14 @@ struct OrderTrackingView: View {
     @State private var showingChat = false
     @State private var chatMessages: [ChatMessage] = []
     @State private var newMessage = ""
+    
+    // Flow State
+    @State private var showPayment = false
+    @State private var showReview = false
+    
+    @Environment(AppState.self) private var appState
+
+    @Environment(\.colorScheme) private var colorScheme
 
     init(orderId: String) {
         _viewModel = State(initialValue: OrderTrackingViewModel(apiService: EasyRideAPIService.shared))
@@ -15,7 +23,7 @@ struct OrderTrackingView: View {
     
     var body: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+            Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
             
             VStack(spacing: 0) {
                 // Driver Information Header
@@ -39,6 +47,43 @@ struct OrderTrackingView: View {
         .sheet(isPresented: $showingTripModification) {
             TripModificationView()
         }
+        .sheet(isPresented: $showPayment) {
+            if let order = viewModel.currentOrder {
+                PaymentView(
+                    orderId: order.id,
+                    amount: order.actualPrice ?? order.estimatedPrice,
+                    appState: appState,
+                    onPaymentSuccess: {
+                        showPayment = false
+                        // Delay slightly to allow sheet to dismiss
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            showReview = true
+                        }
+                    }
+                )
+                .interactiveDismissDisabled()
+            }
+        }
+        .sheet(isPresented: $showReview) {
+            if let order = viewModel.currentOrder, let driver = order.driver {
+                ReviewView(
+                    orderId: order.id,
+                    driverId: driver.id, // Using driver.id (assuming Driver struct has it or we use order.driverId logic)
+                    driverName: driver.name,
+                    onSubmitConfig: {
+                        showReview = false
+                        // Navigate back home or dismiss
+                        // For now we just close the sheet, the view likely needs to pop
+                    }
+                )
+                .interactiveDismissDisabled()
+            }
+        }
+        .onChange(of: viewModel.currentOrder?.status) { _, newStatus in
+            if newStatus == .completed {
+                showPayment = true
+            }
+        }
         .onAppear {
             loadInitialChatMessages()
         }
@@ -56,7 +101,7 @@ struct OrderTrackingView: View {
                 HStack(spacing: 16) {
                     // Driver Avatar
                     Circle()
-                        .fill(Color(.systemGray6))
+                        .fill(Theme.primaryColor(for: colorScheme).opacity(0.1))
                         .frame(width: 80, height: 80)
                         .overlay(
                             Image(systemName: "person.fill")
@@ -103,7 +148,7 @@ struct OrderTrackingView: View {
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                        .stroke(Theme.primaryColor(for: colorScheme).opacity(0.3), lineWidth: 1)
                 )
             }
         }
@@ -128,7 +173,7 @@ struct OrderTrackingView: View {
             .padding(.horizontal)
             
             Rectangle()
-                .fill(Color.secondary.opacity(0.1))
+                .fill(Theme.primaryColor(for: colorScheme).opacity(0.1))
                 .frame(height: 200)
                 .overlay(
                     VStack(spacing: 8) {
@@ -165,9 +210,9 @@ struct OrderTrackingView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "phone.fill")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.backgroundColor(for: colorScheme))
                             .frame(width: 50, height: 50)
-                            .background(Color.green)
+                            .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
                         Text(LocalizationUtils.localized("Phone"))
@@ -181,9 +226,9 @@ struct OrderTrackingView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "message.fill")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.backgroundColor(for: colorScheme))
                             .frame(width: 50, height: 50)
-                            .background(Color.green)
+                            .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
                         Text(LocalizationUtils.localized("WeChat"))
@@ -197,9 +242,9 @@ struct OrderTrackingView: View {
                     VStack(spacing: 8) {
                         Image(systemName: "bubble.left.and.bubble.right.fill")
                             .font(.title2)
-                            .foregroundColor(.white)
+                            .foregroundColor(Theme.backgroundColor(for: colorScheme))
                             .frame(width: 50, height: 50)
-                            .background(Color.blue)
+                            .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
                         Text(LocalizationUtils.localized("Chat_Entrance"))
@@ -229,7 +274,7 @@ struct OrderTrackingView: View {
                 .padding()
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.blue, lineWidth: 1.5)
+                        .stroke(Theme.primaryColor(for: colorScheme), lineWidth: 1.5)
                 )
             }
             
@@ -282,6 +327,7 @@ struct ChatInterfaceView: View {
     @Binding var messages: [ChatMessage]
     @Binding var newMessage: String
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showingPresetPhrases = false
     
     private let presetPhrases = [
@@ -313,11 +359,11 @@ struct ChatInterfaceView: View {
                 // Input Section
                 chatInputSection
             }
-            .background(Color(.systemBackground))
-            .navigationTitle("聊天界面")
+            .background(Theme.backgroundColor(for: colorScheme))
+            .navigationTitle(LocalizationUtils.localized("Chat_Title"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: Button("关闭") {
+                leading: Button(LocalizationUtils.localized("Close")) {
                     presentationMode.wrappedValue.dismiss()
                 }
             )
@@ -350,7 +396,7 @@ struct ChatInterfaceView: View {
             }
         }
         .padding(.vertical, 8)
-        .background(Color(.systemGray6))
+        .background(Theme.primaryColor(for: colorScheme).opacity(0.1))
     }
     
     // MARK: - Chat Input Section
@@ -383,7 +429,7 @@ struct ChatInterfaceView: View {
             .disabled(newMessage.isEmpty)
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(Theme.backgroundColor(for: colorScheme))
     }
     
     private func sendMessage() {
@@ -416,6 +462,7 @@ struct ChatInterfaceView: View {
 
 // MARK: - Chat Message Row
 struct ChatMessageRow: View {
+    @Environment(\.colorScheme) var colorScheme
     let message: ChatMessage
     
     var body: some View {
@@ -426,7 +473,7 @@ struct ChatMessageRow: View {
                     Text(message.text)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
-                        .background(Color(.systemGray5))
+                        .background(Theme.primaryColor(for: colorScheme).opacity(0.1))
                         .foregroundColor(.primary)
                         .cornerRadius(16, corners: [.topRight, .bottomLeft, .bottomRight])
                     
@@ -444,8 +491,8 @@ struct ChatMessageRow: View {
                     Text(message.text)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 8)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
+                        .background(Theme.primaryColor(for: colorScheme))
+                        .foregroundColor(Theme.backgroundColor(for: colorScheme))
                         .cornerRadius(16, corners: [.topLeft, .bottomLeft, .bottomRight])
                     
                     Text(message.timestamp.formatted(date: .omitted, time: .shortened))
@@ -489,11 +536,12 @@ struct RoundedCorner: Shape {
 // MARK: - Trip Modification View
 struct TripModificationView: View {
     @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.colorScheme) private var colorScheme
     
     var body: some View {
         NavigationView {
             ZStack {
-                Color(.systemBackground).ignoresSafeArea()
+                Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
                 
                 VStack(spacing: 20) {
                     Text(LocalizationUtils.localized("Trip_Modification_Request"))
@@ -535,6 +583,7 @@ struct TripModificationView: View {
 }
 
 struct ModificationOption: View {
+    @Environment(\.colorScheme) var colorScheme
     let icon: String
     let title: String
     let description: String
@@ -565,7 +614,7 @@ struct ModificationOption: View {
             .padding()
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
+                    .stroke(Theme.primaryColor(for: colorScheme).opacity(0.3), lineWidth: 1)
             )
         }
         .buttonStyle(.plain)

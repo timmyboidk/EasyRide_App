@@ -5,6 +5,7 @@ import CoreLocation
 #if os(iOS)
   struct ContentView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var showingBootScreen = true
 
     var body: some View {
@@ -23,6 +24,7 @@ import CoreLocation
       .animation(.easeInOut(duration: 0.3), value: showingBootScreen)
       .applyLocalizedLayout()
       .id(appState.preferredLanguage)
+      .background(Theme.backgroundColor(for: colorScheme).ignoresSafeArea())
     }
   }
 
@@ -30,6 +32,7 @@ import CoreLocation
 
   struct MainTabView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
 
     init() {
       // Standard adaptive appearance
@@ -40,22 +43,22 @@ import CoreLocation
         HomeView()
           .tabItem {
             Image(systemName: "house.fill")
-            Text(NSLocalizedString("Home", comment: ""))
+            Text(LocalizationUtils.localized("Home"))
           }
 
         OrdersView()
           .tabItem {
             Image(systemName: "list.bullet")
-            Text(NSLocalizedString("Orders", comment: ""))
+            Text(LocalizationUtils.localized("Orders"))
           }
 
         ProfileView()
           .tabItem {
             Image(systemName: "person.fill")
-            Text(NSLocalizedString("Profile", comment: ""))
+            Text(LocalizationUtils.localized("Profile"))
           }
       }
-      .accentColor(.primary)  // Sets the selected tab item color
+      .accentColor(Theme.primaryColor(for: colorScheme))  // Sets the selected tab item color
     }
   }
 
@@ -63,6 +66,7 @@ import CoreLocation
 
   struct HomeView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var navigationPath = NavigationPath()
     @State private var locationManager = LocationManager()
     
@@ -71,9 +75,18 @@ import CoreLocation
     
     // Simulated Drivers
     @State private var nearbyDrivers: [DriverAnnotation] = [
-        DriverAnnotation(id: "d1", coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)), // Placeholder
+        DriverAnnotation(id: "d1", coordinate: CLLocationCoordinate2D(latitude: 37.7749, longitude: -122.4194)),
         DriverAnnotation(id: "d2", coordinate: CLLocationCoordinate2D(latitude: 37.7739, longitude: -122.4184))
     ]
+    
+    // Bottom Sheet State
+    @State private var sheetOffset: CGFloat = 400
+    @State private var lastOffset: CGFloat = 400
+    @GestureState private var gestureOffset: CGFloat = 0
+    
+    private let minOffset: CGFloat = 100
+    private let midOffset: CGFloat = 400
+    private let maxOffset: CGFloat = 700 // Shown at the bottom
     
     var body: some View {
       NavigationStack(path: $navigationPath) {
@@ -85,43 +98,85 @@ import CoreLocation
                 ForEach(nearbyDrivers) { driver in
                     Annotation("Driver", coordinate: driver.coordinate) {
                         Image(systemName: "car.fill")
-                            .foregroundColor(.black)
+                            .foregroundColor(Theme.primaryColor(for: colorScheme))
                             .padding(5)
-                            .background(Color.white)
+                            .background(Theme.backgroundColor(for: colorScheme))
                             .clipShape(Circle())
                             .shadow(radius: 2)
                     }
                 }
             }
-
             .mapControls {
                 MapUserLocationButton()
                 MapCompass()
             }
             .onAppear {
                 locationManager.requestPermission()
-                // Update simulated driver locations to be around user if available
                 if let location = locationManager.userLocation {
                     updateSimulatedDrivers(around: location.coordinate)
                 }
             }
             .onChange(of: locationManager.userLocation) {
                 if let location = locationManager.userLocation {
-                    cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
+                    if cameraPosition.positionedByUser == false {
+                        cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
+                    }
                     updateSimulatedDrivers(around: location.coordinate)
                 }
             }
-        }
-            // Service Selection Overlay (Sheet-like, non-modal to keep TabBar accessible)
-            VStack {
-                Spacer()
-                ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
-                    .background(Color(.systemBackground))
-                    .cornerRadius(20)
-                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: -5)
-                    .padding(.bottom, 10) // Lift slightly above TabBar
-            }
 
+            // Uber-style Draggable Bottom Sheet
+            GeometryReader { geometry in
+                let fullHeight = geometry.size.height
+                let currentSheetOffset = sheetOffset + gestureOffset
+                
+                VStack(spacing: 0) {
+                    // Drag Handle Area
+                    VStack(spacing: 8) {
+                        Capsule()
+                            .fill(Theme.primaryColor(for: colorScheme).opacity(0.3))
+                            .frame(width: 40, height: 4)
+                            .padding(.top, 10)
+                        
+                        Text(LocalizationUtils.localized("Select_Charter_Type"))
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .foregroundColor(Theme.primaryColor(for: colorScheme))
+                    }
+                    .frame(maxWidth: .infinity)
+                    .background(Theme.backgroundColor(for: colorScheme))
+                    .contentShape(Rectangle())
+                    .gesture(
+                        DragGesture()
+                            .updating($gestureOffset) { value, state, _ in
+                                state = value.translation.height
+                            }
+                            .onEnded { value in
+                                let velocity = value.predictedEndTranslation.height - value.translation.height
+                                let targetOffset = sheetOffset + value.translation.height + velocity / 5
+                                
+                                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                                    if targetOffset < (minOffset + midOffset) / 2 {
+                                        sheetOffset = minOffset
+                                    } else if targetOffset < (midOffset + maxOffset) / 2 {
+                                        sheetOffset = midOffset
+                                    } else {
+                                        sheetOffset = midOffset // Stay at medium if dismissed too far
+                                    }
+                                    lastOffset = sheetOffset
+                                }
+                            }
+                    )
+                    
+                    ServiceSelectionView(appState: appState, navigationPath: $navigationPath)
+                }
+                .background(Theme.backgroundColor(for: colorScheme))
+                .cornerRadius(24, corners: [.topLeft, .topRight])
+                .shadow(color: Color.black.opacity(0.15), radius: 15, x: 0, y: -5)
+                .offset(y: max(minOffset, currentSheetOffset))
+            }
+            .ignoresSafeArea(edges: .bottom)
+        }
         .navigationDestination(for: BookingStep.self) { step in
              switch step {
                  case .charterTypeSelection:
@@ -165,12 +220,13 @@ import CoreLocation
   }
 
   struct OrdersView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject private var viewModel = OrdersViewModel()
 
     var body: some View {
       NavigationView {
         ZStack {
-          Color(.systemBackground).ignoresSafeArea()
+          Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
           
           if viewModel.isLoading {
             ProgressView()
@@ -180,12 +236,12 @@ import CoreLocation
                 .font(.system(size: 60))
                 .foregroundStyle(.secondary)
 
-              Text("暂无订单", bundle: nil)
+              Text(LocalizationUtils.localized("No_Orders"))
                 .font(.title3)
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
 
-              Text("您的行程记录将显示在这里", bundle: nil)
+              Text(LocalizationUtils.localized("Orders_Empty_State"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             }
@@ -196,7 +252,7 @@ import CoreLocation
             .listStyle(.plain)
           }
         }
-        .navigationTitle(Text("订单", bundle: nil))
+        .navigationTitle(Text(LocalizationUtils.localized("Orders")))
         .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.fetchOrders()
@@ -245,6 +301,7 @@ import CoreLocation
 
   struct ProfileView: View {
     @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var authViewModel: AuthenticationViewModel
 
     init() {
@@ -254,7 +311,7 @@ import CoreLocation
     var body: some View {
       NavigationView {
         ZStack {
-          Color(.systemBackground).ignoresSafeArea()
+          Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
           VStack(spacing: 20) {
             // User Info Header
             VStack(spacing: 12) {
@@ -278,28 +335,28 @@ import CoreLocation
             // Menu List
             List {
               NavigationLink(destination: WalletView()) {
-                Label(NSLocalizedString("Wallet", comment: ""), systemImage: "wallet.pass.fill")
+                Label(LocalizationUtils.localized("Wallet"), systemImage: "wallet.pass.fill")
               }
 
               NavigationLink(destination: PaymentMethodsView()) {
-                  Label(NSLocalizedString("Payment_Methods", comment: ""), systemImage: "creditcard.fill")
+                  Label(LocalizationUtils.localized("Payment_Methods"), systemImage: "creditcard.fill")
               }
 
               NavigationLink(destination: OrdersView()) {
-                  Label(NSLocalizedString("Order_History", comment: ""), systemImage: "clock.fill")
+                  Label(LocalizationUtils.localized("Order_History"), systemImage: "clock.fill")
               }
                 
                 NavigationLink(destination: FavoriteDriversView()) {
-                    Label(NSLocalizedString("Favorite_Drivers", comment: ""), systemImage: "heart.fill")
+                    Label(LocalizationUtils.localized("Favorite_Drivers"), systemImage: "heart.fill")
                 }
 
               NavigationLink(destination: SettingsView()) {
-                  Label(NSLocalizedString("Settings", comment: ""), systemImage: "gearshape.fill")
+                  Label(LocalizationUtils.localized("Settings"), systemImage: "gearshape.fill")
               }
             }
 
             .listStyle(.plain)
-            .background(Color(.systemBackground))
+            .background(Theme.backgroundColor(for: colorScheme))
             .scrollContentBackground(.hidden)
 
             // Logout Button
@@ -308,11 +365,11 @@ import CoreLocation
                 await authViewModel.logout()
               }
             }) {
-              Text(NSLocalizedString("Logout", comment: ""))
+              Text(LocalizationUtils.localized("Logout"))
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
                 .padding()
-                .background(Color.red.opacity(0.1))
+                .background(Theme.primaryColor(for: colorScheme).opacity(0.1))
                 .foregroundColor(.red)
                 .cornerRadius(12)
             }
@@ -320,7 +377,7 @@ import CoreLocation
             .padding(.bottom)
           }
         }
-        .navigationTitle(Text(NSLocalizedString("Profile", comment: "")))
+        .navigationTitle(Text(LocalizationUtils.localized("Profile")))
         .navigationBarTitleDisplayMode(.inline)
         // Removed .toolbarColorScheme(.dark)
       }

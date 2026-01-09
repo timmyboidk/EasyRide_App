@@ -9,15 +9,18 @@ struct BootScreenView: View {
     
     let onComplete: () -> Void
     
+    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+            Theme.backgroundColor(for: colorScheme)
+                .ignoresSafeArea()
             
             VStack(spacing: 30) {
                 // Logo
                 Image(systemName: "car.fill")
                     .font(.system(size: 80))
-                    .foregroundColor(.white)
+                    .foregroundColor(Theme.primaryColor(for: colorScheme))
                     .scaleEffect(logoScale)
                     .opacity(logoOpacity)
                 
@@ -25,7 +28,7 @@ struct BootScreenView: View {
                 Text("EasyRide", bundle: nil)
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(Theme.primaryColor(for: colorScheme))
                     .opacity(logoOpacity)
                 
                 // Tagline
@@ -37,7 +40,7 @@ struct BootScreenView: View {
                 // Loading indicator
                 if isLoading {
                     ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .progressViewStyle(CircularProgressViewStyle(tint: Theme.primaryColor(for: colorScheme)))
                         .scaleEffect(1.2)
                         .padding(.top, 20)
                 }

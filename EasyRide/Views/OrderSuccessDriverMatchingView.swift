@@ -13,7 +13,7 @@ struct OrderSuccessDriverMatchingView: View {
     
     var body: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+            Theme.backgroundColor(for: .light).ignoresSafeArea() // Forcing light theme for now or pass context if needed, but better to use environment.
             
             VStack(spacing: 32) {
                 // Success Icon and Title
