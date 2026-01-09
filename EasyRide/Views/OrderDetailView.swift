@@ -35,7 +35,6 @@ struct OrderDetailView: View {
                     messageInputArea
                 }
             }
-            }
         }
         .navigationTitle("行程详情")
         .navigationBarTitleDisplayMode(.inline)
@@ -44,7 +43,6 @@ struct OrderDetailView: View {
         // Let's remove it to adapt or keep if "Native Aesthetics" implies specific look. 
         // Given user wants themes, removing forced scheme is better.
         // .toolbarColorScheme(.dark, for: .navigationBar) 
-        .sheet(isPresented: $viewModel.showingTripModification) {
         .sheet(isPresented: $viewModel.showingTripModification) {
             // Placeholder for TripModificationView
             Text("行程修改视图")
@@ -185,6 +183,7 @@ struct OrderDetailView: View {
         }
     }
 }
+
 
 // MARK: - Message Bubble View
 

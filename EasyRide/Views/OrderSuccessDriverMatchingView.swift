@@ -36,7 +36,6 @@ struct OrderSuccessDriverMatchingView: View {
             }
             }
             .padding()
-        }
         .navigationTitle("订单已提交")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
@@ -236,6 +235,7 @@ struct OrderSuccessDriverMatchingView: View {
         navigationPath.append(BookingStep.currentOrder)
     }
 }
+
 
 // MARK: - Share Sheet
 struct ShareSheet: UIViewControllerRepresentable {

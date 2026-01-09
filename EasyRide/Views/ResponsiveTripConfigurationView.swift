@@ -77,7 +77,7 @@ struct ResponsiveTripConfigurationView: View {
                     .orientationAdaptive()
                 }
             }
-            .navigationtitle("行程配置")
+            .navigationTitle("行程配置")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
@@ -433,7 +433,7 @@ struct ResponsiveTripConfigurationView: View {
 
     // MARK: - Continue Button
     private var continueButton: some View {
-        button(action: {
+        Button(action: {
             // Handle continue action
             navigationPath.append("valueAddedServices")
         }) {
