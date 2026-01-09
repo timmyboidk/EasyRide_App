@@ -41,8 +41,36 @@ class BookingViewModel {
     // MARK: - Order Creation
     
     /// Creates a new order based on current booking state
+    @MainActor
     func createOrder() async {
-        guard let selectedService = appState.selectedService,
+        await MainActor.run {
+            isCreatingOrder = true
+            orderCreationError = nil
+        }
+        
+        // Debug Bypass: If debug user is logged in, create mock order locally
+        if appState.currentUser?.userId == 99999 {
+            print("DEBUG: Creating mock order for debug user")
+            try? await Task.sleep(nanoseconds: 1_000_000_000) // Simulate delay
+            
+            await MainActor.run {
+                let mockOrder = Order(
+                    id: "mock-\(UUID().uuidString.prefix(8))",
+                    serviceType: appState.selectedService ?? .charter,
+                    status: .pendingMatch,
+                    pickupLocation: appState.currentLocation ?? Location(latitude: 37.7749, longitude: -122.4194, address: "San Francisco"),
+                    destination: Location(latitude: 37.7849, longitude: -122.4094, address: "Union Square"),
+                    estimatedPrice: 25.0,
+                    createdAt: Date()
+                )
+                self.createdOrder = mockOrder
+                self.isCreatingOrder = false
+                appState.createOrder(mockOrder)
+            }
+            return
+        }
+
+        guard let service = appState.selectedService,
               let tripConfig = appState.tripConfiguration else {
             await MainActor.run {
                 orderCreationError = .invalidRequest("Missing service type or trip configuration")
@@ -56,7 +84,7 @@ class BookingViewModel {
         }
         
         let orderRequest = OrderRequest(
-            serviceType: selectedService,
+            serviceType: service,
             pickupLocation: tripConfig.pickupLocation,
             destination: tripConfig.destination,
             scheduledTime: tripConfig.scheduledTime,

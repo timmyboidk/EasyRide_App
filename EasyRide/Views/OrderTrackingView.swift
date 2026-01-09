@@ -44,15 +44,7 @@ struct OrderTrackingView: View {
         .navigationTitle("当前订单")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(action: {
-                    viewModel.simulateRide()
-                }) {
-                    Image(systemName: "ladybug.fill")
-                        .foregroundColor(.purple)
-                }
-                .accessibilityIdentifier("debug_simulate_ride")
-            }
+        // Debug button removed for production
         }
         .sheet(isPresented: $showingChat) {
             ChatInterfaceView(messages: $chatMessages, newMessage: $newMessage)

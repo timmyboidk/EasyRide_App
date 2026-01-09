@@ -56,6 +56,13 @@ struct ValueAddedServicesView: View {
                 bookingViewModel = BookingViewModel(appState: appState)
             }
         }
+        .alert("订单提交失败", isPresented: .constant(bookingViewModel?.orderCreationError != nil)) {
+            Button("确定") {
+                bookingViewModel?.orderCreationError = nil
+            }
+        } message: {
+            Text(bookingViewModel?.orderCreationError?.localizedDescription ?? "未知错误")
+        }
     }
     
     // MARK: - Itinerary & Vehicle Confirmation
@@ -336,7 +343,9 @@ struct ValueAddedServicesView: View {
             await bookingVM.createOrder()
             
             if bookingVM.createdOrder != nil {
-                navigationPath.append(BookingStep.orderSuccessDriverMatching)
+                await MainActor.run {
+                    navigationPath.append(BookingStep.orderSuccessDriverMatching)
+                }
             }
         }
     }

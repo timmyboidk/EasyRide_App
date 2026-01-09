@@ -5,7 +5,7 @@ struct OrderSuccessDriverMatchingView: View {
     @Environment(AppState.self) private var appState
     @Environment(\.colorScheme) private var colorScheme
     @State private var isMatching = true
-    @State private var estimatedWaitTime = 180 // seconds
+    @State private var estimatedWaitTime: Int = 5 // Reduced for testing 180 -> 5
     @State private var matchingProgress: Double = 0.0
     @State private var showingShareSheet = false
     @State private var tripSharingLink = "https://easyride.com/trip/share/abc123"

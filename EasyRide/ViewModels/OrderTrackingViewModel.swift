@@ -42,6 +42,25 @@ class OrderTrackingViewModel {
         isLoading = true
         errorMessage = nil
         
+        print("DEBUG: Starting tracking for orderId: \(orderId)")
+        
+        // Debug Bypass: Check for mock order ID
+        if orderId.hasPrefix("mock-") {
+            print("DEBUG: Loading mock order for tracking")
+            self.currentOrder = Order(
+                id: orderId,
+                serviceType: .airport,
+                status: .pendingMatch,
+                pickupLocation: Location(latitude: 37.7749, longitude: -122.4194, address: "Mock Pickup"),
+                destination: Location(latitude: 37.7849, longitude: -122.4094, address: "Mock Destination"),
+                estimatedPrice: 25.0,
+                createdAt: Date()
+            )
+            self.isMatching = true
+            self.isLoading = false
+            return
+        }
+        
         do {
             // Get initial order details
             let order: Order = try await apiService.request(.getOrder(orderId: orderId))
@@ -61,6 +80,19 @@ class OrderTrackingViewModel {
             
         } catch {
             errorMessage = "Failed to load order details: \(error.localizedDescription)"
+            print("DEBUG: Tracking error: \(errorMessage ?? "Unknown")")
+            
+            // Fallback for demo if backend fails
+            if self.currentOrder == nil {
+                print("DEBUG: Using mock fallback after error")
+                self.currentOrder = Order(
+                    id: orderId,
+                    serviceType: .charter,
+                    status: .pendingMatch,
+                    pickupLocation: Location(latitude: 37.7749, longitude: -122.4194, address: "San Francisco"),
+                    estimatedPrice: 50.0
+                )
+            }
         }
         
         isLoading = false
@@ -73,47 +105,14 @@ class OrderTrackingViewModel {
         isTrackingActive = false
         isMatching = false
         matchingProgress = 0.0
-        simulationTimer?.invalidate()
-        simulationTimer = nil
+
     }
     
     // MARK: - Simulation
+    // Simulation logic removed for production
+
     
-    private var simulationTimer: Timer?
-    
-    @MainActor
-    func simulateRide() {
-        guard let order = currentOrder else { return }
-        
-        let statusSequence: [OrderStatus] = [.pendingMatch, .driverAssigned, .accepted, .arrived, .inProgress, .completed]
-        var currentIndex = 0
-        
-        // Find current status index
-        if let index = statusSequence.firstIndex(of: order.status) {
-            currentIndex = index
-        }
-        
-        simulationTimer?.invalidate()
-        simulationTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] timer in
-            Task { @MainActor [weak self] in
-                guard let self = self else { return }
-                
-                currentIndex += 1
-                
-                if currentIndex < statusSequence.count {
-                    let nextStatus = statusSequence[currentIndex]
-                    if var currentOrder = self.currentOrder {
-                        currentOrder.status = nextStatus
-                        self.currentOrder = currentOrder
-                        await self.handleStatusChange(from: nil, to: nextStatus)
-                    }
-                } else {
-                    timer.invalidate()
-                    self.simulationTimer = nil
-                }
-            }
-        }
-    }
+
     
     @MainActor
     func refreshOrderStatus() async {

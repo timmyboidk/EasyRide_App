@@ -217,8 +217,11 @@ struct TripModeSettingsView: View {
         .disabled(!viewModel.isValidConfiguration)
     }
     
+    @Environment(AppState.self) private var appState
+
     // MARK: - Helper Methods
     private func proceedToNext() {
+        appState.updateTripConfiguration(viewModel.tripConfiguration)
         navigationPath.append(BookingStep.valueAddedServicesPayment)
     }
 }

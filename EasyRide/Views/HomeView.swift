@@ -18,7 +18,8 @@ struct HomeView: View {
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            ZStack(alignment: .top) {
+            ZStack(alignment: .bottom) { // Changed alignment to bottom
+
                 // Full Screen Map
                 Map(position: $cameraPosition) {
                     UserAnnotation()
@@ -50,11 +51,40 @@ struct HomeView: View {
                             cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)))
                         }
                         updateSimulatedDrivers(around: location.coordinate)
+                        
+                        // Sync with AppState
+                        appState.currentLocation = Location(
+                            latitude: location.coordinate.latitude,
+                            longitude: location.coordinate.longitude,
+                            address: "Current Location" // Ideally reverse geocode here
+                        )
                     }
                 }
                 
-                // Floating "Where to?" Search Bar
-                VStack {
+                // Floating "Where to?" Search Bar at Bottom
+                VStack(spacing: 16) {
+                    // Current Location Button
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            if let location = locationManager.userLocation {
+                                withAnimation {
+                                    cameraPosition = .region(MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)))
+                                }
+                            } else {
+                                locationManager.requestPermission()
+                            }
+                        }) {
+                            Image(systemName: "location.fill")
+                                .font(.title2)
+                                .padding()
+                                .background(Theme.backgroundColor(for: colorScheme))
+                                .clipShape(Circle())
+                                .shadow(radius: 4)
+                        }
+                        .padding(.trailing)
+                    }
+                    
                     Button(action: {
                         isSearching = true
                     }) {
@@ -77,7 +107,7 @@ struct HomeView: View {
                         .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
                     }
                     .padding(.horizontal)
-                    .padding(.top, 60) // Safe Area
+                    .padding(.bottom, 20) // Safe Area
                 }
             }
             .sheet(isPresented: $isSearching) {
@@ -118,35 +148,69 @@ struct HomeView: View {
     }
 }
 
-// Minimal Placeholder for Search
+// Polished Search View
 struct DestinationSearchView: View {
     @Binding var isPresented: Bool
     @Binding var navigationPath: NavigationPath
     @Environment(\.colorScheme) private var colorScheme
     @State private var query = ""
     
+    // Mock Recent/Suggested Locations
+    let suggestions = [
+        Location(latitude: 37.6213, longitude: -122.3790, address: "San Francisco International Airport (SFO)"),
+        Location(latitude: 37.7879, longitude: -122.4075, address: "Union Square, San Francisco"),
+        Location(latitude: 37.8199, longitude: -122.4783, address: "Golden Gate Bridge"),
+        Location(latitude: 37.7765, longitude: -122.4173, address: "Twitter HQ")
+    ]
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                TextField("Search destination", text: $query)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding()
-                
-                List {
-                    Button("San Francisco Airport (SFO)") {
-                        isPresented = false
-                        navigationPath.append(BookingStep.charterTypeSelection)
+            VStack(spacing: 0) {
+                // Search Field
+                HStack {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.gray)
+                    TextField("Where to?", text: $query)
+                        .autocorrectionDisabled()
+                    if !query.isEmpty {
+                        Button(action: { query = "" }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
                     }
-                    Button("Union Square") {
-                        isPresented = false
-                        navigationPath.append(BookingStep.charterTypeSelection)
+                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(12)
+                .padding()
+                
+                // Results List
+                List {
+                    Section(header: Text("Recent")) {
+                        ForEach(suggestions.filter { query.isEmpty || $0.address.localizedCaseInsensitiveContains(query) }) { location in
+                            Button(action: {
+                                isPresented = false
+                                // Simulate selection
+                                navigationPath.append(BookingStep.charterTypeSelection)
+                            }) {
+                                HStack {
+                                    Image(systemName: "clock.fill")
+                                        .foregroundColor(.gray)
+                                    VStack(alignment: .leading) {
+                                        Text(location.address)
+                                            .foregroundColor(.primary)
+                                        Text("San Francisco, CA")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
                 .listStyle(.plain)
             }
-            .navigationTitle("Where to?")
+            .navigationTitle("Destination")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
