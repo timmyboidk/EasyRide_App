@@ -16,12 +16,12 @@ struct ReviewView: View {
             
             VStack(spacing: 30) {
                 // Header
-                Text(LocalizationUtils.localized("Rate_Your_Trip"))
+                Text("评价您的行程")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.top, 40)
                 
-                Text(LocalizationUtils.localized("How_was_your_trip_with") + " \(driverName)?")
+                Text("您与 \(driverName)?")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -39,7 +39,7 @@ struct ReviewView: View {
                 .padding(.vertical, 20)
                 
                 // Comment
-                TextField(LocalizationUtils.localized("Review_Placeholder"), text: $viewModel.comment, axis: .vertical)
+                TextField("写下您的评价...", text: $viewModel.comment, axis: .vertical)
                     .lineLimit(3...6)
                     .padding()
                     .background(Color.secondary.opacity(0.1))
@@ -61,7 +61,7 @@ struct ReviewView: View {
                         if viewModel.isLoading {
                             ProgressView()
                         } else {
-                            Text(LocalizationUtils.localized("Submit_Review"))
+                            Text("提交评价")
                                 .fontWeight(.bold)
                         }
                     }

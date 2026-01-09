@@ -21,7 +21,7 @@ struct FavoriteDriversView: View {
                 .onDelete(perform: removeDriver)
             }
             .listStyle(.plain)
-            .navigationTitle(LocalizationUtils.localized("Favorite_Drivers"))
+            .navigationTitle("常用司机")
             .navigationBarTitleDisplayMode(.inline)
         }
     }

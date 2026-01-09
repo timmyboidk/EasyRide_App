@@ -10,15 +10,15 @@ enum ResponsiveTripMode: CaseIterable {
 
     var displayName: String {
         switch self {
-        case .freeRoute: return LocalizationUtils.localized("Free_Route_Display")
-        case .customRoute: return LocalizationUtils.localized("Custom_Route_Display")
+        case .freeRoute: return "自由路线"
+        case .customRoute: return "定制路线"
         }
     }
 
     var description: String {
         switch self {
-        case .freeRoute: return LocalizationUtils.localized("Free_Route_Desc")
-        case .customRoute: return LocalizationUtils.localized("Custom_Route_Desc")
+        case .freeRoute: return "按实际行驶路线计费"
+        case .customRoute: return "自定义停靠点和路线"
         }
     }
 }
@@ -77,11 +77,11 @@ struct ResponsiveTripConfigurationView: View {
                     .orientationAdaptive()
                 }
             }
-            .navigationTitle(LocalizationUtils.localized("Trip_Config"))
+            .navigationtitle("行程配置")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(LocalizationUtils.localized("Cancel")) {
+                    Button("取消") {
                         dismiss()
                     }
                 }
@@ -92,7 +92,7 @@ struct ResponsiveTripConfigurationView: View {
     // MARK: - Mode Selector
     private var modeSelector: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(LocalizationUtils.localized("Trip_Type"))
+            Text("行程类型")
                 .font(.headline)
                 .foregroundColor(.primary)
 
@@ -157,9 +157,9 @@ struct ResponsiveTripConfigurationView: View {
         VStack(spacing: ResponsiveLayoutUtils.adaptiveSpacing(for: horizontalSizeClass, compact: 16, regular: 20)) {
             // Pickup location
             ResponsiveAddressInputField(
-                title: LocalizationUtils.localized("Pickup_Location"),
+                title: "上车点",
                 address: $pickupAddress,
-                placeholder: LocalizationUtils.localized("Enter_Departure_Address"),
+                placeholder: "请输入出发地",
                 icon: "location.circle.fill",
                 horizontalSizeClass: horizontalSizeClass
             ) {
@@ -193,9 +193,9 @@ struct ResponsiveTripConfigurationView: View {
     private var addressInputs: some View {
         Group {
             ResponsiveAddressInputField(
-                title: LocalizationUtils.localized("Pickup_Location"),
+                title: "上车点",
                 address: $pickupAddress,
-                placeholder: LocalizationUtils.localized("Enter_Departure_Address"),
+                placeholder: "请输入出发地",
                 icon: "location.circle.fill",
                 horizontalSizeClass: horizontalSizeClass
             ) {
@@ -203,9 +203,9 @@ struct ResponsiveTripConfigurationView: View {
             }
 
             ResponsiveAddressInputField(
-                title: LocalizationUtils.localized("Destination"),
+                title: "目的地",
                 address: $destinationAddress,
-                placeholder: LocalizationUtils.localized("Enter_Destination"),
+                placeholder: "请输入目的地",
                 icon: "location.fill",
                 horizontalSizeClass: horizontalSizeClass
             ) {
@@ -217,12 +217,12 @@ struct ResponsiveTripConfigurationView: View {
     // MARK: - Scheduled Time Picker
     private var scheduledTimePicker: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(LocalizationUtils.localized("Departure_Time"))
+            Text("出发时间")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                 .foregroundColor(.primary)
 
             DatePicker(
-                LocalizationUtils.localized("Select_Time"),
+                "选择时间",
                 selection: $scheduledTime,
                 in: Date()...,
                 displayedComponents: [.date, .hourAndMinute]
@@ -237,12 +237,12 @@ struct ResponsiveTripConfigurationView: View {
     // MARK: - Passenger Stepper
     private var passengerStepper: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(LocalizationUtils.localized("Passenger_Count"))
+            Text("乘车人数")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                 .foregroundColor(.primary)
 
             HStack {
-                Text("\(passengerCount)" + LocalizationUtils.localized("Passenger_Unit"))
+                Text("\(passengerCount)" + "人")
                     .font(.body)
                     .foregroundColor(.primary)
 
@@ -288,7 +288,7 @@ struct ResponsiveTripConfigurationView: View {
     private var notesSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(LocalizationUtils.localized("Notes"))
+                Text("备注")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                     .foregroundColor(.primary)
 
@@ -307,7 +307,7 @@ struct ResponsiveTripConfigurationView: View {
 
             if isNotesExpanded {
                 TextField(
-                    LocalizationUtils.localized("Trip_Notes_Placeholder"),
+                    "给司机留言...",
                     text: $notes,
                     axis: .vertical
                 )
@@ -332,7 +332,7 @@ struct ResponsiveTripConfigurationView: View {
     private var customStopsSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(LocalizationUtils.localized("Route_Stops"))
+                Text("途经点")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                     .foregroundColor(.primary)
 
@@ -344,7 +344,7 @@ struct ResponsiveTripConfigurationView: View {
                     HStack(spacing: 4) {
                         Image(systemName: "plus.circle.fill")
                             .font(.caption)
-                        Text(LocalizationUtils.localized("Add_Stop_Label"))
+                        Text("添加")
                             .font(.caption)
                     }
                     .foregroundColor(.primary)
@@ -361,7 +361,7 @@ struct ResponsiveTripConfigurationView: View {
                             Image(systemName: "plus.circle.dashed")
                                 .font(.title3)
                                 .foregroundColor(.gray)
-                            Text(LocalizationUtils.localized("Add_First_Stop"))
+                            Text("添加第一个途经点")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
@@ -387,7 +387,7 @@ struct ResponsiveTripConfigurationView: View {
     // MARK: - Map Preview Section
     private var mapPreviewSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(LocalizationUtils.localized("Route_Preview"))
+            Text("路线预览")
                 .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                 .foregroundColor(.primary)
 
@@ -400,22 +400,22 @@ struct ResponsiveTripConfigurationView: View {
                             .font(.title)
                             .foregroundColor(.primary)
 
-                        Text(LocalizationUtils.localized("Map_Preview_Title"))
+                        Text("地图预览")
                             .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title2)
                             .foregroundColor(.primary)
 
                         if !customStops.isEmpty {
                             VStack(spacing: 4) {
-                                Text(String(format: LocalizationUtils.localized("Stop_Count_Format"), customStops.count))
+                                Text(String(format: "共%d个途经点", customStops.count))
                                     .font(.caption)
                                     .foregroundColor(.gray)
 
-                                Text("~30 " + LocalizationUtils.localized("Minutes"))
+                                Text("~30 " + "分钟")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                             }
                         } else {
-                            Text(LocalizationUtils.localized("Add_Stop_To_See_Route"))
+                            Text("添加途经点查看路线")
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
@@ -433,12 +433,12 @@ struct ResponsiveTripConfigurationView: View {
 
     // MARK: - Continue Button
     private var continueButton: some View {
-        Button(action: {
+        button(action: {
             // Handle continue action
             navigationPath.append("valueAddedServices")
         }) {
             HStack {
-                Text(LocalizationUtils.localized("Continue_Arrow"))
+                Text("继续")
                     .adaptiveFont(horizontalSizeClass, compactSize: .headline, regularSize: .title3)
                     .foregroundColor(Color(.systemBackground))
 
@@ -553,7 +553,7 @@ struct ResponsiveCustomStopRow: View {
                     .lineLimit(2)
                     .foregroundColor(.primary)
 
-                Text("停靠点 \(index + 1) • 15 " + LocalizationUtils.localized("Minutes"))
+                Text("停靠点 \(index + 1) • 15 " + "分钟")
                     .font(.caption)
                     .foregroundColor(.gray)
             }

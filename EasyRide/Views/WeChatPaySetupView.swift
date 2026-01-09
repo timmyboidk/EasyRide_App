@@ -25,12 +25,12 @@ struct WeChatPaySetupView: View {
                         .foregroundColor(.green)
                     
                     VStack(spacing: 12) {
-                        Text(LocalizationUtils.localized("Bind_WeChat_Pay"))
+                        Text("绑定微信支付")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
-                        Text(LocalizationUtils.localized("Bind_WeChat_Desc"))
+                        Text("将 EasyRide 绑定到您的微信支付以实现快速便捷的支付。")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -40,9 +40,9 @@ struct WeChatPaySetupView: View {
                     Spacer()
                     
                     VStack(spacing: 16) {
-                        WeChatFeatureRow(icon: "checkmark.shield.fill", text: LocalizationUtils.localized("Regulated_Service"))
-                        WeChatFeatureRow(icon: "globe.americas.fill", text: LocalizationUtils.localized("Secure_Intl_Payment"))
-                        WeChatFeatureRow(icon: "qrcode", text: LocalizationUtils.localized("Fast_QR_Payment"))
+                        WeChatFeatureRow(icon: "checkmark.shield.fill", text: "受监管的服务")
+                        WeChatFeatureRow(icon: "globe.americas.fill", text: "安全跨境支付")
+                        WeChatFeatureRow(icon: "qrcode", text: "快速二维码支付")
                     }
                     
                     Spacer()
@@ -53,7 +53,7 @@ struct WeChatPaySetupView: View {
                             .padding(.bottom)
                     } else {
                         Button(action: enableWeChatPay) {
-                            Text(LocalizationUtils.localized("Bind_WeChat_Pay"))
+                            Text("绑定微信支付")
                                 .fontWeight(.heavy)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -68,16 +68,16 @@ struct WeChatPaySetupView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(LocalizationUtils.localized("Cancel")) {
+                    Button("取消") {
                         dismiss()
                     }
                 }
             }
         }
-        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
-            Button(LocalizationUtils.localized("OK")) { }
+        .alert("错误", isPresented: $showingError) {
+            Button("确定") { }
         } message: {
-            Text(errorMessage ?? LocalizationUtils.localized("WeChat_Bind_Failed"))
+            Text(errorMessage ?? "微信支付绑定失败")
         }
     }
     

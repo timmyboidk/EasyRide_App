@@ -39,7 +39,7 @@ struct OrderTrackingView: View {
                 actionButtonsSection
             }
         }
-        .navigationTitle(LocalizationUtils.localized("Current_Order"))
+        .navigationTitle("当前订单")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingChat) {
             ChatInterfaceView(messages: $chatMessages, newMessage: $newMessage)
@@ -92,7 +92,7 @@ struct OrderTrackingView: View {
     // MARK: - Driver Info Header
     private var driverInfoHeader: some View {
         VStack(spacing: 16) {
-            Text(LocalizationUtils.localized("Driver_Info"))
+            Text("司机信息")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -119,16 +119,16 @@ struct OrderTrackingView: View {
                             Image(systemName: "star.fill")
                                 .font(.subheadline)
                                 .foregroundColor(.yellow)
-                            Text("\(LocalizationUtils.localized("Rating")): \(String(format: "%.1f", driver.rating))")
+                            Text("评分: \(String(format: "%.1f", driver.rating))")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
                         
-                        Text("\(LocalizationUtils.localized("Vehicle_Model")): \(driver.vehicleInfo.model)")
+                        Text("车型: \(driver.vehicleInfo.model)")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
-                        Text("\(LocalizationUtils.localized("License_Plate")): \(driver.vehicleInfo.licensePlate)")
+                        Text("车牌号: \(driver.vehicleInfo.licensePlate)")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -159,14 +159,14 @@ struct OrderTrackingView: View {
     private var mapSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             HStack {
-                Text(LocalizationUtils.localized("Realtime_Location"))
+                Text("实时位置")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
                 
                 Spacer()
                 
-                Text(LocalizationUtils.localized("Vehicle_Location"))
+                Text("车辆位置")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -181,11 +181,11 @@ struct OrderTrackingView: View {
                             .font(.largeTitle)
                             .foregroundColor(.blue)
                         
-                        Text(LocalizationUtils.localized("Driver_Distance"))
+                        Text("司机距离您 %@")
                             .font(.subheadline)
                             .foregroundColor(.primary)
                         
-                        Text(LocalizationUtils.localized("Est_Arrival_Time"))
+                        Text("预计%@到达")
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -198,7 +198,7 @@ struct OrderTrackingView: View {
     // MARK: - Contact Section
     private var contactSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(LocalizationUtils.localized("Contact_Info"))
+            Text("联系方式")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -215,7 +215,7 @@ struct OrderTrackingView: View {
                             .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
-                        Text(LocalizationUtils.localized("Phone"))
+                        Text("电话")
                             .font(.caption)
                             .foregroundColor(.primary)
                     }
@@ -231,7 +231,7 @@ struct OrderTrackingView: View {
                             .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
-                        Text(LocalizationUtils.localized("WeChat"))
+                        Text("微信")
                             .font(.caption)
                             .foregroundColor(.primary)
                     }
@@ -247,7 +247,7 @@ struct OrderTrackingView: View {
                             .background(Theme.primaryColor(for: colorScheme))
                             .clipShape(Circle())
                         
-                        Text(LocalizationUtils.localized("Chat_Entrance"))
+                        Text("聊天入口")
                             .font(.caption)
                             .foregroundColor(.primary)
                     }
@@ -267,7 +267,7 @@ struct OrderTrackingView: View {
                 HStack {
                     Image(systemName: "pencil.circle.fill")
                         .foregroundColor(.blue)
-                    Text(LocalizationUtils.localized("Trip_Modification_Request"))
+                    Text("行程修改申请")
                         .foregroundColor(.blue)
                 }
                 .frame(maxWidth: .infinity)
@@ -283,7 +283,7 @@ struct OrderTrackingView: View {
                 HStack {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundColor(.red)
-                    Text(LocalizationUtils.localized("Cancel_Order"))
+                    Text("取消订单")
                         .foregroundColor(.red)
                 }
                 .frame(maxWidth: .infinity)
@@ -360,10 +360,10 @@ struct ChatInterfaceView: View {
                 chatInputSection
             }
             .background(Theme.backgroundColor(for: colorScheme))
-            .navigationTitle(LocalizationUtils.localized("Chat_Title"))
+            .navigationTitle("聊天")
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(
-                leading: Button(LocalizationUtils.localized("Close")) {
+                leading: Button("关闭") {
                     presentationMode.wrappedValue.dismiss()
                 }
             )
@@ -373,7 +373,7 @@ struct ChatInterfaceView: View {
     // MARK: - Preset Phrases Section
     private var presetPhrasesSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(LocalizationUtils.localized("Common_Phrases"))
+            Text("常用语")
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .padding(.horizontal)
@@ -410,7 +410,7 @@ struct ChatInterfaceView: View {
             }
             
             // Text Input
-            TextField(LocalizationUtils.localized("Enter_Message"), text: $newMessage)
+            TextField("输入消息...", text: $newMessage)
                 .textFieldStyle(.plain)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 8)
@@ -544,7 +544,7 @@ struct TripModificationView: View {
                 Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
                 
                 VStack(spacing: 20) {
-                    Text(LocalizationUtils.localized("Trip_Modification_Request"))
+                    Text("行程修改申请")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
@@ -552,20 +552,20 @@ struct TripModificationView: View {
                     VStack(spacing: 16) {
                         ModificationOption(
                             icon: "location.fill",
-                            title: LocalizationUtils.localized("Change_Destination"),
-                            description: LocalizationUtils.localized("Change_Trip_End")
+                            title: "修改目的地",
+                            description: "更改行程终点"
                         )
                         
                         ModificationOption(
                             icon: "plus.circle.fill",
-                            title: LocalizationUtils.localized("Add_Stop"),
-                            description: LocalizationUtils.localized("Add_Stop_To_Route")
+                            title: "添加停靠点",
+                            description: "添加途经点"
                         )
                         
                         ModificationOption(
                             icon: "clock.fill",
-                            title: LocalizationUtils.localized("Change_Time"),
-                            description: LocalizationUtils.localized("Adjust_Time")
+                            title: "修改时间",
+                            description: "调整出发时间"
                         )
                     }
                     
@@ -573,9 +573,9 @@ struct TripModificationView: View {
                 }
                 .padding()
             }
-            .navigationTitle(LocalizationUtils.localized("Modify_Trip"))
+            .navigationTitle("修改行程")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button(LocalizationUtils.localized("Close")) {
+            .navigationBarItems(trailing: Button("关闭") {
                 presentationMode.wrappedValue.dismiss()
             })
         }

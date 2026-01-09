@@ -54,7 +54,7 @@ struct LoginView: View {
                 .font(.system(size: 80))
                 .foregroundStyle(.primary)
             
-            Text(LocalizationUtils.localized("EasyRide"))
+            Text("EasyRide")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -75,7 +75,7 @@ struct LoginView: View {
     }
     
     private var phoneNumberField: some View {
-        TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
+        TextField("请输入手机号", text: $authViewModel.phoneNumber)
             .padding()
             .background(Theme.backgroundColor(for: colorScheme))
             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
@@ -86,7 +86,7 @@ struct LoginView: View {
     
     private var otpSection: some View {
         HStack(spacing: 12) {
-            TextField(LocalizationUtils.localized("OTP_Code"), text: $authViewModel.otp)
+            TextField("验证码", text: $authViewModel.otp)
                 .padding()
                 .background(Theme.backgroundColor(for: colorScheme))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
@@ -99,7 +99,7 @@ struct LoginView: View {
                     await authViewModel.sendOTP()
                 }
             }) {
-                Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
+                Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : "获取验证码")
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundColor(Theme.backgroundColor(for: colorScheme))
@@ -128,7 +128,7 @@ struct LoginView: View {
                         .background(Theme.primaryColor(for: colorScheme))
                         .cornerRadius(10)
                 } else {
-                    Text(LocalizationUtils.localized("Login"))
+                    Text("登录")
                         .fontWeight(.heavy)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -147,7 +147,7 @@ struct LoginView: View {
             }) {
                 HStack {
                     Image(systemName: "message.fill")
-                    Text(LocalizationUtils.localized("Login_WeChat"))
+                    Text("微信登录")
                 }
                 .fontWeight(.bold)
                 .frame(maxWidth: .infinity)
@@ -164,7 +164,7 @@ struct LoginView: View {
     
     private var registrationLink: some View {
         NavigationLink(destination: RegistrationView(appState: appState)) {
-            Text(LocalizationUtils.localized("Create_Account"))
+            Text("创建账户")
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
         }

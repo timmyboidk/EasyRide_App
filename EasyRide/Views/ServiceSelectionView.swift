@@ -52,10 +52,10 @@ struct ServiceSelectionView: View {
                 }
             }
         }
-        .navigationTitle(LocalizationUtils.localized("Select_Charter_Type"))
+        .navigationTitle("选择包车类型")
         .navigationBarTitleDisplayMode(.inline)
-        .alert(LocalizationUtils.localized("Price_Estimation_Error"), isPresented: .constant(viewModel.priceEstimationError != nil)) {
-            Button(LocalizationUtils.localized("OK")) {
+        .alert("估价错误", isPresented: .constant(viewModel.priceEstimationError != nil)) {
+            Button("确定") {
                 viewModel.priceEstimationError = nil
             }
         } message: {
@@ -66,7 +66,7 @@ struct ServiceSelectionView: View {
     // MARK: - Floating Action Button
     private var floatingActionButton: some View {
         Button(action: proceedToNextStep) {
-            Text(LocalizationUtils.localized("Continue"))
+            Text("继续")
                 .fontWeight(.semibold)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -141,7 +141,7 @@ struct CharterTypeCardView: View {
                             Image(systemName: "person.2.fill")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            Text(LocalizationUtils.localized("Passenger_Count"))
+                            Text("乘客")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Spacer()
@@ -155,7 +155,7 @@ struct CharterTypeCardView: View {
                             Image(systemName: "yensign.circle.fill")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
-                            Text(LocalizationUtils.localized("Estimated_Price"))
+                            Text("预估价格")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             Spacer()

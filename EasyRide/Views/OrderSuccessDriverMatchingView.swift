@@ -34,9 +34,10 @@ struct OrderSuccessDriverMatchingView: View {
                 // Action Button
                 actionButton
             }
+            }
             .padding()
         }
-        .navigationTitle(LocalizationUtils.localized("Order_Submitted"))
+        .navigationTitle("订单已提交")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .onReceive(timer) { _ in
@@ -54,7 +55,7 @@ struct OrderSuccessDriverMatchingView: View {
                 .font(.system(size: 80))
                 .foregroundColor(.green)
             
-            Text(LocalizationUtils.localized("Order_Submitted"))
+            Text("订单已提交")
                 .font(.title)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -83,7 +84,7 @@ struct OrderSuccessDriverMatchingView: View {
                         .foregroundColor(.blue)
                 }
                 
-                Text(LocalizationUtils.localized("Matching_Driver"))
+                Text("正在为您匹配附近的司机...")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
@@ -91,7 +92,7 @@ struct OrderSuccessDriverMatchingView: View {
             
             // Estimated Wait Time
             VStack(spacing: 8) {
-                Text(LocalizationUtils.localized("Est_Wait_Time"))
+                Text("预计等待时间")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -106,7 +107,7 @@ struct OrderSuccessDriverMatchingView: View {
                 Image(systemName: "star.fill")
                     .foregroundColor(.yellow)
                 
-                Text(LocalizationUtils.localized("Priority_Match_Notice"))
+                Text("优先匹配功能已激活")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -127,12 +128,12 @@ struct OrderSuccessDriverMatchingView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.green)
             
-            Text(LocalizationUtils.localized("Driver_Found"))
+            Text("已找到司机！")
                 .font(.title2)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
-            Text(LocalizationUtils.localized("Driver_On_The_Way"))
+            Text("司机正在赶来的路上")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
         }
@@ -145,7 +146,7 @@ struct OrderSuccessDriverMatchingView: View {
                 Image(systemName: "square.and.arrow.up.fill")
                     .foregroundColor(.blue)
                 
-                Text(LocalizationUtils.localized("Share_Link_Generated"))
+                Text("行程分享链接已生成")
                     .font(.headline)
                     .fontWeight(.semibold)
                     .foregroundColor(.primary)
@@ -157,7 +158,7 @@ struct OrderSuccessDriverMatchingView: View {
                 Button(action: copyLink) {
                     HStack {
                         Image(systemName: "doc.on.doc.fill")
-                        Text(LocalizationUtils.localized("Copy_Link"))
+                        Text("复制链接")
                     }
                     .font(.subheadline)
                     .foregroundColor(.primary)
@@ -172,7 +173,7 @@ struct OrderSuccessDriverMatchingView: View {
                 Button(action: { showingShareSheet = true }) {
                     HStack {
                         Image(systemName: "message.fill")
-                        Text(LocalizationUtils.localized("Send_WeChat"))
+                        Text("发送给微信好友")
                     }
                     .font(.subheadline)
                     .foregroundColor(.white)
@@ -195,7 +196,7 @@ struct OrderSuccessDriverMatchingView: View {
     // MARK: - Action Button
     private var actionButton: some View {
         Button(action: proceedToCurrentOrder) {
-            Text(isMatching ? LocalizationUtils.localized("Check_Progress") : LocalizationUtils.localized("View_Current_Order"))
+            Text(isMatching ? "查看进度" : "查看当前订单")
                 .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
                 .padding()

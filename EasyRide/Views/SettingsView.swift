@@ -27,9 +27,9 @@ struct SettingsView: View {
                             )
                         
                         VStack(alignment: .leading) {
-                            Text(appState.currentUser?.name ?? LocalizationUtils.localized("User_Info"))
+                            Text(appState.currentUser?.name ?? "用户信息")
                                 .font(.headline)
-                            Text(LocalizationUtils.localized("Edit_Profile"))
+                            Text("编辑资料")
                                 .font(.caption)
                                 .foregroundColor(.blue)
                         }
@@ -39,7 +39,7 @@ struct SettingsView: View {
             }
             
             // Preferences
-            Section(header: Text(LocalizationUtils.localized("General"))) {
+            Section(header: Text("通用")) {
                 Picker(selection: Binding(
                     get: { appState.preferredLanguage ?? "en" },
                     set: { newValue in
@@ -47,7 +47,7 @@ struct SettingsView: View {
                     }
                 ), label: HStack {
                     Image(systemName: "globe")
-                    Text(LocalizationUtils.localized("App_Language"))
+                    Text("应用语言")
                 }) {
                     ForEach(languages, id: \.1) { language in
                         Text(language.0).tag(language.1)
@@ -55,22 +55,22 @@ struct SettingsView: View {
                 }
                 
                 NavigationLink(destination: Text("Notifications Settings Placeholder")) {
-                    Label(LocalizationUtils.localized("Notifications"), systemImage: "bell.fill")
+                    Label("通知", systemImage: "bell.fill")
                 }
                 
                 NavigationLink(destination: Text("Privacy Settings Placeholder")) {
-                    Label(LocalizationUtils.localized("Privacy"), systemImage: "hand.raised.fill")
+                    Label("隐私", systemImage: "hand.raised.fill")
                 }
             }
             
             // Support
-            Section(header: Text(LocalizationUtils.localized("Help_Support"))) {
+            Section(header: Text("帮助与支持")) {
                 NavigationLink(destination: Text("About Us Content")) {
-                    Label(LocalizationUtils.localized("About_Us"), systemImage: "info.circle.fill")
+                    Label("关于我们", systemImage: "info.circle.fill")
                 }
                 
                 HStack {
-                    Label(LocalizationUtils.localized("Version"), systemImage: "iphone")
+                    Label("版本", systemImage: "iphone")
                     Spacer()
                     Text("1.0.0 (Build 1)")
                         .foregroundColor(.secondary)
@@ -81,21 +81,21 @@ struct SettingsView: View {
             // Danger Zone
             Section {
                 Button(role: .destructive, action: { showingLogoutAlert = true }) {
-                    Label(LocalizationUtils.localized("Logout"), systemImage: "arrow.right.square.fill")
+                    Label("退出登录", systemImage: "arrow.right.square.fill")
                 }
                 
                 Button(role: .destructive, action: {}) {
-                    Label(LocalizationUtils.localized("Delete_Account"), systemImage: "trash.fill")
+                    Label("注销账户", systemImage: "trash.fill")
                 }
             }
         }
         .scrollContentBackground(.hidden)
         .background(Theme.backgroundColor(for: colorScheme))
-        .navigationTitle(LocalizationUtils.localized("Settings"))
+        .navigationTitle("设置")
         .navigationBarTitleDisplayMode(.inline)
-        .alert(LocalizationUtils.localized("Logout"), isPresented: $showingLogoutAlert) {
-            Button(LocalizationUtils.localized("Cancel"), role: .cancel) { }
-            Button(LocalizationUtils.localized("Logout"), role: .destructive) {
+        .alert("退出登录", isPresented: $showingLogoutAlert) {
+            Button("取消", role: .cancel) { }
+            Button("退出登录", role: .destructive) {
                 // Perform logout
                 appState.isAuthenticated = false
             }

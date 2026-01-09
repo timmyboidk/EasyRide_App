@@ -22,7 +22,7 @@ struct PaymentView: View {
             
             VStack(spacing: 20) {
                 // Header
-                Text(LocalizationUtils.localized("Payment_Due"))
+                Text("应付金额")
                     .font(.title2)
                     .fontWeight(.bold)
                     .padding(.top, 20)
@@ -84,7 +84,7 @@ struct PaymentView: View {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         } else {
-                            Text(LocalizationUtils.localized("Pay_Now"))
+                            Text("立即支付")
                                 .fontWeight(.bold)
                         }
                     }
@@ -104,14 +104,14 @@ struct PaymentView: View {
                 await viewModel.fetchPaymentMethods()
             }
         }
-        .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
-            Alert(
-                title: Text(LocalizationUtils.localized("Error")),
-                message: Text(viewModel.errorMessage ?? ""),
-                dismissButton: .default(Text(LocalizationUtils.localized("OK"))) {
-                    viewModel.errorMessage = nil
-                }
-            )
+            .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
+                Alert(
+                    title: Text("错误"),
+                    message: Text(viewModel.errorMessage ?? ""),
+                    dismissButton: .default(Text("确定")) {
+                        viewModel.errorMessage = nil
+                    }
+                )
         }
     }
 }

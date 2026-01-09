@@ -46,7 +46,7 @@ struct ValueAddedServicesView: View {
                 .padding()
             }
         }
-        .navigationTitle(LocalizationUtils.localized("Value_Added_Services"))
+        .navigationTitle("增值服务")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingPaymentMethods) {
             PaymentMethodsView()
@@ -61,7 +61,7 @@ struct ValueAddedServicesView: View {
     // MARK: - Itinerary & Vehicle Confirmation
     private var itineraryConfirmationSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(LocalizationUtils.localized("Confirm_Vehicle"))
+            Text("确认车辆")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -78,16 +78,16 @@ struct ValueAddedServicesView: View {
                     )
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(LocalizationUtils.localized("Business_Van"))
+                    Text("商务车")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .foregroundColor(.primary)
                     
-                    Text(LocalizationUtils.localized("Full_Day_Charter"))
+                    Text("全天包车")
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
-                    Text(LocalizationUtils.localized("Estimated_Duration"))
+                    Text("预计时长 8小时")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -105,7 +105,7 @@ struct ValueAddedServicesView: View {
     // MARK: - Value Added Services
     private var valueAddedServicesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(LocalizationUtils.localized("Value_Added_Services"))
+            Text("增值服务")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -114,13 +114,13 @@ struct ValueAddedServicesView: View {
                 // Airport Pickup
                 ServiceOptionRow(
                     icon: "airplane.arrival",
-                    title: LocalizationUtils.localized("Airport_Pickup"),
-                    description: LocalizationUtils.localized("Enter_Pickup_Name"),
+                    title: "接机服务",
+                    description: "请输入接机姓名",
                     isSelected: viewModel.airportPickupSelected,
                     onToggle: { viewModel.airportPickupSelected.toggle() }
                 ) {
                     if viewModel.airportPickupSelected {
-                        TextField(LocalizationUtils.localized("Enter_Pickup_Name"), text: $airportPickupName)
+                        TextField("请输入接机姓名", text: $airportPickupName)
                             .textFieldStyle(.plain)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
@@ -135,8 +135,8 @@ struct ValueAddedServicesView: View {
                 // Check-in Assistance
                 ServiceOptionRow(
                     icon: "building.2.fill",
-                    title: LocalizationUtils.localized("Checkin_Assistance"),
-                    description: LocalizationUtils.localized("Hotel_BnB"),
+                    title: "协助办理入住",
+                    description: "酒店/民宿",
                     isSelected: viewModel.checkinAssistanceSelected,
                     onToggle: { viewModel.checkinAssistanceSelected.toggle() }
                 )
@@ -144,8 +144,8 @@ struct ValueAddedServicesView: View {
                 // Trip Sharing
                 ServiceOptionRow(
                     icon: "square.and.arrow.up.fill",
-                    title: LocalizationUtils.localized("Trip_Sharing"),
-                    description: LocalizationUtils.localized("Share_With_Family"),
+                    title: "行程分享",
+                    description: "与家人分享行程",
                     isSelected: viewModel.tripSharingSelected,
                     onToggle: { viewModel.tripSharingSelected.toggle() }
                 )
@@ -153,16 +153,16 @@ struct ValueAddedServicesView: View {
                 // Other Services
                 ServiceOptionRow(
                     icon: "ellipsis.circle.fill",
-                    title: LocalizationUtils.localized("Other_Services"),
-                    description: LocalizationUtils.localized("Child_Seat_Etc"),
+                    title: "其他服务",
+                    description: "儿童座椅等",
                     isSelected: viewModel.otherServicesSelected,
                     onToggle: { viewModel.otherServicesSelected.toggle() }
                 ) {
                     if viewModel.otherServicesSelected {
                         VStack(spacing: 8) {
-                            ServiceCheckbox(title: LocalizationUtils.localized("Child_Seat"), isSelected: $viewModel.childSeatSelected)
-                            ServiceCheckbox(title: LocalizationUtils.localized("Interpreter"), isSelected: $viewModel.interpreterSelected)
-                            ServiceCheckbox(title: LocalizationUtils.localized("Elderly_Companion"), isSelected: $viewModel.elderlyCompanionSelected)
+                            ServiceCheckbox(title: "儿童座椅", isSelected: $viewModel.childSeatSelected)
+                            ServiceCheckbox(title: "翻译服务", isSelected: $viewModel.interpreterSelected)
+                            ServiceCheckbox(title: "老人陪护", isSelected: $viewModel.elderlyCompanionSelected)
                         }
                     }
                 }
@@ -174,43 +174,43 @@ struct ValueAddedServicesView: View {
     // MARK: - Cost Preview Section
     private var costPreviewSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(LocalizationUtils.localized("Cost_Preview"))
+            Text("费用预览")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
             
             VStack(spacing: 12) {
                 PriceRow(
-                    title: LocalizationUtils.localized("Base_Fare"),
+                    title: "基础费用",
                     amount: viewModel.baseFare
                 )
                 
                 if viewModel.airportPickupSelected {
-                    PriceRow(title: LocalizationUtils.localized("Airport_Pickup"), amount: 50.0)
+                    PriceRow(title: "接机服务", amount: 50.0)
                 }
                 
                 if viewModel.checkinAssistanceSelected {
-                    PriceRow(title: LocalizationUtils.localized("Checkin_Assistance"), amount: 30.0)
+                    PriceRow(title: "协助办理入住", amount: 30.0)
                 }
                 
                 if viewModel.tripSharingSelected {
-                    PriceRow(title: LocalizationUtils.localized("Trip_Sharing"), amount: 0.0)
+                    PriceRow(title: "行程分享", amount: 0.0)
                 }
                 
                 if viewModel.childSeatSelected {
-                    PriceRow(title: LocalizationUtils.localized("Child_Seat"), amount: 20.0)
+                    PriceRow(title: "儿童座椅", amount: 20.0)
                 }
                 
                 if viewModel.interpreterSelected {
-                    PriceRow(title: LocalizationUtils.localized("Interpreter"), amount: 100.0)
+                    PriceRow(title: "翻译服务", amount: 100.0)
                 }
                 
                 if viewModel.elderlyCompanionSelected {
-                    PriceRow(title: LocalizationUtils.localized("Elderly_Companion"), amount: 80.0)
+                    PriceRow(title: "老人陪护", amount: 80.0)
                 }
                 
                 PriceRow(
-                    title: LocalizationUtils.localized("Service_Fee"),
+                    title: "服务费",
                     amount: viewModel.serviceFee
                 )
                 
@@ -218,7 +218,7 @@ struct ValueAddedServicesView: View {
                     .background(Color.secondary.opacity(0.3))
                 
                 PriceRow(
-                    title: LocalizationUtils.localized("Total"),
+                    title: "总计",
                     amount: viewModel.totalAmount,
                     isTotal: true
                 )
@@ -239,7 +239,7 @@ struct ValueAddedServicesView: View {
                     Image(systemName: "ticket.fill")
                         .foregroundColor(.orange)
                     
-                    Text(LocalizationUtils.localized("Coupon_Point_Deduction"))
+                    Text("优惠券/积分抵扣")
                         .foregroundColor(.primary)
                     
                     Spacer()
@@ -257,17 +257,17 @@ struct ValueAddedServicesView: View {
             if showingCouponExpansion {
                 VStack(spacing: 8) {
                     HStack {
-                        Text(LocalizationUtils.localized("Available_Coupons"))
+                        Text("可用优惠券")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
-                        Text(LocalizationUtils.localized("Two_Coupons"))
+                        Text("2张可用")
                             .font(.caption)
                             .foregroundColor(.primary)
                     }
                     
                     HStack {
-                        Text(LocalizationUtils.localized("Available_Points"))
+                        Text("可用积分")
                             .font(.caption)
                             .foregroundColor(.secondary)
                         Spacer()
@@ -294,7 +294,7 @@ struct ValueAddedServicesView: View {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle(tint: .white))
                 } else {
-                    Text("\(LocalizationUtils.localized("Confirm_Pay")) ¥\(viewModel.totalAmount, specifier: "%.0f")")
+                    Text("\("确认并支付") ¥\(viewModel.totalAmount, specifier: "%.0f")")
                         .fontWeight(.heavy)
                 }
             }
@@ -309,7 +309,7 @@ struct ValueAddedServicesView: View {
     private var prioritizeFavoritesSection: some View {
         VStack(alignment: .leading, spacing: 16) {
             Toggle(isOn: .constant(true)) {
-                Text(LocalizationUtils.localized("Priority_Match"))
+                Text("优先匹配")
                     .font(.headline)
                     .foregroundColor(.primary)
             }

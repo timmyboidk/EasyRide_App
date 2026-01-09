@@ -31,7 +31,7 @@ struct RegistrationView: View {
         }
 
         .background(Theme.backgroundColor(for: colorScheme).ignoresSafeArea())
-        .navigationTitle(LocalizationUtils.localized("Create_Account"))
+        .navigationTitle("创建账户")
         .navigationBarTitleDisplayMode(.inline)
         .alert("错误", isPresented: $authViewModel.showingError) {
             Button("确定") {
@@ -49,7 +49,7 @@ struct RegistrationView: View {
                 .font(.system(size: 80))
                 .foregroundStyle(.primary)
             
-            Text(LocalizationUtils.localized("Join_EasyRide"))
+            Text("加入 EasyRide")
                 .font(.largeTitle)
                 .fontWeight(.bold)
                 .foregroundColor(.primary)
@@ -59,7 +59,7 @@ struct RegistrationView: View {
     // MARK: - Registration Form
     private var registrationForm: some View {
         VStack(spacing: 16) {
-            TextField(LocalizationUtils.localized("Enter_Phone"), text: $authViewModel.phoneNumber)
+            TextField("请输入手机号", text: $authViewModel.phoneNumber)
                 .padding()
                 .background(Theme.backgroundColor(for: colorScheme))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
@@ -69,7 +69,7 @@ struct RegistrationView: View {
             
             // OTP Section
             HStack(spacing: 12) {
-                TextField(LocalizationUtils.localized("Enter_OTP"), text: $authViewModel.otp)
+                TextField("请输入验证码", text: $authViewModel.otp)
                     .padding()
                     .background(Theme.backgroundColor(for: colorScheme))
                     .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
@@ -82,7 +82,7 @@ struct RegistrationView: View {
                         await authViewModel.sendOTP()
                     }
                 }) {
-                    Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : LocalizationUtils.localized("Get_OTP"))
+                    Text(authViewModel.isOTPSent ? authViewModel.formattedCountdown : "获取验证码")
                         .font(.subheadline)
                         .fontWeight(.bold)
                         .foregroundColor(Theme.backgroundColor(for: colorScheme))
@@ -93,14 +93,14 @@ struct RegistrationView: View {
                 .disabled(authViewModel.isOTPSent && !authViewModel.canResendOTP)
             }
 
-            TextField(LocalizationUtils.localized("Nickname"), text: $authViewModel.nickname)
+            TextField("昵称", text: $authViewModel.nickname)
                 .padding()
                 .background(Theme.backgroundColor(for: colorScheme))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
                 .textContentType(.nickname)
                 .focused($focusedField, equals: .nickname)
             
-            TextField(LocalizationUtils.localized("Email_Optional"), text: $authViewModel.email)
+            TextField("邮箱 (可选)", text: $authViewModel.email)
                 .padding()
                 .background(Theme.backgroundColor(for: colorScheme))
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
@@ -125,7 +125,7 @@ struct RegistrationView: View {
                     .background(Theme.primaryColor(for: colorScheme))
                     .cornerRadius(12)
             } else {
-                Text(LocalizationUtils.localized("Register"))
+                Text("注册")
                     .fontWeight(.heavy)
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -139,7 +139,7 @@ struct RegistrationView: View {
     
     // MARK: - Terms and Conditions Text
     private var termsText: some View {
-        Text(LocalizationUtils.localized("Terms_Consnet"))
+        Text("注册即代表您同意我们的条款和隐私政策")
             .font(.caption)
             .foregroundColor(.secondary)
             .multilineTextAlignment(.center)

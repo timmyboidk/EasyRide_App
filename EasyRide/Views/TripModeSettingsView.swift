@@ -29,11 +29,11 @@ struct TripModeSettingsView: View {
                 .padding()
             }
         }
-        .navigationTitle(LocalizationUtils.localized("Trip_Mode_Settings"))
+        .navigationTitle("行程模式设置")
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showingDatePicker) {
             DatePicker(
-                LocalizationUtils.localized("Departure_Time"),
+                "出发时间",
                 selection: $viewModel.scheduledTime,
                 in: Date()...,
                 displayedComponents: [.date, .hourAndMinute]
@@ -47,7 +47,7 @@ struct TripModeSettingsView: View {
     // MARK: - Mode Selection Section
     private var modeSelectionSection: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(LocalizationUtils.localized("Trip_Mode"))
+            Text("行程模式")
                 .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
@@ -72,16 +72,16 @@ struct TripModeSettingsView: View {
         VStack(spacing: 20) {
             // Departure Location
             InputField(
-                title: LocalizationUtils.localized("Departure_Address"),
+                title: "出发地址",
                 text: $viewModel.pickupAddress,
-                placeholder: LocalizationUtils.localized("Enter_Departure_Address")
+                placeholder: "请输入出发地址"
             )
             
             // Departure Time
             Button(action: { showingDatePicker = true }) {
                 HStack {
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(LocalizationUtils.localized("Departure_Time"))
+                        Text("出发时间")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         
@@ -105,20 +105,20 @@ struct TripModeSettingsView: View {
             // Passenger and Luggage
             VStack(spacing: 16) {
                 CounterField(
-                    title: LocalizationUtils.localized("Passengers"),
+                    title: "乘客人数",
                     value: $viewModel.passengerCount,
                     range: 1...8
                 )
                 
                 HStack(spacing: 16) {
                     CounterField(
-                        title: LocalizationUtils.localized("Large_Luggage"),
+                        title: "大件行李",
                         value: $viewModel.largeLuggageCount,
                         range: 0...5
                     )
                     
                     CounterField(
-                        title: LocalizationUtils.localized("Small_Luggage"),
+                        title: "小件行李",
                         value: $viewModel.smallLuggageCount,
                         range: 0...5
                     )
@@ -127,17 +127,17 @@ struct TripModeSettingsView: View {
             
             // Trip Notes
             InputField(
-                title: LocalizationUtils.localized("Trip_Notes"),
+                title: "行程备注",
                 text: $viewModel.notes,
-                placeholder: LocalizationUtils.localized("Trip_Notes_Placeholder"),
+                placeholder: "给司机留言...",
                 isMultiline: true
             )
             
             // Special Instructions
             InputField(
-                title: LocalizationUtils.localized("Special_Requests"),
+                title: "特殊要求",
                 text: .constant(""), // Placeholder
-                placeholder: LocalizationUtils.localized("Special_Requests_Placeholder"),
+                placeholder: "如有特殊需求请填写...",
                 isMultiline: true
             )
         }
@@ -148,15 +148,15 @@ struct TripModeSettingsView: View {
         VStack(spacing: 20) {
             // Departure Location
             InputField(
-                title: LocalizationUtils.localized("Departure_Address"),
+                title: "出发地址",
                 text: $viewModel.pickupAddress,
-                placeholder: LocalizationUtils.localized("Enter_Departure_Address")
+                placeholder: "请输入出发地址"
             )
             
             // Custom Stops
             VStack(alignment: .leading, spacing: 12) {
                 HStack {
-                    Text(LocalizationUtils.localized("Custom_Route"))
+                    Text("定制路线")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
@@ -165,7 +165,7 @@ struct TripModeSettingsView: View {
                     Button(action: viewModel.addNewStop) {
                         HStack(spacing: 4) {
                             Image(systemName: "plus.circle.fill")
-                            Text(LocalizationUtils.localized("Add_Stop"))
+                            Text("添加停靠点")
                         }
                         .font(.caption)
                         .foregroundColor(.blue)
@@ -182,7 +182,7 @@ struct TripModeSettingsView: View {
             
             // Trip Preview Map Placeholder
             VStack {
-                Text(LocalizationUtils.localized("Trip_Preview_Map"))
+                Text("行程预览地图")
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                 
@@ -194,7 +194,7 @@ struct TripModeSettingsView: View {
                             Image(systemName: "map.fill")
                                 .font(.largeTitle)
                                 .foregroundColor(.secondary)
-                            Text(LocalizationUtils.localized("Map_Preview"))
+                            Text("地图预览")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -206,7 +206,7 @@ struct TripModeSettingsView: View {
     // MARK: - Next Button
     private var nextButton: some View {
         Button(action: proceedToNext) {
-            Text(LocalizationUtils.localized("Next_Step"))
+            Text("下一步")
                 .fontWeight(.heavy)
                 .frame(maxWidth: .infinity)
                 .padding()
@@ -345,7 +345,7 @@ struct CustomStopRow: View {
     var body: some View {
         VStack(spacing: 12) {
             HStack {
-                TextField(LocalizationUtils.localized("Stop_Location"), text: $stop.location.address)
+                TextField("Stop Location", text: $stop.location.address)
                     .textFieldStyle(.plain)
                     .foregroundColor(.primary)
                 
@@ -356,13 +356,13 @@ struct CustomStopRow: View {
             }
             
             HStack {
-                Text(LocalizationUtils.localized("Stop_Duration"))
+                Text("Stop Duration")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
                 Spacer()
                 
-                Text("\(Int(stop.duration)) \(LocalizationUtils.localized("Minutes"))")
+                Text("\(Int(stop.duration)) " + "分钟")
                     .font(.caption)
                     .foregroundColor(.primary)
                 

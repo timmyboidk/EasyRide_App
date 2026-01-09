@@ -35,8 +35,9 @@ struct OrderDetailView: View {
                     messageInputArea
                 }
             }
+            }
         }
-        .navigationTitle(LocalizationUtils.localized("Trip_Details"))
+        .navigationTitle("行程详情")
         .navigationBarTitleDisplayMode(.inline)
         // toolbarColorScheme deprecated in iOS 16/17 depending on usage, but standard is .toolbarColorScheme(.dark, ...)
         // We generally want it to adapt. If we force dark, nav bar is dark.
@@ -44,11 +45,12 @@ struct OrderDetailView: View {
         // Given user wants themes, removing forced scheme is better.
         // .toolbarColorScheme(.dark, for: .navigationBar) 
         .sheet(isPresented: $viewModel.showingTripModification) {
+        .sheet(isPresented: $viewModel.showingTripModification) {
             // Placeholder for TripModificationView
-            Text(LocalizationUtils.localized("Trip_Modification_View"))
+            Text("行程修改视图")
         }
-        .alert(LocalizationUtils.localized("Error"), isPresented: .constant(viewModel.errorMessage != nil)) {
-            Button(LocalizationUtils.localized("OK")) {
+        .alert("错误", isPresented: .constant(viewModel.errorMessage != nil)) {
+            Button("确定") {
                 viewModel.errorMessage = nil
             }
         } message: {
@@ -130,7 +132,7 @@ struct OrderDetailView: View {
     
     private var messageInputArea: some View {
         HStack(spacing: 12) {
-            TextField(LocalizationUtils.localized("Enter_Message"), text: $viewModel.messageText, axis: .vertical)
+            TextField("输入消息...", text: $viewModel.messageText, axis: .vertical)
                 .padding(10)
                 .background(Color(.secondarySystemBackground))
                 .cornerRadius(20)

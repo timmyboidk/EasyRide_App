@@ -38,10 +38,10 @@ struct PaymentMethodsView: View {
                         }
                         
                         // Payment Methods Section
-                        Section(header: Text(LocalizationUtils.localized("Payment_Methods")).foregroundColor(.secondary).fontWeight(.bold)) {
+                        Section(header: Text("支付方式").foregroundColor(.secondary).fontWeight(.bold)) {
                             // Example list if loaded
                             if paymentMethods.isEmpty {
-                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: LocalizationUtils.localized("Alipay")))
+                                PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
                                     .listRowBackground(Color(.systemBackground))
                                 PaymentMethodRowView(paymentMethod: PaymentMethod(type: .creditCard, displayName: "Card"))
                                     .listRowBackground(Color(.systemBackground))
@@ -62,7 +62,7 @@ struct PaymentMethodsView: View {
                     }
                 }
             }
-            .navigationTitle(LocalizationUtils.localized("Payment_Methods"))
+            .navigationTitle("支付方式")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -77,18 +77,18 @@ struct PaymentMethodsView: View {
         }
         .sheet(isPresented: $showingAddPaymentMethod) {
             // Placeholder for AddPaymentMethodView
-            Text(LocalizationUtils.localized("Add_Payment_Method"))
+            Text("添加支付方式")
         }
         .sheet(isPresented: $showingAddFunds) {
             if let wallet = wallet {
                 // Placeholder for AddFundsView
-                Text(LocalizationUtils.localized("Top_Up"))
+                Text("充值")
             }
         }
-        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
-            Button(LocalizationUtils.localized("OK")) { }
+        .alert("错误", isPresented: $showingError) {
+            Button("确定") { }
         } message: {
-            Text(errorMessage ?? LocalizationUtils.localized("Error"))
+            Text(errorMessage ?? "错误")
         }
     }
     
@@ -154,7 +154,7 @@ struct PaymentMethodRowView: View {
             Spacer()
             
             if paymentMethod.isDefault {
-                Text(LocalizationUtils.localized("Default"))
+                Text("默认")
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.green)

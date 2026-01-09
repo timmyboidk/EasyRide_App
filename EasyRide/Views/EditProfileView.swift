@@ -70,7 +70,7 @@ struct EditProfileView: View {
                             .offset(x: 35, y: 35)
                         }
                         
-                        Text(LocalizationUtils.localized("Change_Avatar"))
+                        Text("更换头像")
                             .font(.subheadline)
                             .foregroundColor(.blue)
                     }
@@ -80,7 +80,7 @@ struct EditProfileView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         // Name Field
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(LocalizationUtils.localized("Nickname"))
+                            Text("昵称")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
@@ -95,7 +95,7 @@ struct EditProfileView: View {
                         
                         // Phone (Read Only usually)
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(LocalizationUtils.localized("Phone"))
+                            Text("电话")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
@@ -116,7 +116,7 @@ struct EditProfileView: View {
                     
                     // Save Button
                     Button(action: saveProfile) {
-                        Text(LocalizationUtils.localized("Save"))
+                        Text("保存")
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
                             .padding()
@@ -129,7 +129,7 @@ struct EditProfileView: View {
                 }
             }
         }
-        .navigationTitle(LocalizationUtils.localized("Edit_Profile"))
+        .navigationTitle("编辑资料")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: selectedItem) {
             Task {
@@ -142,9 +142,9 @@ struct EditProfileView: View {
         }
         .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
             Alert(
-                title: Text(LocalizationUtils.localized("Error")),
+                title: Text("错误"),
                 message: Text(viewModel.errorMessage ?? ""),
-                dismissButton: .default(Text(LocalizationUtils.localized("OK"))) {
+                dismissButton: .default(Text("确定")) {
                     viewModel.errorMessage = nil
                 }
             )

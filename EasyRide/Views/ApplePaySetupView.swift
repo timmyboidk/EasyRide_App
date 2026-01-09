@@ -24,12 +24,12 @@ struct ApplePaySetupView: View {
                         .foregroundColor(.primary)
                     
                     VStack(spacing: 12) {
-                        Text(LocalizationUtils.localized("Setup_Apple_Pay"))
+                        Text("设置 Apple Pay")
                             .font(.largeTitle)
                             .fontWeight(.bold)
                             .foregroundColor(.primary)
                         
-                        Text(LocalizationUtils.localized("Apple_Pay_Description"))
+                        Text("使用 Apple Pay 快速、安全地支付车费。")
                             .font(.body)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
@@ -39,9 +39,9 @@ struct ApplePaySetupView: View {
                     Spacer()
                     
                     VStack(spacing: 16) {
-                        FeatureRow(icon: "checkmark.shield.fill", text: LocalizationUtils.localized("Secure_Private"))
-                        FeatureRow(icon: "creditcard.fill", text: LocalizationUtils.localized("No_Card_Sharing"))
-                        FeatureRow(icon: "bolt.fill", text: LocalizationUtils.localized("Fast_Payment"))
+                        FeatureRow(icon: "checkmark.shield.fill", text: "安全且私密")
+                        FeatureRow(icon: "creditcard.fill", text: "不出示卡号")
+                        FeatureRow(icon: "bolt.fill", text: "极速支付")
                     }
                     
                     Spacer()
@@ -52,7 +52,7 @@ struct ApplePaySetupView: View {
                             .padding(.bottom)
                     } else {
                         Button(action: enableApplePay) {
-                            Text(LocalizationUtils.localized("Enable_Apple_Pay"))
+                            Text("启用 Apple Pay")
                                 .fontWeight(.semibold)
                                 .frame(maxWidth: .infinity)
                                 .padding()
@@ -67,16 +67,16 @@ struct ApplePaySetupView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(LocalizationUtils.localized("Cancel")) {
+                    Button("取消") {
                         dismiss()
                     }
                 }
             }
         }
-        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
-            Button(LocalizationUtils.localized("OK")) { }
+        .alert("错误", isPresented: $showingError) {
+            Button("确定") { }
         } message: {
-            Text(errorMessage ?? LocalizationUtils.localized("Apple_Pay_Setup_Failed"))
+            Text(errorMessage ?? "Apple Pay 设置失败")
         }
     }
     

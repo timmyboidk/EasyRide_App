@@ -31,9 +31,9 @@ struct WalletView: View {
                         .listRowInsets(EdgeInsets())
 
                         // Transaction History Section
-                        Section(header: Text(LocalizationUtils.localized("Transaction_History")).foregroundColor(.secondary).fontWeight(.bold)) {
+                        Section(header: Text("交易记录").foregroundColor(.secondary).fontWeight(.bold)) {
                             if transactions.isEmpty {
-                                Text(LocalizationUtils.localized("No_Transactions"))
+                                Text("暂无交易")
                                     .foregroundColor(.secondary)
                                     .listRowBackground(Color(.systemBackground))
                             } else {
@@ -51,11 +51,11 @@ struct WalletView: View {
                         await loadWalletData(refresh: true)
                     }
                 } else {
-                    Text(LocalizationUtils.localized("Wallet_Load_Error"))
+                    Text("加载钱包及交易记录时出错。")
                         .foregroundColor(.secondary)
                 }
             }
-            .navigationTitle(LocalizationUtils.localized("Wallet"))
+            .navigationTitle("钱包")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -129,7 +129,7 @@ struct WalletCardView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 VStack(alignment: .leading) {
-                    Text(LocalizationUtils.localized("Balance"))
+                    Text("余额")
                         .font(.headline)
                         .foregroundColor(.secondary)
                     Text(wallet.formattedBalance)
@@ -144,7 +144,7 @@ struct WalletCardView: View {
             }
             
             Button(action: onAddFunds) {
-                Text(LocalizationUtils.localized("Top_Up"))
+                Text("充值")
                     .fontWeight(.semibold)
                     .frame(maxWidth: .infinity)
                     .padding()

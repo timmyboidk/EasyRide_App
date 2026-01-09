@@ -26,7 +26,7 @@ struct AddFundsView: View {
                 Color(.systemBackground).ignoresSafeArea()
                 
                 Form {
-                    Section(header: Text(LocalizationUtils.localized("Current_Balance")).foregroundColor(.secondary)) {
+                    Section(header: Text("当前余额").foregroundColor(.secondary)) {
                         Text(wallet.formattedBalance)
                             .font(.largeTitle)
                             .fontWeight(.bold)
@@ -34,7 +34,7 @@ struct AddFundsView: View {
                     }
                     .listRowBackground(Color(.systemBackground))
                     
-                    Section(header: Text(LocalizationUtils.localized("Select_Amount")).foregroundColor(.secondary)) {
+                    Section(header: Text("选择金额").foregroundColor(.secondary)) {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 12) {
                                 ForEach(predefinedAmounts, id: \.self) { amount in
@@ -52,7 +52,7 @@ struct AddFundsView: View {
                         }
                         .listRowInsets(EdgeInsets())
 
-                        TextField(LocalizationUtils.localized("Custom_Amount"), text: $customAmount)
+                        TextField("自定义金额", text: $customAmount)
                             .keyboardType(.decimalPad)
                             .foregroundColor(.primary)
                             .onChange(of: customAmount) { _, newValue in
@@ -63,9 +63,9 @@ struct AddFundsView: View {
                     }
                     .listRowBackground(Color(.systemBackground))
 
-                    Section(header: Text(LocalizationUtils.localized("Payment_Methods")).foregroundColor(.secondary)) {
+                    Section(header: Text("支付方式").foregroundColor(.secondary)) {
                         // Assuming payment methods are loaded and displayed here
-                        Text(LocalizationUtils.localized("Apple_Pay"))
+                        Text("Apple Pay")
                             .foregroundColor(.primary)
                     }
                     .listRowBackground(Color(.systemBackground))
@@ -73,24 +73,24 @@ struct AddFundsView: View {
                 .background(Color(.systemBackground))
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle(LocalizationUtils.localized("Top_Up"))
+            .navigationTitle("充值")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(LocalizationUtils.localized("Cancel")) { dismiss() }
+                    Button("取消") { dismiss() }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(LocalizationUtils.localized("Add")) {
+                    Button("添加") {
                         addFunds()
                     }
                     .disabled(isLoading)
                 }
             }
         }
-        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
-            Button(LocalizationUtils.localized("OK")) { }
+        .alert("错误", isPresented: $showingError) {
+            Button("确定") { }
         } message: {
-            Text(errorMessage ?? LocalizationUtils.localized("Unknown_Error"))
+            Text(errorMessage ?? "未知错误")
         }
     }
     
