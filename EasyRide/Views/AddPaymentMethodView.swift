@@ -24,29 +24,29 @@ struct AddPaymentMethodView: View {
                 Color(.systemBackground).ignoresSafeArea()
                 
                 Form {
-                    Section(header: Text("银行卡信息").foregroundColor(.secondary)) {
-                        TextField("卡号", text: $cardNumber)
+                    Section(header: Text(LocalizationUtils.localized("Bank_Card_Info")).foregroundColor(.secondary)) {
+                        TextField(LocalizationUtils.localized("Card_Number_Placeholder"), text: $cardNumber)
                             .keyboardType(.numberPad)
                         
-                        TextField("MM/YY", text: $expiryDate)
+                        TextField(LocalizationUtils.localized("Expiry_Date_Placeholder"), text: $expiryDate)
                             .keyboardType(.numberPad)
 
-                        TextField("CVV", text: $cvv)
+                        TextField(LocalizationUtils.localized("CVV_Placeholder"), text: $cvv)
                             .keyboardType(.numberPad)
 
-                        TextField("持卡人姓名", text: $cardholderName)
+                        TextField(LocalizationUtils.localized("Cardholder_Name_Placeholder"), text: $cardholderName)
                     }
                     .listRowBackground(Color(.systemBackground))
                     .foregroundColor(.primary)
                     
                     Section {
-                        Toggle("设为默认", isOn: $isDefault)
+                        Toggle(LocalizationUtils.localized("Set_As_Default"), isOn: $isDefault)
                             .foregroundColor(.primary)
                     }
                     .listRowBackground(Color(.systemBackground))
                     
                     Section {
-                        Button("添加卡片") {
+                        Button(LocalizationUtils.localized("Add_Card")) {
                             addPaymentMethod()
                         }
                         .disabled(!isFormValid || isLoading)
@@ -58,20 +58,20 @@ struct AddPaymentMethodView: View {
                 .background(Color(.systemBackground))
                 .scrollContentBackground(.hidden)
             }
-            .navigationTitle("添加卡片")
+            .navigationTitle(LocalizationUtils.localized("Add_Card"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("取消") {
+                    Button(LocalizationUtils.localized("Cancel")) {
                         dismiss()
                     }
                 }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "添加卡片时出错")
+            Text(errorMessage ?? LocalizationUtils.localized("Add_Card_Error"))
         }
     }
     

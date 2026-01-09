@@ -66,11 +66,23 @@ struct LoginView: View {
     @ViewBuilder
     private var loginForm: some View {
         VStack(spacing: 16) {
+            // Login Mode Picker
+            Picker("登录方式", selection: $authViewModel.isPasswordLoginMode) {
+                Text("验证码登录").tag(false)
+                Text("密码登录").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .padding(.bottom, 8)
+            
             // Phone Number Field
             phoneNumberField
             
-            // OTP Field
-            otpSection
+            // Credential Field (OTP or Password)
+            if authViewModel.isPasswordLoginMode {
+                passwordField
+            } else {
+                otpSection
+            }
         }
     }
     
@@ -111,13 +123,26 @@ struct LoginView: View {
         }
     }
     
+    private var passwordField: some View {
+        SecureField("请输入密码", text: $authViewModel.password)
+            .padding()
+            .background(Theme.backgroundColor(for: colorScheme))
+            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Theme.primaryColor(for: colorScheme).opacity(0.2), lineWidth: 1))
+            .textContentType(.password)
+            .focused($focusedField, equals: .password)
+    }
+    
     // MARK: - Action Buttons
     
     private var actionButtons: some View {
         VStack(spacing: 16) {
             Button(action: {
                 Task {
-                    await authViewModel.loginWithOTP()
+                    if authViewModel.isPasswordLoginMode {
+                        await authViewModel.loginWithPassword()
+                    } else {
+                        await authViewModel.loginWithOTP()
+                    }
                 }
             }) {
                 if authViewModel.isLoading {
@@ -137,7 +162,7 @@ struct LoginView: View {
                         .cornerRadius(12)
                 }
             }
-            .disabled(!authViewModel.isOTPFormValid || authViewModel.isLoading)
+            .disabled(authViewModel.isLoading)
 
             // WeChat Login
             Button(action: {
@@ -178,6 +203,7 @@ struct LoginView: View {
 enum LoginField {
     case phoneNumber
     case otp
+    case password
 }
 
 // MARK: - Preview

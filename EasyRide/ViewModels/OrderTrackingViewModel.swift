@@ -49,13 +49,13 @@ class OrderTrackingViewModel {
             
             // Start appropriate tracking based on order status
             switch order.status {
-            case .pending, .matching:
+            case .pendingMatch:
                 startDriverMatching()
-            case .matched, .driverEnRoute, .arrived, .inProgress:
+            case .driverAssigned, .accepted, .arrived, .inProgress:
                 startLocationTracking()
                 isTrackingActive = true
-            case .completed, .cancelled:
-                // No tracking needed for completed orders
+            case .completed, .paid, .cancelled:
+                // No tracking needed for completed or paid orders
                 break
             }
             
@@ -73,6 +73,46 @@ class OrderTrackingViewModel {
         isTrackingActive = false
         isMatching = false
         matchingProgress = 0.0
+        simulationTimer?.invalidate()
+        simulationTimer = nil
+    }
+    
+    // MARK: - Simulation
+    
+    private var simulationTimer: Timer?
+    
+    @MainActor
+    func simulateRide() {
+        guard let order = currentOrder else { return }
+        
+        let statusSequence: [OrderStatus] = [.pendingMatch, .driverAssigned, .accepted, .arrived, .inProgress, .completed]
+        var currentIndex = 0
+        
+        // Find current status index
+        if let index = statusSequence.firstIndex(of: order.status) {
+            currentIndex = index
+        }
+        
+        simulationTimer?.invalidate()
+        simulationTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] timer in
+            Task { @MainActor [weak self] in
+                guard let self = self else { return }
+                
+                currentIndex += 1
+                
+                if currentIndex < statusSequence.count {
+                    let nextStatus = statusSequence[currentIndex]
+                    if var currentOrder = self.currentOrder {
+                        currentOrder.status = nextStatus
+                        self.currentOrder = currentOrder
+                        await self.handleStatusChange(from: nil, to: nextStatus)
+                    }
+                } else {
+                    timer.invalidate()
+                    self.simulationTimer = nil
+                }
+            }
+        }
     }
     
     @MainActor
@@ -202,14 +242,14 @@ class OrderTrackingViewModel {
         sendStatusChangeNotification(from: previousStatus, to: newStatus)
         
         switch newStatus {
-        case .matched:
+        case .driverAssigned:
             // Driver found, stop matching and start location tracking
             isMatching = false
             matchingProgress = 1.0
             startLocationTracking()
             isTrackingActive = true
             
-        case .driverEnRoute:
+        case .accepted:
             // Driver is on the way
             if !isTrackingActive {
                 startLocationTracking()
@@ -289,27 +329,27 @@ class OrderTrackingViewModel {
     
     var canCommunicateWithDriver: Bool {
         guard let status = currentOrder?.status else { return false }
-        return [OrderStatus.matched, OrderStatus.driverEnRoute, OrderStatus.arrived, OrderStatus.inProgress].contains(status)
+        return [.driverAssigned, .accepted, .arrived, .inProgress].contains(status)
     }
     
     var statusDisplayText: String {
         guard let status = currentOrder?.status else { return "Unknown" }
         
         switch status {
-        case .pending:
+        case .pendingMatch:
             return "Order Confirmed"
-        case .matching:
-            return "Finding Driver..."
-        case .matched:
+        case .driverAssigned:
             return "Driver Assigned"
-        case .driverEnRoute:
-            return "Driver En Route"
+        case .accepted:
+            return "Driver Accepted"
         case .arrived:
             return "Driver Arrived"
         case .inProgress:
             return "Trip in Progress"
         case .completed:
             return "Trip Completed"
+        case .paid:
+            return "Trip Paid"
         case .cancelled:
             return "Trip Cancelled"
         }

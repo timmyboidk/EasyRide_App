@@ -324,12 +324,12 @@ class BookingViewModel {
     /// Checks if an order can be cancelled
     func canCancelOrder(_ order: Order) -> Bool {
         switch order.status {
-        case .pending, .matching, .matched:
+        case .pendingMatch, .driverAssigned, .accepted:
             return true
-        case .driverEnRoute, .arrived:
+        case .arrived:
             // Can still cancel but might incur fees
             return true
-        case .inProgress, .completed, .cancelled:
+        case .inProgress, .completed, .paid, .cancelled:
             return false
         }
     }

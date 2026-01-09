@@ -12,12 +12,14 @@ struct OrderTrackingView: View {
     // Flow State
     @State private var showPayment = false
     @State private var showReview = false
+    private let orderId: String
     
     @Environment(AppState.self) private var appState
 
     @Environment(\.colorScheme) private var colorScheme
 
     init(orderId: String) {
+        self.orderId = orderId
         _viewModel = State(initialValue: OrderTrackingViewModel(apiService: EasyRideAPIService.shared))
     }
     
@@ -41,6 +43,17 @@ struct OrderTrackingView: View {
         }
         .navigationTitle("当前订单")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    viewModel.simulateRide()
+                }) {
+                    Image(systemName: "ladybug.fill")
+                        .foregroundColor(.purple)
+                }
+                .accessibilityIdentifier("debug_simulate_ride")
+            }
+        }
         .sheet(isPresented: $showingChat) {
             ChatInterfaceView(messages: $chatMessages, newMessage: $newMessage)
         }
@@ -86,6 +99,9 @@ struct OrderTrackingView: View {
         }
         .onAppear {
             loadInitialChatMessages()
+            Task {
+                await viewModel.startTracking(orderId: orderId)
+            }
         }
     }
     

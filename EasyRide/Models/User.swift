@@ -1,41 +1,58 @@
 import Foundation
 
+public enum UserRole: String, Codable {
+    case passenger = "PASSENGER"
+    case driver = "DRIVER"
+}
+
 public struct User: Codable, Identifiable {
-    public let id: String
-    public let name: String
-    public let email: String
-    public let phoneNumber: String?
+    public let userId: Int64
+    public let phoneNumber: String
+    public let nickname: String?
+    public let role: UserRole
+    public let accessToken: String?
+    
+    // Additional fields for UI
     public let profileImage: String?
     public let preferredLanguage: String?
-    public let createdAt: Date
-    public var isVerified: Bool
+    public let createdAt: String?
+    public let isVerified: Bool?
+    
+    // Legacy support/Convenience properties
+    public var id: String { String(userId) }
+    public var name: String { nickname ?? phoneNumber }
+    public var email: String { "" } 
     
     public init(
-        id: String = UUID().uuidString,
-        name: String,
-        email: String,
-        phoneNumber: String? = nil,
+        userId: Int64,
+        phoneNumber: String,
+        nickname: String?,
+        role: UserRole,
+        accessToken: String?,
         profileImage: String? = nil,
         preferredLanguage: String? = nil,
-        createdAt: Date = Date(),
-        isVerified: Bool = false
+        createdAt: String? = nil,
+        isVerified: Bool? = nil
     ) {
-        self.id = id
-        self.name = name
-        self.email = email
+        self.userId = userId
         self.phoneNumber = phoneNumber
+        self.nickname = nickname
+        self.role = role
+        self.accessToken = accessToken
         self.profileImage = profileImage
         self.preferredLanguage = preferredLanguage
         self.createdAt = createdAt
         self.isVerified = isVerified
     }
     
+    // Computed for UI compatibility
     public var displayName: String {
-        return name.isEmpty ? email : name
+        return nickname ?? phoneNumber
     }
     
     public var initials: String {
-        let components = name.components(separatedBy: " ")
+        let nameToUse = nickname ?? "User"
+        let components = nameToUse.components(separatedBy: " ")
         let initials = components.compactMap { $0.first }.map { String($0) }
         return initials.prefix(2).joined().uppercased()
     }

@@ -11,6 +11,8 @@ class AuthenticationViewModel {
     var nickname: String = ""
     var email: String = ""
     var otp: String = ""
+    var password: String = ""
+    var isPasswordLoginMode: Bool = false
     
     // MARK: - UI State
     var isLoading: Bool = false
@@ -25,6 +27,7 @@ class AuthenticationViewModel {
     var nicknameError: String?
     var emailError: String?
     var otpError: String?
+    var passwordError: String?
     
     init(apiService: APIService = EasyRideAPIService.shared, appState: AppState) {
         self.apiService = apiService
@@ -36,12 +39,9 @@ class AuthenticationViewModel {
     func loginWithOTP() async {
         guard validateOTPInput() else { return }
         
-        // Magic Credential Check for Debug Login
+        // Magic Credential Check for Debug Login (OTP)
         if phoneNumber == "99999999999" && otp == "000000" {
-            await MainActor.run {
-                appState.debugLogin()
-                clearForm()
-            }
+            await performDebugLogin()
             return
         }
         
@@ -53,6 +53,33 @@ class AuthenticationViewModel {
             await handleAuthSuccess(authResponse)
         } catch {
             await handleErrorOnMain(error)
+        }
+    }
+    
+    func loginWithPassword() async {
+        guard validatePasswordInput() else { return }
+        
+        // Magic Credential Check for Debug Login (Password)
+        if phoneNumber == "99999999999" && password == "password" {
+             await performDebugLogin()
+             return
+        }
+        
+        isLoading = true
+        clearError()
+        
+        do {
+            let authResponse: AuthResponse = try await apiService.request(.loginPassword(phoneNumber: phoneNumber, password: password))
+            await handleAuthSuccess(authResponse)
+        } catch {
+            await handleErrorOnMain(error)
+        }
+    }
+    
+    private func performDebugLogin() async {
+        await MainActor.run {
+            appState.debugLogin()
+            clearForm()
         }
     }
     
@@ -159,6 +186,25 @@ class AuthenticationViewModel {
         return isValid
     }
     
+    private func validatePasswordInput() -> Bool {
+        clearValidationErrors()
+        var isValid = true
+        
+        if !validatePhoneNumber() {
+            isValid = false
+        }
+        
+        if password.isEmpty {
+            passwordError = "Password is required"
+            isValid = false
+        } else if password.count < 6 {
+            passwordError = "Password must be at least 6 characters"
+            isValid = false
+        }
+        
+        return isValid
+    }
+    
     private func validateRegistrationInput() -> Bool {
         clearValidationErrors()
         var isValid = true
@@ -241,6 +287,7 @@ class AuthenticationViewModel {
         nicknameError = nil
         emailError = nil
         otpError = nil
+        passwordError = nil
     }
     
     private func clearForm() {
@@ -248,6 +295,7 @@ class AuthenticationViewModel {
         nickname = ""
         email = ""
         otp = ""
+        password = ""
         isOTPSent = false
         otpCountdown = 60
         canResendOTP = false

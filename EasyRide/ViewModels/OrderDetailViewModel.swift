@@ -335,12 +335,12 @@ class OrderDetailViewModel {
     
     var canSendMessages: Bool {
         guard let status = currentOrder?.status else { return false }
-        return [OrderStatus.matched, OrderStatus.driverEnRoute, OrderStatus.arrived, OrderStatus.inProgress].contains { $0 == status }
+        return [.driverAssigned, .accepted, .arrived, .inProgress].contains(status)
     }
     
     var canModifyTrip: Bool {
         guard let status = currentOrder?.status else { return false }
-        return [OrderStatus.matched, OrderStatus.driverEnRoute].contains { $0 == status }
+        return [.driverAssigned, .accepted].contains(status)
     }
     
     var hasUnreadMessages: Bool {

@@ -55,10 +55,11 @@ class ProfileViewModel: ObservableObject {
         errorMessage = nil
         
         let updatedUser = User(
-            id: currentUser.id,
-            name: name,
-            email: currentUser.email,
+            userId: currentUser.userId,
             phoneNumber: phoneNumber,
+            nickname: name,
+            role: currentUser.role,
+            accessToken: currentUser.accessToken,
             profileImage: profileImage,
             preferredLanguage: currentUser.preferredLanguage,
             createdAt: currentUser.createdAt,

@@ -38,7 +38,7 @@ struct PaymentMethodsView: View {
                         }
                         
                         // Payment Methods Section
-                        Section(header: Text("支付方式").foregroundColor(.secondary).fontWeight(.bold)) {
+                        Section(header: Text(LocalizationUtils.localized("Payment_Methods")).foregroundColor(.secondary).fontWeight(.bold)) {
                             // Example list if loaded
                             if paymentMethods.isEmpty {
                                 PaymentMethodRowView(paymentMethod: PaymentMethod(type: .debitCard, displayName: "支付宝"))
@@ -48,7 +48,6 @@ struct PaymentMethodsView: View {
                             } else {
                                 ForEach(paymentMethods) { method in
                                     PaymentMethodRowView(paymentMethod: method)
-                                PaymentMethodRowView(paymentMethod: method)
                                     .listRowBackground(Color(.systemBackground))
                                 }
                             }
@@ -62,7 +61,7 @@ struct PaymentMethodsView: View {
                     }
                 }
             }
-            .navigationTitle("支付方式")
+            .navigationTitle(LocalizationUtils.localized("Payment_Methods"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -76,19 +75,23 @@ struct PaymentMethodsView: View {
             await loadPaymentData()
         }
         .sheet(isPresented: $showingAddPaymentMethod) {
-            // Placeholder for AddPaymentMethodView
-            Text("添加支付方式")
+            AddPaymentMethodView { newMethod in
+                paymentMethods.append(newMethod)
+                showingAddPaymentMethod = false
+            }
         }
         .sheet(isPresented: $showingAddFunds) {
             if let wallet = wallet {
-                // Placeholder for AddFundsView
-                Text("充值")
+                AddFundsView(wallet: wallet) { updatedWallet in
+                     self.wallet = updatedWallet
+                     showingAddFunds = false
+                }
             }
         }
-        .alert("错误", isPresented: $showingError) {
-            Button("确定") { }
+        .alert(LocalizationUtils.localized("Error"), isPresented: $showingError) {
+            Button(LocalizationUtils.localized("OK")) { }
         } message: {
-            Text(errorMessage ?? "错误")
+            Text(errorMessage ?? LocalizationUtils.localized("Error"))
         }
     }
     
@@ -154,7 +157,7 @@ struct PaymentMethodRowView: View {
             Spacer()
             
             if paymentMethod.isDefault {
-                Text("默认")
+                Text(LocalizationUtils.localized("Default"))
                     .font(.caption)
                     .fontWeight(.bold)
                     .foregroundColor(.green)

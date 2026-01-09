@@ -3,10 +3,11 @@ import Foundation
 public enum APIEndpoint {
     // Authentication
     case loginOTP(phoneNumber: String, otp: String)
+    case loginPassword(phoneNumber: String, password: String)
     case loginWeChat(code: String, phoneNumber: String?)
     case register(RegisterRequest)
-    // case registerOTP // In case we need a distinct one, but let's assume register uses OTP logic internally now
     case otpRequest(phoneNumber: String)
+    case passwordReset(phoneNumber: String, otp: String, newPassword: String)
     case refreshToken(refreshToken: String)
     case logout
     
@@ -55,7 +56,7 @@ public enum APIEndpoint {
     
     public var httpMethod: HTTPMethod {
         switch self {
-        case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken, .createOrder, .estimatePrice, .updateDriverLocation, .addPaymentMethod, .processPayment, .addFundsToWallet, .sendMessage, .sendTypingIndicator, .calculateFareAdjustment, .requestTripModification:
+        case .loginOTP, .loginPassword, .loginWeChat, .register, .otpRequest, .passwordReset, .refreshToken, .createOrder, .estimatePrice, .updateDriverLocation, .addPaymentMethod, .processPayment, .addFundsToWallet, .sendMessage, .sendTypingIndicator, .calculateFareAdjustment, .requestTripModification:
             return .POST
         case .updateUserProfile, .updateOrderStatus, .cancelOrder:
             return .PUT
@@ -73,12 +74,16 @@ public enum APIEndpoint {
         // Authentication
         case .loginOTP:
             return "/api/user/auth/login/otp"
+        case .loginPassword:
+            return "/api/user/auth/login/password"
         case .loginWeChat:
             return "/api/user/auth/login/wechat"
         case .register:
-            return "/api/user/auth/register" // Assuming revised OTP-based register logic resides here or similar
+            return "/api/user/auth/register"
         case .otpRequest:
-            return "/api/user/otp/request"
+            return "/api/user/auth/otp/request"
+        case .passwordReset:
+            return "/api/user/auth/password/reset"
         case .refreshToken:
             return "/api/user/auth/refresh"
         case .logout:
@@ -197,11 +202,14 @@ public enum APIEndpoint {
         switch self {
         case .loginOTP(let phoneNumber, let otp):
             return try? JSONEncoder().encode(OTPRequest(phoneNumber: phoneNumber, otp: otp))
+        case .loginPassword(let phoneNumber, let password):
+            return try? JSONEncoder().encode(PasswordLoginRequest(phoneNumber: phoneNumber, password: password))
         case .loginWeChat(let code, let phoneNumber):
             return try? JSONEncoder().encode(WeChatLoginRequest(code: code, phoneNumber: phoneNumber))
         case .otpRequest(let phoneNumber):
-             // Assuming simple mapping to a structure or just param
              return try? JSONEncoder().encode(["phoneNumber": phoneNumber])
+        case .passwordReset(let phoneNumber, let otp, let newPassword):
+             return try? JSONEncoder().encode(PasswordResetRequest(phoneNumber: phoneNumber, otp: otp, newPassword: newPassword))
         case .register(let request):
             return try? JSONEncoder().encode(request)
         case .refreshToken(let refreshToken):
@@ -258,7 +266,7 @@ public enum APIEndpoint {
     
     public var requiresAuthentication: Bool {
         switch self {
-        case .loginOTP, .loginWeChat, .register, .otpRequest, .refreshToken:
+        case .loginOTP, .loginPassword, .loginWeChat, .register, .otpRequest, .passwordReset, .refreshToken:
             return false
         default:
             return true
@@ -301,6 +309,29 @@ public struct OTPRequest: Codable {
         self.otp = otp
     }
 }
+
+public struct PasswordLoginRequest: Codable {
+    public let phoneNumber: String
+    public let password: String
+    
+    public init(phoneNumber: String, password: String) {
+        self.phoneNumber = phoneNumber
+        self.password = password
+    }
+}
+
+public struct PasswordResetRequest: Codable {
+    public let phoneNumber: String
+    public let otp: String
+    public let newPassword: String
+    
+    public init(phoneNumber: String, otp: String, newPassword: String) {
+        self.phoneNumber = phoneNumber
+        self.otp = otp
+        self.newPassword = newPassword
+    }
+}
+
 
 public struct RegisterRequest: Codable {
     public let phoneNumber: String

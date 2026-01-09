@@ -41,6 +41,7 @@ struct ReviewView: View {
                 // Comment
                 TextField("写下您的评价...", text: $viewModel.comment, axis: .vertical)
                     .lineLimit(3...6)
+                    .accessibilityIdentifier("review_comment_field")
                     .padding()
                     .background(Color.secondary.opacity(0.1))
                     .cornerRadius(12)
@@ -71,6 +72,7 @@ struct ReviewView: View {
                     .foregroundColor(Theme.backgroundColor(for: colorScheme))
                     .cornerRadius(12)
                 }
+                .accessibilityIdentifier("submit_review_button")
                 .padding(.horizontal)
                 .padding(.bottom, 20)
                 .disabled(viewModel.isLoading)

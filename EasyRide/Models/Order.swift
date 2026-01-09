@@ -35,7 +35,7 @@ public struct Order: Codable, Identifiable {
     public init(
         id: String = UUID().uuidString,
         serviceType: ServiceType,
-        status: OrderStatus = .pending,
+        status: OrderStatus = .pendingMatch,
         pickupLocation: Location,
         destination: Location? = nil,
         estimatedPrice: Double,
@@ -144,59 +144,59 @@ public struct Order: Codable, Identifiable {
 }
 
 public enum OrderStatus: String, Codable, CaseIterable {
-    case pending = "pending"
-    case matching = "matching"
-    case matched = "matched"
-    case driverEnRoute = "driver_en_route"
-    case arrived = "arrived"
-    case inProgress = "in_progress"
-    case completed = "completed"
-    case cancelled = "cancelled"
+    case pendingMatch = "PENDING_MATCH"
+    case driverAssigned = "DRIVER_ASSIGNED"
+    case accepted = "ACCEPTED"
+    case arrived = "ARRIVED"
+    case inProgress = "IN_PROGRESS"
+    case completed = "COMPLETED"
+    case paid = "PAID"
+    case cancelled = "CANCELLED"
     
     public var displayName: String {
         switch self {
-        case .pending: return "待处理"
-        case .matching: return "正在匹配司机"
-        case .matched: return "司机已分配"
-        case .driverEnRoute: return "司机正在前往"
-        case .arrived: return "司机已到达"
-        case .inProgress: return "行程进行中"
-        case .completed: return "已完成"
-        case .cancelled: return "已取消"
+        case .pendingMatch: return LocalizationUtils.localized("Order_Status_Pending")
+        case .driverAssigned: return LocalizationUtils.localized("Order_Status_DriverAssigned")
+        case .accepted: return LocalizationUtils.localized("Order_Status_Accepted")
+        case .arrived: return LocalizationUtils.localized("Order_Status_Arrived")
+        case .inProgress: return LocalizationUtils.localized("Order_Status_InProgress")
+        case .completed: return LocalizationUtils.localized("Order_Status_Completed")
+        case .paid: return LocalizationUtils.localized("Order_Status_Paid")
+        case .cancelled: return LocalizationUtils.localized("Order_Status_Cancelled")
         }
     }
     
     public var isActive: Bool {
         switch self {
-        case .pending, .matching, .matched, .driverEnRoute, .arrived, .inProgress:
+        case .pendingMatch, .driverAssigned, .accepted, .arrived, .inProgress:
             return true
-        case .completed, .cancelled:
+        case .completed, .paid, .cancelled:
             return false
         }
     }
     
     public var icon: String {
         switch self {
-        case .pending: return "clock.fill"
-        case .matching: return "magnifyingglass"
-        case .matched: return "checkmark.circle.fill"
-        case .driverEnRoute: return "car.fill"
+        case .pendingMatch: return "clock.fill"
+        case .driverAssigned: return "car.fill"
+        case .accepted: return "checkmark.circle.fill"
         case .arrived: return "location.fill"
         case .inProgress: return "play.circle.fill"
-        case .completed: return "checkmark.seal.fill"
+        case .completed: return "flag.checkered"
+        case .paid: return "checkmark.seal.fill"
         case .cancelled: return "xmark.circle.fill"
         }
     }
     
     public var color: Color {
         switch self {
-        case .pending: return .orange
-        case .matching: return .blue
-        case .matched: return .green
-        case .driverEnRoute: return .blue
+        case .pendingMatch: return .orange
+        case .driverAssigned: return .blue
+        case .accepted: return .green
         case .arrived: return .green
         case .inProgress: return .purple
-        case .completed: return .green
+        case .completed: return .gray
+        case .paid: return .green
         case .cancelled: return .red
         }
     }

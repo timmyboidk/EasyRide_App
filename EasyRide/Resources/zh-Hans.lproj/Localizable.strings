@@ -244,3 +244,49 @@
 "Currency_Symbol" = "¥";
 "Time_Format" = "%d分钟";
 "Distance_Format" = "%.1f公里";
+
+// Payment & Bank Cards
+"Bank_Card_Info" = "银行卡信息";
+"Card_Number_Placeholder" = "卡号";
+"Expiry_Date_Placeholder" = "MM/YY";
+"CVV_Placeholder" = "CVV";
+"Cardholder_Name_Placeholder" = "持卡人姓名";
+"Set_As_Default" = "设为默认";
+"Add_Card" = "添加卡片";
+"Add_Card_Error" = "添加卡片时出错";
+"Card_Added_Success" = "卡片添加成功";
+"Please_Enter_Valid_Info" = "请输入有效信息";
+
+// Add Funds
+"Current_Balance" = "当前余额";
+"Select_Amount" = "选择金额";
+"Custom_Amount" = "自定义金额";
+"Add_Funds_Title" = "充值";
+"Add_Funds_Button" = "添加";
+"Add_Funds_Success" = "充值成功";
+
+// Order Status
+"Order_Status_Pending" = "待处理";
+"Order_Status_Matching" = "正在匹配司机";
+"Order_Status_Matched" = "司机已分配";
+"Order_Status_DriverEnRoute" = "司机正在前往";
+"Order_Status_Arrived" = "司机已到达";
+"Order_Status_InProgress" = "行程进行中";
+"Order_Status_Completed" = "已完成";
+"Order_Status_Cancelled" = "已取消";
+
+// Service Types
+"Airport_Pickup" = "接送机";
+"Long_Distance" = "长途专车";
+"Charter" = "包车";
+"Carpooling" = "拼车";
+
+"Airport_Desc" = "快捷准时的机场接送";
+"Long_Distance_Desc" = "舒适便捷的城际出行";
+"Charter_Desc" = "灵活自由的按时包车";
+"Carpool_Desc" = "经济实惠的共享行程";
+
+"Airport_Scenario" = "适用场景：机场往返";
+"Travel_Scenario" = "适用场景：旅游包车";
+"Business_Scenario" = "适用场景：商务出行";
+"Commute_Scenario" = "适用场景：日常通勤";

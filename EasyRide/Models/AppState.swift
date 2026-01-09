@@ -57,13 +57,11 @@ class AppState {
     func debugLogin() {
         print("DEBUG: Bypassing login with mock user")
         let mockUser = User(
-            id: "debug-user-id",
-            name: "Debug User",
-            email: "debug@easyride.com",
+            userId: 99999,
             phoneNumber: "99999999999",
-            profileImage: nil,
-            preferredLanguage: "zh-Hans",
-            isVerified: true
+            nickname: "Debug User",
+            role: .passenger,
+            accessToken: "debug-mock-token"
         )
         // Set a dummy token so isAuthenticated becomes true
         currentUser = mockUser

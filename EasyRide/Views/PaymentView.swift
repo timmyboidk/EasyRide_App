@@ -94,6 +94,7 @@ struct PaymentView: View {
                     .foregroundColor(Theme.backgroundColor(for: colorScheme))
                     .cornerRadius(12)
                 }
+                .accessibilityIdentifier("pay_now_button")
                 .padding(.horizontal)
                 .padding(.bottom, 20)
                 .disabled(viewModel.isLoading)

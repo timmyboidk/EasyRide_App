@@ -2,6 +2,8 @@ import SwiftUI
 
 #if os(iOS)
 struct OrderSuccessDriverMatchingView: View {
+    @Environment(AppState.self) private var appState
+    @Environment(\.colorScheme) private var colorScheme
     @State private var isMatching = true
     @State private var estimatedWaitTime = 180 // seconds
     @State private var matchingProgress: Double = 0.0
@@ -13,7 +15,7 @@ struct OrderSuccessDriverMatchingView: View {
     
     var body: some View {
         ZStack {
-            Theme.backgroundColor(for: .light).ignoresSafeArea() // Forcing light theme for now or pass context if needed, but better to use environment.
+            Theme.backgroundColor(for: colorScheme).ignoresSafeArea()
             
             VStack(spacing: 32) {
                 // Success Icon and Title
@@ -34,13 +36,20 @@ struct OrderSuccessDriverMatchingView: View {
                 // Action Button
                 actionButton
             }
-            }
-            .padding()
+        }
+        .padding()
         .navigationTitle("订单已提交")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .onReceive(timer) { _ in
             updateMatchingProgress()
+        }
+        .onChange(of: appState.activeOrder?.status) { _, newStatus in
+            if let status = newStatus, status != .pendingMatch {
+                withAnimation {
+                    isMatching = false
+                }
+            }
         }
         .sheet(isPresented: $showingShareSheet) {
             ShareSheet(items: [tripSharingLink])

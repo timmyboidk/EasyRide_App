@@ -74,6 +74,7 @@ struct ServiceSelectionView: View {
                 .foregroundColor(Theme.backgroundColor(for: colorScheme))
                 .cornerRadius(10)
         }
+        .accessibilityIdentifier("service_selection_continue_button")
     }
     
     // MARK: - Actions
